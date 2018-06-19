@@ -1,0 +1,96 @@
+﻿@model Nop.Web.Models.Common.ContactUsModel
+@{
+    Layout = "~/Views/Shared/_Root.cshtml";
+
+    //title
+    Html.AddTitleParts(T("PageTitle.ContactUs").Text);
+}
+@using Nop.Web.Framework.Security.Captcha
+@using Nop.Web.Framework.Validators;
+@using Nop.Web.Models.Common
+
+<style type="text/css">
+    #Surname
+    {
+        position:fixed;
+        top:-1500px;    
+    }
+</style>
+<div id="container">
+    <div id="content" class="clearfix">
+          
+        @Html.Partial("~/Views/Common/_helpHeader.cshtml")
+        <div id="contentLeft">
+            @*@Html.Partial("~/Views/Topic/ContactUsLeftMenu.cshtml")*@
+            @Html.Partial("~/Views/Topic/TopicMenu.cshtml")
+        </div>
+        <div id="contentRight">
+            @{
+                Nop.Web.Models.Common.MessageModel msg = ViewBag.msgModel as MessageModel;
+                if (msg != null && msg.MessageList.Count > 0)
+                {
+                    msg.Successful = false;
+                    @Html.Partial("MessageInline", msg)
+                }
+            }
+            <!-- content starts here -->
+            @Html.Action("TopicBlock", "Topic", new { systemName = "ContactUs" })
+            <!-- formfield -->
+             
+            @using (Ajax.BeginForm(new AjaxOptions
+                                       {
+                                           HttpMethod = "post",
+                                           //UpdateTargetId = "contentRight",
+                                           //InsertionMode = InsertionMode.Replace,
+                                           OnSuccess = "afFancy('" +  Html.Encode(T("CustomerCare.MessageSent").Text) + "', '" + T("ContactUs.MessageSent.Detail") + "', true)",
+                                           OnFailure = "afFancy('" + Html.Encode(T("CustomerCare.MessageNotSent").Text) + "', '" + T("ContactUs.MessageNotSent.Detail") + "', false)",
+                                       }))
+            { 
+                 <input type="text" id="Surname" name="Surname" value="" />
+                <dl class="formfield">
+                    <dt>@Html.LabelFor(model => model.Email) :</dt>
+                    <dd>
+                        @Html.TextBoxFor(model => model.Email) @Html.ValidationMessageFor(model => model.Email)</dd>
+                    <dd class="title">
+                        <div class="row clearfix">
+                            <div class="left">@Html.LabelFor(model => model.FirstName) :</div>
+                            <div class="right">@Html.LabelFor(model => model.LastName) :</div>
+                        </div>
+                    </dd>
+                    <dd>
+                        <div class="row clearfix">
+                            <div class="left righter">
+                                @Html.TextBoxFor(model => model.FirstName)@Html.ValidationMessageFor(model => model.FirstName)
+                            </div>
+                            <div class="right">
+                                @Html.TextBoxFor(model => model.LastName) @Html.ValidationMessageFor(model => model.LastName)</div>
+                        </div>
+                    </dd>
+                    <dt>@Html.LabelFor(model => model.Phone) :</dt>
+                    <dd>@Html.TextBoxFor(model => model.Phone)</dd>
+                    <dt>@Html.LabelFor(model => model.Subject):</dt>
+                    <dd>@Html.TextBoxFor(model => model.Subject) @Html.ValidationMessageFor(model => model.Subject)</dd>
+                    <dt>@Html.LabelFor(model => model.Enquiry):</dt>
+                    <dd class="textClass">@Html.TextAreaFor(model => model.Enquiry)@Html.ValidationMessageFor(model => model.Enquiry)</dd>
+                    @if (Model.DisplayCaptcha)
+                    {
+                        <table>
+                            <tr class="row">
+                                <td colspan="2">
+                                    @Html.Raw(Html.GenerateCaptcha())
+                                </td>
+                            </tr></table>
+                    }
+                </dl>
+                <div class="saveinfo clearfix" style="padding-left:200px;">
+                <a href="javascript:;" id="contactUsLink" class="button1">@T("ContactUs.Button")</a>
+                        </div>
+            }
+              
+            <!-- formfield ends -->
+            <!-- content ends here -->
+        </div>
+         
+    </div>
+    @Html.Action("ContactBox", "Common")
+</div>

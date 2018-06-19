@@ -1,0 +1,13 @@
+﻿@model OrderTotalsModel
+@using Nop.Web.Framework.UI;
+@using Nop.Web.Framework;
+@using Nop.Web.Models.ShoppingCart;
+ <ul class="subTotal clearfix">
+     <li class="productTotalInfo">
+        <p>@T("ShoppingCart.Totals.SubTotal"):<span>@Model.SubTotal</span></p>
+        <p>@T("ShoppingCart.Totals.Shipping"):<span>@Model.Shipping</span></p>
+        <p>@T("ShoppingCart.Totals.Tax"):<span>@Model.Tax</span></p>
+        <p class="discount">@T("ShoppingCart.Totals.OrderTotalDiscount"):<span>@Model.OrderTotalDiscount</span></p>
+        <p>@T("ShoppingCart.Totals.OrderTotal"):<span>@Model.OrderTotal</span></p>
+      </li>
+    </ul>

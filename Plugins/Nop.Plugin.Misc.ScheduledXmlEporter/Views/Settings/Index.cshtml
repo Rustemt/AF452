@@ -1,0 +1,58 @@
+﻿@{
+    Layout = null; 
+}
+@using System.Web.Mvc.Html
+@using Nop.Plugin.Misc.ScheduledXmlEporter.Models
+@using Nop.Web.Framework
+@model ScheduledXmlEporterSettingsModel
+<div>
+    @using (Html.BeginForm())
+    {
+        <script type="text/javascript">
+            $(document).ready(function () {
+
+                $("#@Html.FieldIdFor(model => model.AutoSync)").click(toggleAutoSync);
+
+                toggleAutoSync();
+            });
+
+            function toggleAutoSync() {
+                if (getE('@Html.FieldIdFor(model => model.AutoSync)').checked) {
+                    $('#pnlAutoSyncEachMinutes').show();
+                }
+                else {
+                    $('#pnlAutoSyncEachMinutes').hide();
+                }
+            }
+
+        </script>
+    
+        <table class="adminContent">            
+            <tr>
+                <td class="adminTitle">
+                    @Html.LabelFor(m => m.AutoSync):
+                </td>
+                <td class="adminData">
+                    @Html.EditorFor(m => m.AutoSync)
+                    @Html.ValidationMessageFor(m => m.AutoSync)
+                </td>
+            </tr>
+            <tr id="pnlAutoSyncEachMinutes">
+                <td class="adminTitle">
+                    @Html.LabelFor(model => model.ScheduleTime):
+                </td>
+                <td class="adminData">
+                    @Html.EditorFor(model => model.ScheduleTime)
+                    @Html.ValidationMessageFor(model => model.ScheduleTime)
+                </td>
+            </tr>            
+            <tr>
+                <td colspan="2" width="100%">
+                    <button type="submit" name="save" value="save" class="t-button">
+                        @T("Admin.Common.Save")</button>
+                </td>
+            </tr>
+            
+        </table>
+    }
+</div>

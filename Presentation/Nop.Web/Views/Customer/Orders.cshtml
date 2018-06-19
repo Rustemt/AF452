@@ -1,0 +1,84 @@
+﻿@model Nop.Web.Models.Customer.CustomerOrderListModel
+@{
+    
+    Layout = "~/Views/Shared/_Root.cshtml";
+    Html.AddTitleParts(T("Titles.Orders").Text);
+    Html.AddMetaKeywordParts(T("Keywords.Orders").Text);
+}
+@using Nop.Web.Framework;
+<div id="container">
+    <div id="content" class="clearfix">
+        @Html.Partial("~/Views/Customer/MyAccountNavigation.cshtml", Model.NavigationModel, new ViewDataDictionary())
+         @if (Model.Orders.Count < 1)
+         {
+             Nop.Web.Models.Common.MessageModel msgModel = ViewBag.MessageModel;
+                 <div id="orderThankyou">
+                     <div id="orderCapsule" style="background:white" >
+                         @foreach (var message in msgModel.MessageList)
+                         {
+                             <h1 >@message</h1> 
+                         }
+                         <p style="display:inline-block">@T("Checkout.CategoryProductSelect")</p>
+                         <a href="@Url.RouteUrl("ContactUs")"><p style="display:inline-block">@T("ContactUs.PageLink")</p></a>
+                         <p><a href="@msgModel.ActionUrl" class="button2">@msgModel.ActionText</a></p>
+                     </div>
+                     <div id="orderBottom"></div>
+                 </div>
+         }
+         else
+         {
+        <ul class="clearfix" id="webOrderTitles">
+            <li class="webOrderDate">@T("Overview.Order.DateUpperCase")</li>
+            <li class="webOrderNumber">@T("Overview.Order.NumberUpperCase")</li>
+            <li class="webOrderTrackingNumber">@T("Overview.Order.TrackNumberUpperCase")</li>
+            <li class="webOrderTotalPrice">@T("Overview.Order.TOTAL")</li>
+            <li class="webOrderStatus">@T("Overview.Order.Status")</li>
+            <li class="webOrderDetails">&nbsp </li>
+        </ul>
+        
+             foreach (var order in Model.Orders)
+             {
+                 string statusClass = "";
+                 using (@Html.BeginRouteForm("OrderDetails", new { orderId = order.Id }))
+                 {
+                     switch (order.OrderStatus)
+                     {
+                         case "Cancelled":
+                             statusClass = "cancelled";
+                             break;
+                         case "Complete":
+                             statusClass = "shipped";
+                             break;
+                         default:
+                             statusClass = "waiting";
+                             break;
+                     }
+                     if (order.ShippingStatus == "Delivered" || order.ShippingStatus == "Shipped" || order.ShippingStatus=="KARGOYA TESLİM EDİLDİ")
+                     {
+                         statusClass = "shipped";
+                     }
+
+        <ul class="webOrderCapsules clearfix">
+            <li class="webOrderDate">
+                <div class="webOrderContainers clearfix">
+                    <div class="webOrderImage">
+                        <img width="46" height="60" src="@order.Detail.Items.FirstOrDefault().Picture.ImageUrl" border="0" /></div>
+                    <div class="webOrderInformation">@order.Detail.CreatedOn.ToShortDateString()</div>
+                </div>
+            </li>
+            <li class="webOrderNumber">@order.Id</li>
+            <li class="webOrderTrackingNumber" style="text-align: left;">
+                <a href="@order.Detail.TrackingUrl" target="_blank" style="color: #333;">@order.Detail.TrackingNumber</a></li>
+            <li class="webOrderTotalPrice">@order.OrderTotal.Replace(order.OrderTotal.Substring(order.OrderTotal.IndexOf("(")), "")</li>
+            <li class="webOrderStatus" style="width: 175px;"><span class="@statusClass" >@order.OrderStatusText</span></li>
+            <li class="webOrderDetails" style="width: 142px;"><div style="float: right;"><a class="button2" href="javascript:;">@T("Account.CustomerOrders.OrderDetails")</a></div>        
+            </li>
+               
+        </ul>
+
+
+                 }
+             }
+         }
+    </div>
+</div>

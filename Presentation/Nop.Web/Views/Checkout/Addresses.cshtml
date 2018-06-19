@@ -1,0 +1,75 @@
+﻿@model Nop.Web.Models.Checkout.CheckoutAddressesModel
+@using Nop.Core.Domain.Orders
+@using Nop.Web.Models.Checkout
+@using Nop.Web.Models.Common
+@using Nop.Web.Framework.UI
+@{
+    bool selected = false;
+    //int? SelectedShippingAddressId = null;
+    //int? SelectedBillingAddressId = null;
+    
+}
+
+<h1 class="title" id="addressTitle">
+    <span>2</span>@T("Checkout.ShippingAndBillingAddress")</h1>
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "CheckoutAddresses" }))
+    {
+          <div style="top:-100px; position:fixed">
+    @Html.TextBoxFor(model => model.ShippingAddressId)
+    @Html.ValidationMessageFor(model => model.ShippingAddressId)
+    @Html.TextBoxFor(model => model.BillingAddressId)
+    @Html.ValidationMessageFor(model => model.BillingAddressId)
+   </div>
+    }
+<div id="Adresses" class="clearfix">
+    <!-- adressInfo -->
+    <div id="adressInfo" class="addressSet">
+        <h3>@T("Checkout.ShippingAddress")</h3>
+        <a class="button2" href="javascript:;" id="addNewShippingAddress">@T("Account.CustomerAddresses.AddNew")</a>
+        <div class="selectAddressType">
+            @foreach (var address in Model.CheckoutShippingAddressModel.ExistingAddresses)
+            {
+                if (address.Id == 0) { continue; }
+                selected = WorkContext.CurrentCustomer.ShippingAddress == null ? false : WorkContext.CurrentCustomer.ShippingAddress.Id == address.Id; 
+                <a class="button7 @(selected ? "checked" : "")" href="javascript:;" addressId="@address.Id">
+                    <span>
+                        @Html.Raw(string.Format(T("Checkout.SelectAddress").Text, address.Name))</span>
+                </a>
+            }
+        </div>
+        @foreach (var address in Model.CheckoutShippingAddressModel.ExistingAddresses)
+        {
+            ViewBag.displayOne = address.DefaultShippingAddress || Model.CheckoutShippingAddressModel.ExistingAddresses.Count == 1;
+            ViewBag.IsBilling = false;
+            ViewBag.IsShipping = true;
+            @Html.Partial("_address", address)
+        }
+    </div>
+    <!-- adressInfo ends-->
+    <!-- billingInfo -->
+    <div id="billingInfo" class="addressSet">
+        <h3>@T("Checkout.BillingAddress")</h3>
+        @Html.AFDropDown("BillingAdressAction", Model.CheckoutBillingAddressModel.BillingAddressActions)
+        <div class="selectAddressType" style="padding-top:27px; @(Model.CheckoutBillingAddressModel.HasDefault ? "" : "display:none;") ">
+            @foreach (var address in Model.CheckoutBillingAddressModel.ExistingAddresses)
+            {
+                if (address.Id == 0) { continue; }
+                selected = WorkContext.CurrentCustomer.BillingAddress == null ? false : WorkContext.CurrentCustomer.BillingAddress.Id == address.Id; 
+
+                <a class="button7 @(selected ? "checked" : "")" href="javascript:;" addressId="@address.Id">
+                    <span>
+                        @Html.Raw(string.Format(T("Checkout.SelectAddress").Text, address.Name))</span>
+                </a>
+            }
+        </div>
+        @foreach (var address in Model.CheckoutBillingAddressModel.ExistingAddresses)
+        {
+            ViewBag.displayOne = address.DefaultBillingAddress;
+            ViewBag.IsBilling = true;
+            ViewBag.IsShipping = false;
+            @Html.Partial("_address", address)              
+        }
+    </div>
+    <!-- billingInfo ends -->
+
+</div>

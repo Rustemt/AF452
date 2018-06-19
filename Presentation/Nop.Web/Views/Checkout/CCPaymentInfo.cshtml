@@ -1,0 +1,76 @@
+﻿@{
+    Layout = "";
+}
+@model Nop.Web.Models.Checkout.CCPaymentInfoModel
+@using Nop.Web;
+@using Nop.Web.Framework;
+@using (Html.BeginForm("", "", FormMethod.Post, new { id = "PaymentsCC" }))
+{
+    <div id="withCard">
+        
+        <p>
+            <img src="@Url.Content("~/_img/cardType.png")" alt="" /></p>
+        <p>
+            @Html.AFRadioButton("Payments.CC", @T("Payment.PaymentMethod.CC").Text, group: "paymentMethod", selected: true)
+        </p>
+        <dl class="formfield">
+            <dt>@Html.NopLabelFor(model => model.CreditCardTypes, false) :</dt>
+            <dd>
+                @Html.AFDropDown("ccTypes", Model.CreditCardTypes, "style=\"width:200px;\"")
+                @*  @Html.DropDownListFor(model => model.CreditCardType, Model.CreditCardTypes, new { @class = "dropdownlists", style = "display:none;" })*@
+            </dd>
+            <dt>@Html.NopLabelFor(model => model.CardholderName, false):</dt>
+            <dd>
+                @Html.TextBoxFor(model => model.CardholderName, new { style = "Width: 165px;", autocomplete = "off" })
+                @Html.ValidationMessageFor(model => model.CardholderName)
+            </dd>
+            <dt>@Html.NopLabelFor(model => model.CardNumber, false):</dt>
+            <dd>
+                @* <input type="text" />*@
+                @Html.TextBoxFor(model => model.CardNumber, new { style = "Width: 165px;", autocomplete = "off", maxlength = 22 })
+                @Html.ValidationMessageFor(model => model.CardNumber)
+            </dd>
+            <dt>@Html.NopLabelFor(model => model.CardCode, false):</dt>
+            <dd>
+                <div class="row clearfix">
+                    <div class="securitycode">
+                        @Html.TextBoxFor(model => model.CardCode, new { style = "Width: 60px;", autocomplete = "off", maxlength = 4 })
+                        @Html.ValidationMessageFor(model => model.CardCode)
+                    </div>
+                    <div class="securityQuestion">
+                        <a href="#ccvInfo">[ ? ]</a>
+                        <div style="display: none;">
+                            @Html.Action("CCVInfo", new { systemName = "CCVInfo" })
+                        </div>
+                    </div>
+                </div>
+            </dd>
+            <dt>@Html.NopLabelFor(model => model.ExpireMonth, false):</dt>
+            <dd>
+                <div class="years clearfix">
+                    <div class="month">
+                        @Html.AFDropDown("ccMonth", Model.ExpireMonths)
+                    </div>
+                    <div class="year">
+                        @Html.AFDropDown("ccYear", Model.ExpireYears)
+                    </div>
+                </div>
+            </dd>
+            @{bool showInstallment = false;}
+            @if (Model.Installments != null && Model.Installments.Count > 0)
+            { showInstallment = true; }
+            <dt id="dtInstallment" style="display:@(showInstallment ? "block" : "none")">@Html.NopLabelFor(model => model.Installment, false)
+                :</dt>
+            <dd id="ddInstallment" style="display:@(showInstallment ? "block" : "none")">
+                @Html.AFDropDown("Installments", Model.Installments, "style=\"width:50px;\"")
+                @*  @Html.DropDownListFor(model => model.CreditCardType, Model.CreditCardTypes, new { @class = "dropdownlists", style = "display:none;" })*@
+            </dd>
+            <dt id="dtCCOption" style="display: none">@Html.NopLabelFor(model => model.CCOption, false):</dt>
+            <dd id="ddCCOption" style="display: none">
+            </dd>
+        </dl>
+        @*  <div id="CheckoutBanner"><img style="position: relative; top: -415px; right: -300px; display:@T("Checkout.Banner")" src="@Url.Content("~/_img/+4taksit2.jpg")" alt=""/></div>*@
+                 
+    </div>
+    <div id="CheckoutBanner" style="width: 120px; float: left; padding-right: 40px;">  @Html.Action("TopicBlock", "Topic", new { systemName = "4installment" })</div>
+}

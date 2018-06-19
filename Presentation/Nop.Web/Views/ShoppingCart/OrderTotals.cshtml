@@ -1,0 +1,61 @@
+﻿@model OrderTotalsModel
+@using Nop.Web.Framework.UI;
+@using Nop.Web.Framework;
+@using Nop.Web.Models.ShoppingCart;
+@{
+    var Url = Request.Url.GetLeftPart(UriPartial.Scheme).ToString() + Request.Url.Authority;
+}
+<li class="productTotalInfo">
+    <p>@T("ShoppingCart.Totals.SubTotal"):<span>@Model.SubTotal</span></p>
+    @if (!String.IsNullOrEmpty(Model.SubTotalDiscount))
+    {
+        <p class="discount">@T("ShoppingCart.Totals.OrderTotalDiscount"):<span>@Model.SubTotalDiscount</span></p>
+    }
+    @if (Model.RequiresShipping)
+    {
+        if (!String.IsNullOrEmpty(Model.Shipping))
+        { <p>@T("ShoppingCart.Totals.Shipping"):<span>@Model.Shipping</span></p> }
+        else
+        { <p>@T("ShoppingCart.Totals.Shipping"):<span>@T("ShoppingCart.Totals.CalculatedDuringCheckout")</span></p> }
+    }
+    else
+    {
+        <p>@T("ShoppingCart.Totals.Shipping.NotRequired")</p>
+    }
+    @if (!String.IsNullOrEmpty(Model.PaymentMethodAdditionalFee))
+    {
+        <p>@T("ShoppingCart.Totals.PaymentMethodAdditionalFee"):<span>@Model.PaymentMethodAdditionalFee</span></p>     
+    }
+    @if (Model.DisplayTax)
+    {
+        @*<p>@T("ShoppingCart.Totals.Tax"):<span>@Model.Tax</span></p>*@
+    }
+    @if (!String.IsNullOrEmpty(Model.OrderTotalDiscount))
+    {
+        <p class="discount">@T("ShoppingCart.Totals.OrderTotalDiscount"):<span>@Model.OrderTotalDiscount</span></p>
+    }
+    @if (Model.GiftCards.Count > 0)
+    {
+        foreach (var gc in Model.GiftCards)
+        {
+         using(Html.BeginRouteForm("ShoppingCart", FormMethod.Post))
+            {  
+             <p><input type="hidden" value="@gc.Id" id="giftCardId" name="giftCardId"/> 
+                   
+                   <input name="removegiftcard" id="removegiftcard"  type="submit" style=" width: 10px; background-color: transparent;  background-image:  url('@Url/Content/Images/ico-delete.gif'); background-repeat: no-repeat;" value=" " /> 
+
+                 @T("ShoppingCart.Totals.GiftCardInfo").Text @string.Format(T("ShoppingCart.Totals.GiftCardInfo.Remaining").Text, gc.Remaining)
+                
+               :<span>@gc.Amount</span></p>
+            }
+        @*<p> @T("ShoppingCart.Totals.GiftCardInfo.Remaining").Text :<span> @gc.Remaining </span> </p>*@
+        
+        }
+    }
+    @if (Model.RedeemedRewardPoints > 0)
+    {
+        <p>@string.Format(T("ShoppingCart.Totals.RewardPoints").Text, Model.RedeemedRewardPoints):<span>@Model.RedeemedRewardPointsAmount</span></p>
+                   
+    }
+    <p>@T("ShoppingCart.Totals.OrderTotal"):<span>@Model.OrderTotal</span></p>
+</li>

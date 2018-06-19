@@ -1,0 +1,160 @@
+﻿@model Nop.Web.Models.Customer.CustomerInfoModel
+@{
+    Html.AddTitleParts(T("Titles.Info").Text);
+    Html.AddMetaKeywordParts(T("Keywords.Info").Text);
+    Layout = "~/Views/Shared/_Root.cshtml";
+}
+@using Nop.Web.Framework;
+@using Nop.Web.Models.Common;
+<div id="container">
+    <div id="content" class="clearfix">
+        @Html.Partial("~/Views/Customer/MyAccountNavigation.cshtml", Model.NavigationModel, new ViewDataDictionary())
+        @if (ViewContext.ViewData.ModelState != null)
+        {
+@*var errors = this.ViewContext.ViewData.ModelState.Keys.SelectMany(key => this.ViewContext.ViewData.ModelState[key].Errors);
+            if (errors.Count() > 0)
+            {
+            <div>
+                <div id="messageNotSent">
+                    <p class="textCenter">
+                        <img src="@Url.Content("~/_img/error_password.png")" width="22" height="22" alt="" /></p>
+                    @foreach (var msg in errors)
+                    {
+                        <p class="textCenter">@msg.ErrorMessage</p>
+                    }
+                </div>
+            </div>
+            }*@
+            
+            //new
+            var msg = new MessageModel();
+            var errors = this.ViewContext.ViewData.ModelState.Keys.SelectMany(key => this.ViewContext.ViewData.ModelState[key].Errors);
+            if (errors.Count() > 0)
+            {
+                msg.Successful = false;
+                foreach (var error in errors)
+                {
+                    msg.MessageList.Add(error.ErrorMessage);
+                }
+                @Html.Partial("MessageInline", msg);
+            }
+
+        }
+        @{
+            MessageModel msgModel = TempData["MessageModel"] as MessageModel;
+            if (msgModel != null)
+            {
+            @Html.Partial("MessageInline", msgModel)
+            }
+        }
+        @using (Html.BeginForm("info", "customer", FormMethod.Post, new { id = "formInfo" }))
+        { 
+            @Html.AntiForgeryToken()
+            <div id="accountInformation" class="clearfix">
+                <!-- myDetails -->
+                <div id="myDetails" style="width: 470px; border-right-style: none">
+                    <h6 class="title">
+                        @T("Account.YourPersonalDetails")</h6>
+                    <!-- formfield -->
+                    <dl class="formfield">
+                        <dd class="title">
+                            <div class="row clearfix">
+                                <div class="left">
+                                    @Html.LabelFor(model => model.FirstName) :</div>
+                                <div class="right">
+                                    @Html.LabelFor(model => model.LastName) :</div>
+                            </div>
+                        </dd>
+                        <dd>
+                            <div class="row clearfix">
+                                <div class="left">
+                                    @Html.EditorFor(model => model.FirstName)
+                                    @Html.ValidationMessageFor(model => model.FirstName)
+                                </div>
+                                <div class="right">
+                                    @Html.EditorFor(model => model.LastName)
+                                    @Html.ValidationMessageFor(model => model.LastName)
+                                </div>
+                            </div>
+                        </dd>
+                        <dt>@Html.LabelFor(model => model.Gender) : </dt>
+                        <dd>
+                            @Html.AFDropDown("Gender", Model.Genders, "style=\" width:130px;\"")
+                        </dd>
+                            <dt style="display:none">@Html.LabelFor(model => model.Email) </dt>
+                        <dd style="display:none">@Html.EditorFor(model => model.Email)</dd>
+
+                        <dt>@Html.LabelFor(model => model.Email) </dt>
+                        <dd><span style="font-size:12px; color:#333;">@Model.Email</span></dd>
+                        <dt>@Html.LabelFor(model => model.NewEmail)</dt>
+                        <dd>@Html.EditorFor(model => model.NewEmail,new {autocomplete="off"})@Html.ValidationMessageFor(model => model.NewEmail)</dd>
+                        <dt>@Html.LabelFor(model => model.ConfirmNewEmail) :</dt>
+                        <dd>
+                            @Html.EditorFor(model => model.ConfirmNewEmail, new { autocomplete = "off" })
+                            @Html.ValidationMessageFor(model => model.ConfirmNewEmail)
+                        </dd>
+                        @*  <dt>@Html.LabelFor(model => model.Password) :</dt>
+                        <dd>
+                            @Html.PasswordFor(model => model.Password)
+                        </dd>*@
+                        <dt>@Html.LabelFor(model => model.NewPassword) :</dt>
+                        <dd>
+                            @Html.PasswordFor(model => model.NewPassword, new { autocomplete = "off" })
+                            @Html.ValidationMessageFor(model => model.NewPassword)
+                        </dd>
+                        <dt>@Html.LabelFor(model => model.ConfirmNewPassword) :</dt>
+                        <dd>
+                            @Html.PasswordFor(model => model.ConfirmNewPassword, new { autocomplete = "off" })
+                            @Html.ValidationMessageFor(model => model.ConfirmNewPassword)
+                        </dd>
+                    </dl>
+                    <div class="saveInfo clearfix">
+                        @*     <input type="submit" class="save" style="margin:0 10px 0 10px;"  value="@T("Common.Save")" name="save-info-button"/>
+                        <input type="reset" class="save"  value="@T("Common.Reset")" />*@ <a id="SaveInfo"
+                            class="save" style="margin: 0 10px 0 10px;" href="javascript:;">@T("Common.Save")</a>
+                        <a id="ResetInfo" class="save" href="javascript:;">@T("Common.Reset")</a>
+                    </div>
+                </div>
+                <!-- myDetails ends -->
+                <!-- myAccountInfo -->
+                <!-- myAccountInfo ends -->
+                <div id="myAccountInfo" style="height: 500px">
+                    <h6 class="title">@Html.LabelFor(model => model.Newsletter)</h6>
+                    <div class="rules">
+                        @*@Html.AFCheckbox("Newsletter", "I would like to receive the latest news and promotions of Always Fashion", selected: Model.Newsletter)*@
+                        <a href="javascript:;" style="display: none" class="checkbox">I would like to receive
+                            the latest news and promotions of Always Fashion</a>
+                    </div>
+                    <!-- formfield ends -->
+                    @{string block;
+                      string none;
+                    }
+                    @if (Convert.ToBoolean(ViewData["isSubscriptionActive"]))
+                    {
+                        block = "block";
+                        none = "none";
+                    }
+                    else
+                    {
+                        block = "none";
+                        none = "block";
+                    }
+                    <div id="subscribeNewsletter" class="saveInfo clearfix" style="padding: 0px; margin: 0px; display:@none; width:500px; left: 0px;" align="left">
+                        @T("MYACCOUNT.Register.Explanation")<br />
+                        <br />
+                        <a href="javascript:;" class="save" style="width: 90px; float: left;">@T("MYACCOUNT.Register")</a>
+                    </div>
+                    <div id="unSubscribeNewsletter" class="saveInfo clearfix" style="padding: 0px; margin: 0px; display:@block; width:500px; left: 0px;" align="left">
+                        @T("MYACCOUNT.Unregister.Explanation")<br />
+                        <br />
+                        <a href="javascript:;" class="save" style="width: 120px; float: left;">@T("MYACCOUNT.Unregister")</a>
+                    </div>
+                    @*<a href="@Url.Action("ExportMadMimi")" class="save">@T("Admin.Common.ExportMadMimiCsv")</a>*@
+                </div>
+            </div>
+            
+           
+        }
+    </div>
+    <!-- content ends -->
+</div>

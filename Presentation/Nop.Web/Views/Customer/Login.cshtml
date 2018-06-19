@@ -1,0 +1,81 @@
+﻿@model Nop.Web.Models.Customer.LoginModel
+@{
+    Layout = "~/Views/Shared/_Root.cshtml";
+
+    //title
+    Html.AddTitleParts(T("Titles.Login").Text);
+    Html.AddMetaKeywordParts(T("Keywords.Login").Text);
+}
+@using Nop.Web.Models.Common;
+@section JavaScript
+{
+}
+<div id="container">
+    <!-- content -->
+    <div id="content" class="clearfix">
+        @{
+            MessageModel msg = ViewBag.msgModel as MessageModel;
+            if (msg != null && msg.MessageList.Count > 0)
+            {
+                msg.Successful = false;
+            @Html.Partial("MessageInline", msg)
+            }
+        }
+        <!-- login -->
+        <div id="login" class="clearfix">
+            <!-- loginLeft -->
+            @using (Html.BeginForm())
+            {
+                <div id="loginLeft">
+                    <h5 class="title">@T("Account.Login.Welcome")</h5>
+                    <dl class="formfield">
+                        <dt>@Html.LabelFor(m => m.Email):</dt>
+                        <dd>
+                            @Html.TextBoxFor(m => m.Email)
+                            @Html.ValidationMessageFor(m => m.Email)
+                            @*<input type="text" id="txtUsername" class="validate[required] text-input" value="" />*@
+                        </dd>
+                        <dt>@Html.LabelFor(m => m.Password): </dt>
+                        <dd>
+                            @Html.PasswordFor(m => m.Password)
+                            @Html.ValidationMessageFor(m => m.Password)
+                        </dd>
+                        <dd style="padding: 0px; margin: 0px">
+                            <div style="padding-top: 0px; margin-top: 0px" class="row clearfix">
+                                <a href="javascript:;" class="checkbox">@T("Account.Login.Fields.RememberMe")</a>
+                                <input type="hidden" name="RememberMe" id="RememberMe" />
+                                <a class="password" href="@Url.RouteUrl("PasswordRecovery")">@T("Account.Login.ForgotPassword")</a>
+                            </div>
+                        </dd>
+                    </dl>
+                    @*<a class="continue" id="login">@T("Account.Register.Button")</a> *@
+                    <input class="continue" type="submit" id="login" value="@T("Account.Login.LoginButton")" />
+                </div>
+            }
+            <!-- loginLeft ends -->
+            <!-- loginRight -->
+            <div id="loginRight">
+                <h5 class="title">@T("Account.Register.ContentHeader")</h5>
+                <div class="registerText">
+                    <span>1</span>
+                    <h6>@T("Account.Register.Content1Title")</h6>
+                    <p>@T("Account.Register.Content1")</p>
+                </div>
+                <div class="registerText">
+                    <span>2</span>
+                    <h6>@T("Account.Register.Content2Title")</h6>
+                    <p>@T("Account.Register.Content2")</p>
+                </div>
+                <div class="registerText">
+                    <span>3</span>
+                    <h6>@T("Account.Register.Content3Title")</h6>
+                    <p>@T("Account.Register.Content3")</p>
+                </div>
+                <a class="register" title="I want to Register" href="@Url.Action("Register", "Customer")">@T("Account.Register")</a>
+            </div>
+            <!-- loginRight ends -->
+        </div>
+        <!-- login ends -->
+    </div>
+    <!-- content ends -->
+</div>

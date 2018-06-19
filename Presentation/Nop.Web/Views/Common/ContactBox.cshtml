@@ -1,0 +1,66 @@
+﻿@model Nop.Web.Models.Common.CustomerSupportModel
+@using Nop.Web.Framework;
+<div id="ContactBox" style="display: none;">
+    <div id="customerCare" class="navigationPopup" style="background: none; display: block;
+        position: static; width: 250px; padding: 30px 50px;">
+        <div id="formDivision">
+            @using (Html.BeginForm("CustomerSupportSend", "Common", FormMethod.Post, new { id = "contactBox" }))
+            {
+       
+                <dl class="popupField">
+                    <dt>@Html.LabelFor(model => model.FirstName) <span>*</span> </dt>
+                    <dd>
+                        @Html.TextBoxFor(model => model.FirstName) @Html.ValidationMessageFor(model => model.FirstName)
+                    </dd>
+                    <dt>@Html.LabelFor(model => model.LastName) <span>*</span> </dt>
+                    <dd>
+                        @Html.TextBoxFor(model => model.LastName)@Html.ValidationMessageFor(model => model.LastName)
+                    </dd>
+                    <dt>@Html.LabelFor(model => model.Email) <span>*</span> </dt>
+                    <dd>
+                        @Html.TextBoxFor(model => model.Email)@Html.ValidationMessageFor(model => model.Email)
+                    </dd>
+                    @* <dt>Confirm e-mail address : <span>*</span> </dt>
+          <dd>
+             @Html.TextBoxFor(model => model.Email)
+          </dd>*@
+                    <dt>@Html.LabelFor(model => model.Subject) : </dt>
+                    <dd>
+                        @Html.AFDropDown("Subject", Model.Subjects)@*@Html.ValidationMessageFor(model => model.Subject)*@
+                    </dd>
+                    <dt>@Html.LabelFor(model => model.Explanation) <span>*</span> </dt>
+                    <dd class="textClass">
+                        @Html.TextAreaFor(model => model.Explanation, new { style = "height:72px" })@Html.ValidationMessageFor(model => model.Explanation)
+                    </dd>
+                </dl>
+                <div class="requiredLine clearfix">
+                    <div class="required">
+                        <span>*</span> @T("Account.Fields.Required")</div>
+                    <div class="submit">
+                        <a href="javascript:;" id="customerSupportLink" class="button1 right">@T("Account.NewsLetter.Submit")</a></div>
+                </div>
+    
+                <!--<div class="popupClose"><a href="#">CLOSE</a></div>-->
+            }
+        </div>
+        <!-- formfield ends -->
+        @*  <div id="messageNotSent">
+                    <p class="textCenter">
+                        <img width="22" height="22" alt="" src="../../_img/error_password.png">
+                    </p>
+                    <p class="textCenter">
+                        @T("CustomerCare.MessageNotSent")</p>
+                </div>
+           
+
+
+                <div id="messageSent">
+                    <p class="textCenter">    <img width="22" height="22" alt="" src="../../_img/popupthanks.png">
+                    </p>
+                        <p class="textCenter">
+                        @T("CustomerCare.MessageSent")</p><br />
+                        <p class="textCenter" style="text-transform:none">@T("CustomerCare.MessageSent.Detail")</p>
+                </div>*@
+        <!-- content ends here -->
+    </div>
+</div>

@@ -1,0 +1,53 @@
+﻿@model Nop.Web.Models.ShoppingCart.WishlistModel.ShoppingCartItemModel
+
+<div class="orderImageContainer clearfix">
+    <div class="orderPicture">
+        <a href="@Url.RouteUrl("Product", new { productId = @Model.ProductId, variantId = @Model.VariantId, SeName = @Model.ProductSeName })" title="@Model.Manufacturer">
+            <img src="@Model.Picture.LargeSizeImageUrl" alt="@Model.Manufacturer" height="123" width="95"/></a></div>
+    <div class="orderPictureInformation">
+        <h2>@Model.Manufacturer</h2>
+        <p class="mb10">@Model.ProductName</p>
+        @if (!String.IsNullOrEmpty(@Model.AttributeInfo))
+        {
+            @Html.Raw(Model.AttributeInfo)
+        }
+        else
+        {
+            <p>
+                &nbsp</p>
+            <p>
+                &nbsp</p>  
+        }
+        @* <div class="wishedItem">
+            <ul class="bottomButtons clearfix">
+            <li class="share">
+            <a href="javascript:;" title="@T("Overview.Share")" class="button2">@T("Overview.Share")</a>
+            <ul class="list">
+                <li><a href="http://www.facebook.com/share.php?u=@Url.RouteUrl("Product", new { productId = @Model.ProductId, variantId= @Model.VariantId, SeName = @Model.ProductSeName })" title="Facebook">Facebook</a></li>
+
+                <li><a href="http://twitter.com/share?url=@Url.RouteUrl("Product", new { productId = @Model.ProductId, variantId = @Model.VariantId, SeName = @Model.ProductSeName })" title="Twitter">Twitter</a></li>
+                <li><a href="http://digg.com/share?url=@Url.RouteUrl("Product", new { productId = @Model.ProductId, variantId = @Model.VariantId, SeName = @Model.ProductSeName })" title="Digg">Digg</a></li>
+            </ul>
+            </li>
+           </ul> 
+           </div>   *@
+        <div>
+            <ul class="bottomButtons clearfix">
+                <li class="share"><a href="javascript:;" title="@T("Overview.View")" class="button2">@T("Overview.Share")</a>
+                    <ul class="list">
+                        @{
+                            string ProductUrl = "http://" + Request.Url.Authority + Url.RouteUrl("Product", new { productId = @Model.ProductId, variantId = @Model.VariantId, SeName = @Model.ProductSeName });
+                        }
+                        <li><a target="_blank" href="http://www.facebook.com/share.php?u=@ProductUrl" title="Facebook">
+                            Facebook</a></li>
+                        <li><a target="_blank" href="http://twitter.com/share?url=@ProductUrl" title="Twitter">
+                            Twitter</a></li>
+                        <li><a target="_blank" href="http://digg.com/share?url=@ProductUrl" title="Digg">Digg</a></li>
+                    </ul>
+                </li>
+                <li><a href="@Url.RouteUrl("Product", new { productId = @Model.ProductId, variantId = @Model.VariantId, SeName = @Model.ProductSeName })" title="@T("Overview.View")" class="button2">@T("Overview.View")</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

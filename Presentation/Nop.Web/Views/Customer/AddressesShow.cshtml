@@ -1,0 +1,63 @@
+﻿@model Nop.Core.Domain.Customers.Customer
+@using Nop.Core.Domain.Customers
+@using Nop.Core.Domain.Common
+
+
+
+    @{     
+        Address billingAddressModel;
+        Address shippingAddressModel; 
+        try{   
+                  billingAddressModel = Model.Addresses.Where(x=>x.DefaultBillingAddress).Count() != 0 ? Model.Addresses.Where(x=>x.DefaultBillingAddress).First() : Model.BillingAddress;
+                  shippingAddressModel = Model.Addresses.Where(x => x.DefaultShippingAddress).Count() != 0 ? Model.Addresses.Where(x=>x.DefaultShippingAddress).First() : Model.ShippingAddress;
+        }catch
+        {
+                billingAddressModel  = new Address();
+                shippingAddressModel  = new Address();
+        }
+     }
+     
+
+
+        <div class="billingAdress"><strong>@T("Myaccount.Overview.BillingAddress"):</strong><br/>
+        @if (billingAddressModel == null)
+            {
+                @T("Myaccount.Overview.BillingAddress.EmptyMessage")
+            }   
+        else
+            {
+                  @Html.DisplayFor(model => billingAddressModel.FirstName)
+                  @Html.DisplayFor(model => billingAddressModel.LastName)<br/>
+                  @Html.DisplayFor(model => billingAddressModel.Address1)<br/>
+                  @Html.DisplayFor(model => billingAddressModel.ZipPostalCode)
+                  @Html.DisplayFor(model => billingAddressModel.City)
+                  @Html.DisplayFor(model => billingAddressModel.StateProvince.Name)<br/>
+                  @Html.DisplayFor(model => billingAddressModel.Country.Name)<br />
+                  @Html.DisplayFor(model => billingAddressModel.PhoneNumber)
+            }
+          </div> 
+        <div class="shippingAdress"><strong>@T("Myaccount.Overview.ShippingAddress"):</strong><br/>
+            
+        @if (billingAddressModel == null)
+            {
+                @T("Myaccount.Overview.ShippingAddress.EmptyMessage")
+            }   
+        else
+             {
+                  @Html.DisplayFor(model => shippingAddressModel.FirstName) 
+                  @Html.DisplayFor(model => shippingAddressModel.LastName)<br/>
+                  @Html.DisplayFor(model => shippingAddressModel.Address1)<br/>
+                  @Html.DisplayFor(model => shippingAddressModel.ZipPostalCode)
+                  @Html.DisplayFor(model => shippingAddressModel.City)
+                  @Html.DisplayFor(model => shippingAddressModel.StateProvince.Name)<br/>
+                  @Html.DisplayFor(model => shippingAddressModel.Country.Name)<br/>
+                  @Html.DisplayFor(model => shippingAddressModel.PhoneNumber)
+             }
+          </div>
+
+
+          
+
+
+
+

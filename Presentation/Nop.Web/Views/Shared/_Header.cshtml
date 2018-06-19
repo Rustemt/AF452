@@ -1,0 +1,123 @@
+﻿@using Nop.Core.Domain.Catalog;
+@using Nop.Web.Models.Common;
+@{
+    List<Category> cats = ViewBag.Categories;
+    Dictionary<string, List<Manufacturer>> manufacturers = ViewBag.Manufacturers;
+    List<string> manufacturersFirstLetters = ViewBag.ManufacturersFirstLetters;
+    List<Manufacturer> topNManufacturer = ViewBag.TopNManufacturer;
+    Dictionary<int, string> manufacturerPictures = ViewBag.ManufacturerPictures;
+    Dictionary<int, string> manufacturerShowcasePictures = ViewBag.ManufacturerShowcasePictures;
+    Dictionary<int, string> categoryPictures = ViewBag.CategoryPictures;
+    IEnumerable<ContentItemModel> homeContentManufacturerBanner = ViewBag.HomeContentManufacturerBanner;
+    
+    int i = 0;
+}
+
+    <nav class="main_nav_outer">
+        <div class="wrapper">
+            <ul class="main_nav">
+                @foreach (Category mainCat in cats.Where(x => x.ShowOnHomePage == true).OrderBy(x => x.DisplayOrder))
+                {
+                    i++;
+                    <li class="markalar"><a href="@Url.RouteUrl("CategoryMain", new { categoryId = mainCat.Id, SeName = mainCat.SeName })">@mainCat.Name</a>
+                        <div class="sub_nav @(i == 1 ? "subnav1" : i == 2 ? "subnav2": "style3")">
+                            <div class="wrapper">
+                                <div class=mastertabs>
+                                @foreach (Category cat in cats.Where(x => x.ParentCategoryId == mainCat.Id).OrderBy(x => x.DisplayOrder))
+                                {
+                                    <div class="subnav_box">
+                                        <h3><a @(categoryPictures.ContainsKey(cat.Id) ? "data-icon=" + categoryPictures[cat.Id] : "") data-cat="@(mainCat.Id)"
+                                                    href="@Url.RouteUrl("Category", new { categoryId = cat.Id, SeName = cat.SeName })">@cat.Name</a></h3>
+                                        <ul class="tab_nav">
+                                            @foreach (Category subCat in cats.Where(x => x.ParentCategoryId == cat.Id).OrderBy(x => x.DisplayOrder))
+                                            {
+                                                <li><a @(categoryPictures.ContainsKey(subCat.Id) ? "data-icon=" + categoryPictures[subCat.Id] : "") data-cat="@(mainCat.Id)"
+                                                    href="@Url.RouteUrl("Category", new { categoryId = subCat.Id, SeName = subCat.SeName })">@subCat.Name</a></li>
+                                            }
+                                        </ul>
+                                    </div>
+                                }
+                                </div>
+                                @*<div class="subnav_image @(i == 1 ? "firstimg odd2" : i == 2 ? "firstimg": "odd")">*@
+                                <div class="subnav_image @(i == 1 ? "odd" : i == 2 ? "odd2": "odd")">
+                                    <img id="catlivebox@(mainCat.Id)" src="/_img/p.png" alt="" height="110" width="133">
+                                </div>
+                                <div class="subnav_box">                                    
+                                    <a href="@Url.RouteUrl("CategoryManufacturerList", new { categoryId = mainCat.Id, SeName = mainCat.SeName })"><h3>@T("Menu.Brands")</h3></a>
+                                    <ul class="tab_nav5">
+                                        @foreach (Manufacturer m in manufacturers[mainCat.Id.ToString()])
+                                        {
+                                            <li><a @(manufacturerPictures.ContainsKey(m.Id) ? "data-icon=" + manufacturerPictures[m.Id] : "") data-cat="@(mainCat.Id)"
+                                                href="@Url.RouteUrl("ManufacturerCategorySe", new { SeName = m.SeName, categoryId = mainCat.Id, cSeName = mainCat.SeName })">@m.Name</a></li>
+                                        }
+                                    </ul>
+                                </div>
+                                <div class="subnav_logo @(i < 3 ? "secondimg" : "")">
+                                    <img id="manlivebox@(mainCat.Id)" src="/_img/p.png" alt="" height="38" width="67">
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </li>
+                }
+                @if (ViewBag.LanguageCulture == "tr-tr")
+                {
+                <li><a href="@Url.RouteUrl("NewsArchive")">@T("News.MenuHeader")</a></li>
+                }
+                <li class="markalar"><a href="@Url.RouteUrl("ManufacturersAll")">@T("Manufacturer.Manufacturers")</a>
+                    <div class="sub_nav">
+                        <div class="wrapper">
+                            <div class="subnav_box odd">
+                                <h3>A-Z</h3>
+                                <ul>
+                                    @{i = 0;}
+                                    @foreach (var letter in manufacturersFirstLetters)
+                                    {
+                                        i++;
+                                        <li @(i % 4 == 0 ? "class=last" : "")><a href="@Url.RouteUrl("ManufacturerByLetterList", new { mLetter = letter})">@letter</a></li>
+                                    }
+                                </ul>
+                            </div>
+                            <div class="brand_area">
+                                <div class="subnav_box">
+                                    <h3>@T("Homepage.Category")</h3>
+                                    <ul>
+                                        @foreach (Category mainCat in cats.Where(x => x.ShowOnHomePage == true).OrderBy(x => x.DisplayOrder))
+                                        {
+                                            <li><a href="@Url.RouteUrl("CategoryManufacturerList", new { categoryId = mainCat.Id, SeName = mainCat.SeName })">@mainCat.Name</a></li>
+                                        }
+                                    </ul>
+                                </div>
+                                <div class="subnav_box">
+                                    <h3>@T("Homepage.Showcase")</h3>
+                                    <ul>
+                                        @foreach (Manufacturer m in ViewBag.ManufacturersShowCase)
+                                        {
+                                            <li><a href="@Url.RouteUrl("ManufacturerSe", new { SeName = m.SeName })">@m.Name</a></li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="subnav_image2">
+                                @foreach (var banner in homeContentManufacturerBanner)
+                                {
+                                    <a href="@banner.Url">
+                                        <img src="@banner.ImagePath" alt="" height="200" width="430"></a>
+                                }
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </li>
+                <li><a href="@Url.RouteUrl("RecentlyAddedProducts")">@T("Products.NewProducts")</a></li>
+            </ul>
+            @using (Html.BeginRouteForm("ProductSearch", FormMethod.Get))
+            {
+                <div class="new_search">
+                    <input class="input_btn" type="submit" value="">
+                    <input type="text" name="Q" class="input_text1" name="" onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;" value="@T("HeaderBottom.Input.Search")">
+                </div>
+            }
+            <div class="clear"></div>
+        </div>
+    </nav>

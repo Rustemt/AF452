@@ -1,0 +1,42 @@
+﻿@model List<Nop.Core.Domain.Orders.Order>
+
+
+<div id="orderContainer">
+     @if (Model.Count < 1)
+    {
+        @T("Myaccount.Overview.Orders.EmptyMessage")
+    }
+    else
+    {
+    <div class="orderCapsule clearfix">
+            <div class="orderDateTitle">@T("MYACCOUNT.ORDERS.DATE")</div>
+            <div class="orderNumberTitle">@T("MYACCOUNT.ORDERS.TRACK")</div>
+          </div>
+
+           {string date;
+            int i=0;           
+
+   
+            foreach (var item in Model)
+            {
+
+                i++;
+                if (i == 4)
+                {
+                    break;
+                }
+                date = item.CreatedOnUtc.Date.ToString().Replace(".", "/").Substring(0, 10);
+        <a style="cursor:pointer" href="/orderdetails/@item.Id">
+            <div class="orderCapsule clearfix">
+                <div class="orderDateInfo">@date</div>
+                <div class="orderNumberInfo">@item.Id</div>
+            </div>
+        </a>
+      }}
+    } 
+
+          
+   </div>       
+          
+          
+

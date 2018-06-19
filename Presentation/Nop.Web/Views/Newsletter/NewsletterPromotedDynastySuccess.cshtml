@@ -1,0 +1,16 @@
+﻿@{
+    Layout = "~/Views/Shared/_Root.cshtml";
+
+    //title
+    Html.AddTitleParts(T("PageTitle.Register").Text);
+}
+
+
+<div id="container" style="padding-bottom: 0;">
+<!-- customerThanks  -->
+  <div id="customerThanks">
+    <h1>@T("Newsletter.Result.ThankYou")</h1>
+    <a href="@Url.Action("Index","Home")">@T("Register.Result.GoToHomePage")</a>
+  </div>
+  <!-- customerThanks ends -->
+</div>

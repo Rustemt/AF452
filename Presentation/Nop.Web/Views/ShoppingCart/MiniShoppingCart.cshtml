@@ -1,0 +1,43 @@
+﻿@model ShoppingCartModel
+@using Nop.Web.Models.ShoppingCart;
+<a href="@Url.Action("Cart", "ShoppingCart")" title="@T("MiniShoppingCart.ShoppingCart")">@T("MiniShoppingCart.ShoppingCart")
+    <span>(@Model.Items.Count) @Model.SubTotal</span></a>
+<div class="navigationPopup">
+    <div id="shopBagScroll">
+        @foreach (var item in Model.Items)
+        {
+            <ul class="popupShopBag clearfix">
+                <li class="shopBagImage"><a href="@Url.RouteUrl("Product", new { productId = item.ProductId, variantId = item.VariantId, SeName = item.ProductSeName })">
+                    <img src="@item.Picture.ImageUrl" alt="@item.Picture.AlternateText" /></a></li>
+                <li class="shopBagDetails" style="width: 138px">
+                    <div class="_h4">@item.Manufacturer</div>
+                    <p class="_h5">
+                        <a href="@Url.RouteUrl("Product", new { productId = item.ProductId, variantId = item.VariantId, SeName = item.ProductSeName })">
+                            @item.ProductName</a>
+                    </p>
+                    <p>
+                        @if (!String.IsNullOrEmpty(item.AttributeInfo))
+                        {
+                            @Html.Raw(item.AttributeInfo)
+                        }
+@* <span>Color:</span> SILVER<br />
+                  <span>SIZE:</span> XXL<br />*@
+                        <br />
+                        <span>@T("MiniShoppingCart.Quantity")</span> @item.Quantity</p>
+                </li>
+                <li class="shopBagPrice">@item.SubTotal</li>
+            </ul>
+        }
+    </div>
+    <ul class="popupShopBagSubTotal clearfix">
+        <li class="subTotalText">@T("MiniShoppingCart.Subtotal")</li>
+        <li class="subTotalPrice">@Model.SubTotal</li>
+    </ul>
+    <div class="purchaseCon clearfix">
+        <div class="viewMyBag">
+            <a href="@Url.Action("Cart", "ShoppingCart")" title="@T("ShoppingCart.ViewBag")">@T("ShoppingCart.ViewBag")</a></div>
+        <div class="purchase">
+            <a href="@Url.RouteUrl("Checkout")"" title="@T("ShoppingCart.Checkout")">@T("ShoppingCart.Checkout")</a></div>
+    </div>
+    <!--<div class="popupClose"><a href="#">CLOSE</a></div>-->
+</div>

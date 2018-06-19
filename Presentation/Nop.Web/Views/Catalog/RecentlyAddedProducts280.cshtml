@@ -1,0 +1,92 @@
+﻿@*AF*@
+@using System.Web.UI.WebControls
+@using iTextSharp.text.pdf.qrcode
+@using Nop.Core.Infrastructure
+@model Nop.Web.Models.Catalog.RecentlyAddedProductsModel280
+@{
+    Layout = "~/Views/Shared/_Root.cshtml";
+    Html.AddTitleParts(T("PageTitle.RecentlyAddedProducts").Text);
+    var RecentlyAddedTotalProducts = Model.RecentlyAddedTotalProduct;
+}
+@section JavaScript
+{
+    <script src="@Url.ContentV("~/Scripts/sub-category280.js")" type="text/javascript"></script>
+}
+@section JavaScriptVariables
+{
+    <script type="text/javascript">
+        var _applyUrl="@Url.Action("RecentlyAddedProductsJS280", "Catalog")";
+        var _addToCartUrl="@Url.Action("AddToCartProduct", "ShoppingCart")";
+        var _totalProducts = @RecentlyAddedTotalProducts;
+        //var _loadedWithAjax = false;
+    </script>
+}
+@section Announcement{@Html.Action("NewsAnnouncement","News")}
+<div id="container">
+    <div id="content" class="clearfix">
+        <div id="contentUp" class="clearfix">
+         <h1>
+                <a href="@Url.RouteUrl("RecentlyAddedProducts")"><span>@T("Products.NewProducts")
+                </span></a>
+                </h1>
+        </div>
+        <!-- contentup ends -->
+        @Html.Partial("CategoryProductsToolBox280", Model.PagingFilteringContext)
+        <!-- tools ends -->
+              <div id="ProductsContainer" class="clearfix">
+            @if (Model.PagingFilteringContext.ViewMode != "grid3")
+            {
+                <div class="thumbListContainer clearfix">
+                    @if (Model.PagingFilteringContext.ViewMode == "grid1")
+                    {
+                        @Html.Partial("ProductsList1280", Model)
+                    }
+                    else if (Model.PagingFilteringContext.ViewMode == "grid2")
+                    {
+                        @Html.Partial("ProductsList2280", Model)
+                    }
+                    else
+                    {
+                        @Html.Partial("ProductsList2280", Model)
+                    }
+                </div>
+            }
+            else
+            {
+                <div id="thumbScrollButtons" class="clearfix">
+                    <a href="#" class="left">left</a> <a href="#" class="right">right</a>
+                    <div id="scrollMask">
+                        <div id="scrollLayout">
+                            <div class="thumbListContainer clearfix">
+                                @Html.Partial("ProductsList3280", Model)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="scrollBar">
+                    <span>&nbsp;</span></div>
+            }
+            @*<div class="centeredButton">
+                @if (Model.PagingFilteringContext.TotalItems > Model.PagingFilteringContext.PageSize)
+                {
+                    <a id="viewAll-bottom" class="button2 big" title="View All" href="javascript:;" style="display: @ViewBag.IsViewAllVisible;">@T("Category.ListAll")</a>
+                }
+            </div>*@
+            <div id="productsLoadingNotifier" style="background: url(/_img/products_loading.gif) #f3f3f3 center center no-repeat; display:none; height:40px;"></div>
+            <div class="clear"></div>   
+    
+            <div class="pagination">
+                <ul>
+                    @Html.Pager(Model.PagingFilteringContext).QueryParam("pagenumber")
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- content ends -->
+
+@Html.Action("OfferPrice", "Common")
+@if (Model.IsGuest)
+{
+    //@Html.Partial("_landingRegisteration",new Nop.Web.Models.Newsletter.NewsletterBoxModel()) 
+}

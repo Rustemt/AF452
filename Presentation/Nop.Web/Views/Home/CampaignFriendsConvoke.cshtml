@@ -1,0 +1,77 @@
+﻿@model Nop.Web.Models.Newsletter.NewsletterBoxModel
+@{
+    Html.AddTitleParts(T("Titles.CampaignFriendsConvoke").Text);
+    Html.AddMetaKeywordParts(T("Keywords.CampaignFriendsConvoke").Text);
+    Html.AddMetaDescriptionParts(T("Description.CampaignFriendsConvoke").Text);
+    
+    ViewBag.Title = "CampaignRegister";
+    Layout = "~/Views/Shared/_Root.cshtml";
+}
+
+<div id="containerCampaign" style="padding-top:50px; ">
+
+<div id="contentCampaign" class="clearfix" style="@(WorkContext.WorkingLanguage.Id == 2 ? "background-image:url('/Content/tesekkur-tr.jpg');" :
+"background-image:url('/Content/tesekkur-en.jpg');")  margin-bottom:30px;">
+
+<div id="right" style=" float:right; width:400px; margin-right:15px; height:810px;"> 
+
+<div id="productDesc" style=" height: 400px; margin-top:300px; padding-top:25px; background-color:White; opacity:0.9;"> 
+
+<h1 style="text-align:center; font-weight: bold;  font-size:20px;font: normal 20px/20px 'Times New Roman', Times, serif;">@T("Campaign.Friends.Convoke")</h1><br />
+
+    <h1 style=" color:Black;font-weight: bold; font: 14px/16px 'Times New Roman', Times, serif; padding-left:15px; padding-right: 25px; ">@T("Campaign.Friends.Convoke.Information")</h1> 
+    <br />
+<h1 style="color:Black; padding-left:15px;font: 14px/16px 'Times New Roman', Times, serif; padding-right: 25px;"> @T("Campaign.Convoke.EmailsRequest")</h1>
+ <br />
+ @using (Html.BeginForm("CampaignFriendsConvoke", "Home", FormMethod.Post))
+ { 
+   
+       <div id="loginLeft">
+     
+       <dl class="formfieldNewsLetter" style="width:400px;">
+                 
+                 <dt class="friendsConvoke"style="width:70px;">@Html.LabelFor(model => model.Email1):</dt>
+                 
+                 <dd style="width: 300px;">
+                     @Html.EditorFor(model => model.Email1)@Html.ValidationMessageFor(model => model.Email1)
+                 </dd>
+              
+                 <dt class="friendsConvoke"style="width:70px;"> @Html.LabelFor(model => model.Email2): </dt>
+                 
+                 <dd style="width: 300px;">
+                     @Html.EditorFor(model => model.Email2)@Html.ValidationMessageFor(model => model.Email2)
+                 </dd>
+                
+                <dt class="friendsConvoke"style="width:70px;"> @Html.LabelFor(model => model.Email3): </dt>
+                 
+                <dd style="width: 300px;">
+               @Html.EditorFor(model => model.Email3)@Html.ValidationMessageFor(model => model.Email3)
+               </dd>
+           
+               <dt class="friendsConvoke"style="width:70px;"> @Html.LabelFor(model => model.Email4): </dt>
+                 
+               <dd style="width: 300px;">
+               @Html.EditorFor(model => model.Email4)@Html.ValidationMessageFor(model => model.Email4)
+               </dd>
+           
+               <dt class="friendsConvoke"style="width:70px;"> @Html.LabelFor(model => model.Email5): </dt>
+                 
+               <dd style="width: 300px;">
+                     @Html.EditorFor(model => model.Email5)@Html.ValidationMessageFor(model => model.Email5)
+               </dd>
+                 
+                 <dt style="width:70px;"></dt>
+                 
+               <dd style="width: 300px; float: right;">
+                    <input type="submit" style=" width:230px;margin-right:23px; height:30px; padding-left: 5px; padding-right: 5px;  " value="@T("Account.Convoke")" class="continue" id="CampaignConvoke"/>
+               </dd>
+                 
+
+       </dl>
+       </div>
+ }
+ </div>
+ </div>
+</div>
+
+</div>

@@ -1,0 +1,42 @@
+.jSpotTooltip {
+	background: url(../_img/offer-tooltip.png) no-repeat;
+	width: 369px;
+	height: 58px;
+	color: #FFF;
+	font: 13px/20px "Times New Roman", Times, serif;
+	text-align: center;
+	letter-spacing: 3px;
+	padding-top: 22px;
+	margin-left: -92px;
+	position: absolute;
+	right: -4px;
+	top: 32px;
+	z-index: 999;
+}
+.jSpotTooltip2 {
+	background: url(../_img/yourselection-tooltip.png) no-repeat;
+width: 355px;
+height: 32px;
+color: #FFF;
+font: 13px/20px "Times New Roman", Times, serif;
+text-align: center;
+letter-spacing: 3px;
+padding-top: 13px;
+margin-left: -92px;
+position: absolute;
+margin-top: -42px;
+right: -4px;
+margin-left: 305px;
+z-index: 999;
+	
+}
+.jSpotTooltip p {
+	margin: 0;
+	padding: 0;
+}
+
+.jSpotArea {
+	background-color: #000;
+	position: absolute;
+	z-index: 999;
+}

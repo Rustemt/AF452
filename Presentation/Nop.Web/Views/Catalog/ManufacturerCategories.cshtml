@@ -1,0 +1,8 @@
+﻿@model List<Nop.Web.Models.Catalog.CategoryModel>
+<li @(Model.FirstOrDefault(x => x.Selected) == null ? "class=on" : "")><a href="@Url.Action("CategoryManufacturersAll","Catalog")" title="@T("Manufacturer.Filter.ShowAll")">@T("Manufacturer.Filter.ShowAll")</a>
+</li>
+@foreach (var category in Model)
+{
+    <li @(category.Selected ? "class=on" : "")><a href="@Url.RouteUrl("CategoryManufacturerList", new { categoryId = category.Id, SeName = category.SeName })" title="@category.Name">@category.Name</a>
+    </li>
+}

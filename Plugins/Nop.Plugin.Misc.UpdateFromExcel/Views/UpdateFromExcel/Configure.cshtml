@@ -1,0 +1,16 @@
+﻿@{
+    Layout = "";
+}
+@model Nop.Plugin.Misc.UpdateFromExcel.Models.UpdateFromExcelModel
+@using Nop.Web.Framework;
+@using (Html.BeginForm())
+{    
+    <table class="adminContent">
+        <tr>
+            <td>
+                @T("AF.Plugins.Misc.UpdateFromExcel.ExcelFile")
+                    <button onclick="window.open('@Url.RouteUrl("Plugin.Misc.UpdateFromExcel.UpdateFromExcelPopup")', 'Update From Excel', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=500, height=200, top=500, left=500');">@T("Admin.Common.ImportFromExcel")</button>
+            </td>
+        </tr>
+    </table>
+}

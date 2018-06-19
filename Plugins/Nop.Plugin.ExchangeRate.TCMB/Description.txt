@@ -1,0 +1,8 @@
+﻿Group: Exchange rate providers
+FriendlyName: TCMB exchange rate provider
+SystemName: CurrencyExchange.TCMB
+Version: 1.0
+SupportedVersions: 2.40
+Author: AF team
+DisplayOrder: 1
+FileName: Nop.Plugin.ExchangeRate.TCMBExchange.dll

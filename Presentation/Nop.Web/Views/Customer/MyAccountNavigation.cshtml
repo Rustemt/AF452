@@ -1,0 +1,54 @@
+﻿@model Nop.Web.Models.Customer.CustomerNavigationModel
+@using Nop.Web.Models.Customer
+
+<!-- contentup -->
+     <div class="noBorder clearfix" id="contentUp">
+      <h1>@T("Account.Navigation")</h1>
+      <div id="myAccountInfoUp">@T("Account.Navigation") <a title="@T("HeaderTop.LogOut")" href="/logout">@T("HeaderTop.LogOut")</a></div>
+    </div>  
+    
+   
+     
+<!-- contentup ends -->
+<!-- my account tabs -->
+<ul id="myAccountTabs" class="clearfix">
+    @if (!Model.HideInfo)
+    {
+        <li class="@if (Model.SelectedTab == CustomerNavigationEnum.Overview)
+                   {<text>on</text>}
+                   else
+                   {<text></text>}"><a href="@Url.Action("Overview", "customer")" title="@T("Account.OverView")">@T("Account.OverView")</a></li>
+    }
+    @if (!Model.HideInfo)
+    {
+        <li class="@if (Model.SelectedTab == CustomerNavigationEnum.Info)
+                   {<text>on</text>}
+                   else
+                   {<text></text>}"><a href="@Url.Action("info", "customer")" title="@T("Account.CustomerInfo")">@T("Account.CustomerInfo")</a></li>
+    }
+    @if (!Model.HideAddresses)
+    {
+        <li class="@if (Model.SelectedTab == CustomerNavigationEnum.Addresses)
+                   {<text>on</text>}
+                   else
+                   {<text></text>}"><a href="@Url.Action("addresses", "customer")" title="@T("Account.CustomerAddresses")">@T("Account.CustomerAddresses")</a></li>
+      
+    }
+    @if (!Model.HideOrders)
+    {
+        <li class="@if (Model.SelectedTab == CustomerNavigationEnum.Orders)
+                   {<text>on</text>}
+                   else
+                   {<text></text>}"><a href="@Url.Action("orders", "customer")" title="@T("Account.CustomerOrders")">@T("Account.CustomerOrders")</a></li>
+    }
+        @if (!Model.HideWishList)
+    {
+        <li class="@if (Model.SelectedTab == CustomerNavigationEnum.WishList)
+                   {<text>on</text>}
+                   else
+                   {<text></text>}"><a href="@Url.Action("wishlist", "shoppingcart")" title="@T("Account.WishList")">@T("Account.WishList")</a></li>
+    }
+</ul>
+
+
+<!-- my account tabs ends -->

@@ -1,0 +1,16 @@
+﻿@*AF*@
+@model Nop.Web.Models.Catalog.CatalogExtendedPagingFilteringModel
+           @section JavaScript
+{
+    <link href="@Url.Content("~/jspot/jSpot.css")" type="text/css" rel="stylesheet"/>
+    <script src="@Url.Content("~/jspot/jSpot2.js")" type="text/javascript"></script>
+    <script src="@Url.ContentV("~/Scripts/sub-category.js")" type="text/javascript"></script>
+}
+@Html.Partial("_categoryProductsOptions", Model)
+<input type="hidden" id="yourSelectionToolTip" value="@T("YourSelection.Filtering.ToolTip")"/>
+<!-- your selection -->
+<div class="yourSelection clearfix">
+    @Html.Partial("_yourSelection", Model)
+    <div class="yourselectiontooltip">@T("YourSelection.Filtering.ToolTip")</div>
+</div>
+<!-- your selection ends -->

@@ -1,0 +1,137 @@
+﻿@*AF*@
+@model Nop.Web.Models.Catalog.ManufacturerModel
+@{
+    Layout = "~/Views/Shared/_Root.cshtml";
+    Html.AddTitleParts(!String.IsNullOrEmpty(Model.MetaTitle) ? Model.MetaTitle : Model.Name);
+    Html.AddMetaDescriptionParts(Model.MetaDescription);
+    Html.AddMetaKeywordParts(Model.MetaKeywords);
+}
+@section JavaScript
+{
+    <script src="@Url.ContentV("~/Scripts/sub-category.js")" type="text/javascript"></script>
+}
+@section JavaScriptVariables
+{
+    <script type="text/javascript">
+    var _applyUrl="@Url.Action("ManufacturerJS", "Catalog")";
+    var _addToCartUrl="@Url.Action("AddToCartProduct", "ShoppingCart")";
+    var _totalProducts = 150000;
+    </script>
+}
+@section Announcement{@Html.Action("NewsAnnouncement","News")}
+<div id="container">
+    <input type="hidden" id="manufacturerId" value="@Model.Id" />
+    <div id="content" class="clearfix">
+        <div id="contentUp" class="clearfix">
+            @if (Model.CategoryBreadcrumb.Count != 0)
+                     {
+        <div style="margin-bottom:10px">
+            <h1 >
+                @for (int i = 0; i < Model.CategoryBreadcrumb.Count; i++)
+                {
+                    var catBr = Model.CategoryBreadcrumb[i];
+                    if (i == 0)
+                    {
+                    <a href="@Url.RouteUrl("CategoryMain", new { categoryId = catBr.Id, SeName = catBr.SeName })">
+                        <span>@catBr.Name
+                            /</span></a>
+            
+                    }
+                    else if (i == Model.CategoryBreadcrumb.Count - 1)
+                    {
+                    <a href="@Url.RouteUrl("ManufacturerSe", new { SeName = Model.SeName })"><span>@Model.Name </span></a>
+                    }
+                    else
+                    {
+                    <span>
+                        @catBr.Name<text> /</text>
+                    </span>
+                    }
+          
+                }  
+                </h1>
+                </div>
+            }
+          @*  @if (Model.CategoryBreadcrumb.Count == 0)
+            { *@
+                <div class="brandTop">
+                    <div style="text-align: center; font-size: 24px; width: 940px; margin: 0px 0px 10px 0px">
+                     @if (Model.CategoryBreadcrumb.Count == 0)
+                     {
+                        <a href="@Url.RouteUrl("ManufacturerSe", new { SeName = Model.SeName })">
+                            <h1><span style="color: #000;font: 32px/36px Times New Roman, Times, serif;">@Model.Name </span></h1></a>
+                     }
+                    </div>
+                @if (!string.IsNullOrWhiteSpace(Model.Description))
+                {
+@* <div style="display: block; margin: 50px 0px 0px 0px; padding: 10px; border-bottom: 1px solid #dbdbdb;
+                    border-left: 1px solid #cecece; border-top: 1px solid #cecece; border-right: 1px solid #cecece">
+                    @Html.Raw(Model.Description)
+                </div>*@
+                
+                    @Html.Raw(Model.Description)
+                
+            }
+            </div>    
+            @*}*@
+            
+           
+           
+        </div>
+        <!-- contentup ends -->
+        @Html.Partial("CategoryProductsToolBox", Model.PagingFilteringContext)
+        <!-- tools ends -->
+              <div id="ProductsContainer" class="clearfix">
+            @if (Model.PagingFilteringContext.ViewMode != "grid3")
+            {
+                <div class="thumbListContainer clearfix">
+                    @if (Model.PagingFilteringContext.ViewMode == "grid1")
+                    {
+                        @Html.Partial("ProductsList1", Model)
+                    }
+                    else if (Model.PagingFilteringContext.ViewMode == "grid2")
+                    {
+                        @Html.Partial("ProductsList2", Model)
+                    }
+                    else
+                    {
+                        @Html.Partial("ProductsList2", Model)
+                    }
+                </div>
+            }
+            else
+            {
+                <div id="thumbScrollButtons" class="clearfix">
+                    <a href="#" class="left">left</a> <a href="#" class="right">right</a>
+                    <div id="scrollMask">
+                        <div id="scrollLayout">
+                            <div class="thumbListContainer clearfix">
+                                @Html.Partial("ProductsList3", Model)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="scrollBar">
+                    <span>&nbsp;</span></div>
+            }
+            @*<div class="centeredButton">
+                @if (Model.PagingFilteringContext.TotalItems > Model.PagingFilteringContext.PageSize)
+                {
+                    <a id="viewAll-bottom" class="button2 big" title="View All" href="javascript:;" style="display: @ViewBag.IsViewAllVisible;">@T("Category.ListAll")</a>
+                }
+            </div>*@
+
+               <div id="productsLoadingNotifier" style="background: url(/_img/products_loading.gif) #f3f3f3 center center no-repeat; display:none; height:40px;">
+             
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- content ends -->
+@Html.Action("OfferPrice", "Common")
+@if (Model.IsGuest)
+{
+    //@Html.Partial("_landingRegisteration",new Nop.Web.Models.Newsletter.NewsletterBoxModel()) 
+}
+

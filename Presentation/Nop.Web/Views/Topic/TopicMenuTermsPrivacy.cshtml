@@ -1,0 +1,9 @@
+﻿<ul id="leftMenu">
+    @*class="on open"*@
+    <li><a href="@Url.RouteUrl("Topic", new { SystemName = "TermsOfUse" })"
+                title="@T("FooterLeft.TermsOfUSe")">@T("FooterLeft.TermsOfUSe")</a>
+    </li>
+    <li><a href="@Url.RouteUrl("Topic", new { SystemName = "PrivacyInfo" })"
+                title="@T("FooterLeft.PrivacyPolicy")">@T("FooterLeft.PrivacyPolicy")</a>
+    </li>
+</ul>

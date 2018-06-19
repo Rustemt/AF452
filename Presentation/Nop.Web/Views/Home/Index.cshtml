@@ -1,0 +1,166 @@
+﻿@model Nop.Web.Models.Common.HomeModel
+@{
+    Layout = "~/Views/Shared/_Root.cshtml";
+    Html.AddTitleParts(@T("Common.Title").Text);
+    Html.AddMetaDescriptionParts(@T("Common.MetaDescription").Text);
+    Html.AddMetaKeywordParts(@T("Common.MetaKeyword").Text);
+}
+@{
+    var MainContents = Model.MainContents;
+    var BottomContents = Model.BottomContents;
+}
+@section JavaScript
+{
+    <script src="@Url.ContentV("~/Scripts/home.js")" type="text/javascript"></script>
+   
+}
+@section Announcement{@Html.Action("NewsAnnouncement","News")}
+
+<div id="main" class="home">
+    <!-- main page slider starts -->
+    <div id="mainSliderContainer">
+        <ul id="mainSlider" class="clearfix" style="cursor: pointer;">
+            @if (MainContents.Count > 0)
+            {
+                for (int i = 0; i <= MainContents.Count; i++)
+                {
+                    var item = MainContents[i % MainContents.Count];
+            
+             <li  onclick="javascript:  location = '@item.Url';" style="background-image: url(@item.ImagePath); "
+          @if (i == 0)
+          {
+              <text> class="current"</text> 
+          }
+         
+          ></li>
+        
+                }
+
+            }
+        </ul>
+    </div>
+    <!-- main page slider ends -->
+    <div id="mainInner">
+        <!-- campaigns goes here -->
+        <div class="mainSpotLight">
+            <div class="spotLightItems">
+                @* <!-- campaign item -->
+
+                <!-- campaign item end -->*@
+                @if (MainContents.Count > 0)
+                {
+                    for (int i = 0; i < MainContents.Count; i++)
+                    {
+                        var item = MainContents[i % MainContents.Count];
+            
+                    <div 
+          @if (i == 0)
+          {
+              <text> class="item current"</text> 
+          }
+          else
+          {
+              <text> class="item"</text> 
+          }
+          >
+                        <h3>
+                            @item.Title
+                        </h3>
+                        <p>@Html.Raw(Nop.Core.Html.HtmlHelper.StripTags(item.Content))</p>
+                        <dl class="clearfix">
+                            <dt></dt>
+                            <dd>
+                                <a href="@item.Url" title="@T("Content.Main.ViewDetails")">@T("Content.Main.ViewDetails")</a></dd>
+                        </dl>
+                    </div>
+                    }
+
+                }
+            </div>
+            <ul class="spotlightButtons">
+                <li class="next"><a href="#" title="@T("Pager.Next")"></a></li>
+                <li class="prev"><a href="#" title="@T("Pager.Previous")"></a></li>
+            </ul>
+        </div>
+        <!-- spotlight ends -->
+    </div>
+    <!-- main inner ends -->
+    @if (BottomContents.Count > 0)
+    {
+        <!-- promo -->
+        <div id="promo" class="collapsed">
+            <div id="promoInner" class="clearfix">
+                <div class="toggleButton">
+                    <a href="#" title="@T("HomePage.Toggle")"></a></div>
+                @{ 
+        int i = 0;
+                }
+                @foreach (var bottomItem in BottomContents)
+                { 
+                    <!-- promo section item -->
+                    i++;
+                   
+                  
+                 @*   <div @if (i == BottomContents.Count)
+                         {
+              <text> class="section last"</text> 
+                         }
+                         else
+                         {
+              <text> class="section"</text> 
+                         }>
+                        <div class="sectionLeft">
+                            <a href="@bottomItem.Url" title="@bottomItem.Title">
+                                <img src="@bottomItem.ImagePath" width="96" height="96" alt="@bottomItem.Title" /></a></div>
+                        <div class="sectionRight">
+                            <h4>@bottomItem.Title</h4>
+                            <p>@Html.Raw(Nop.Core.Html.HtmlHelper.StripTags(bottomItem.Content))</p>
+                            <dl class="clearfix">
+                                <dt>@bottomItem.Price</dt>
+                                <dd>
+                                    <a href="@bottomItem.Url" title="View details">@T("Content.Main.ViewDetails")</a></dd>
+                            </dl>
+                        </div>
+                    </div>*@
+                    
+                   
+                  <div @if (i == BottomContents.Count)
+                         {
+              <text> class="section last"</text> 
+                         }
+                         else
+                         {
+              <text> class="section"</text> 
+                         }>
+                      <a href="@bottomItem.Url"><img src="@bottomItem.ImagePath" width="298" height="98" alt=""></a>
+                    </div>
+                    
+                    }
+            </div>
+        </div>
+  
+        <!-- promo ends --> 
+    }
+</div>
+
+@if (Model.IsGuest)
+{
+    //@Html.Partial("_landingRegisteration",new Nop.Web.Models.Newsletter.NewsletterBoxModel()) 
+}
+
+@section BodyEnd
+{
+    <!-- Google Code for Remarketing Tag -->   
+    <script type="text/javascript">
+        var google_tag_params = {
+            ecomm_prodid: '',
+            ecomm_pagetype: 'home',
+            ecomm_totalvalue:
+        };
+    </script>    
+}
+
+@section GoogleAnalytics
+{ 
+    ga('set', 'dimension2', 'home');   // home, cart, purchase, productdetail, searchresults
+}

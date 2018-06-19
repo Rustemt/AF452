@@ -1,0 +1,32 @@
+﻿@*AF*@
+@model Nop.Web.Models.Common.MessageModel
+<!-- content  -->
+@*<div class="clearfix">
+    <div id="orderThankyou">
+        <div class="correct_password" id="correctPassword" style=" padding-top:30px; padding-bottom:30px;">
+            @foreach (var message in Model.MessageList)
+            {
+                <h1>@message</h1>
+            }
+        </div>
+    </div>
+</div>*@
+<!-- content ends  -->
+@{
+    string messageClass = Model.Successful? "correct_password":"error_password";
+         
+}
+<div class="clearfix" style="padding-bottom: 30px; padding-top: 30px;">
+    <div>
+        <div class="@messageClass" id="forgetPassword">
+            @foreach (var message in Model.MessageList)
+            {
+                <h1>@message</h1>
+            }
+            @foreach (var message in Model.MessageListExt)
+            {
+                <h2>@message</h2>
+            }
+        </div>
+    </div>
+</div>

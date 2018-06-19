@@ -1,0 +1,68 @@
+﻿@model CategoryManufacturerModel
+@{
+    Layout = "~/Views/Shared/_Root.cshtml";
+    Html.AddTitleParts(T("PageTitle.Manufactures").Text);
+}
+
+
+
+@using Nop.Core;
+@using Nop.Core.Infrastructure;
+@using Nop.Web.Framework.UI;
+@using Nop.Web.Models.Catalog;
+
+<div id="container">
+    <div id="content" class="clearfix">
+        <div id="contentUp" class="clearfix">
+            <h1>@T("Manufacturer.Designers")</h1>
+        </div>
+        <!-- contentup ends -->
+        <!-- tools ends -->
+        <!-- cat list -->
+        <div class="thumbListContainer clearfix">
+            @foreach (var manufacturer in Model.Manufacturers)
+            {
+                <!-- thumb start -->
+                <div class="thumb textAlt">
+                    <div class="pic">
+                        <a href="@Url.RouteUrl("ManufacturerSe", new { SeName = manufacturer.SeName })" title="@manufacturer.Name">
+                            <img src="@manufacturer.PictureModel.ImageUrl" width="188" height="245" alt="@manufacturer.Name" /></a></div>
+                    @*   <div class="panel">
+                        <span class="close">close</span>
+                        <div class="text">
+                            <p>
+                                Hysek</p>
+                            <p>
+                                <span>43.5mm Automatic</span></p>
+                            <p>
+                                <span>Color: SILVER</span></p>
+                            <p>
+                                <span>SIZE: XXL</span></p>
+                            <p>
+                                $2,764.00</p>
+                        </div>
+                        <div class="buttons">
+                            <p>
+                                <a href="#" title="Add to Bag" class="button1 center">ADD TO BAG</a></p>
+                            <p>
+                                <a href="#" title="Go to Product" class="button2 center">GO TO PRODUCT</a></p>
+                        </div>
+                    </div>*@ <a href="@Url.RouteUrl("ManufacturerSe", new { SeName = manufacturer.SeName })" title="@manufacturer.Name">
+                        <div class="text">
+                            <p>
+                                @manufacturer.Name
+                            </p>
+                        </div>
+                    </a>
+                </div>
+                <!-- thumb end -->
+            }
+        </div>
+        <!-- cat list ends -->
+    </div>
+    <!-- content ends -->
+</div>
+@if (Model.IsGuest)
+{
+    //@Html.Partial("_landingRegisteration",new Nop.Web.Models.Newsletter.NewsletterBoxModel()) 
+}

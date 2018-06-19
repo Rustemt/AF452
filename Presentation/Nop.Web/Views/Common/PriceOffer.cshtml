@@ -1,0 +1,104 @@
+﻿@model Nop.Web.Models.Common.PriceOfferModel
+@using Nop.Web.Framework;
+<style type="text/css">
+    #Surname
+    {
+        position:fixed;
+        top:-1500px;    
+    }
+</style>
+<div id="PriceOffer" style="display: none;">
+<input type="hidden" id="PriceOffer-loggedIn" value="@(string.IsNullOrWhiteSpace(Model.Email)?"false":"true")"/>
+    <div id="sendPrice" class="navigationPopup" style="background: none; display: block;
+        position: static; width: 420px; padding: 30px 50px;">
+        <div id="formDivision">
+            <p id="productNameTop" style="font-weight:bold;">
+            </p>
+            <br />
+            <div id="priceOfferTop">
+                <div id="priceOfferTopLeft" style="float: left;">
+                    <img id="productImg" src="" alt="" width="95" height="123" />
+                </div>
+                <div id="priceOfferTopRight" style="float:right; width:300px;">
+                    <p style="font-weight: bold ; margin-bottom:5px;">
+                        @T("PriceOfferForm.HeaderText")
+                    </p>
+                    <p>
+                        @T("PriceOfferForm.SubText")
+                    </p>
+                </div>
+                <div style="clear: both">
+                </div>
+            </div>
+            <br />
+            @using (Html.BeginForm("PriceOfferSend", "Common", FormMethod.Post, new { id = "PriceOffer", autocomplete = "off" }))
+            {
+                 <input type="text" id="Surname" name="Surname" value="" />
+    @Html.HiddenFor(model => model.ProductId)
+           @Html.HiddenFor(model => model.ProductName)
+       
+                <dl class="popupField">
+                    <dt style="float: left; width: 100px;">@Html.LabelFor(model => model.FirstName) <span>*</span></dt>
+                    <dd style=" width:auto">
+                        @Html.TextBoxFor(model => model.FirstName) @Html.ValidationMessageFor(model => model.FirstName, null, new { @style = "margin-left: 100px;" })
+                    </dd>
+                   @* <dt style="float: left; width: 100px;">@Html.LabelFor(model => model.LastName) <span>*</span> </dt>
+                    <dd style=" width:auto">
+                        @Html.TextBoxFor(model => model.LastName)@Html.ValidationMessageFor(model => model.LastName, null, new { @style = "margin-left: 100px;" })
+                    </dd>*@
+                    <dt style="float: left; width: 100px;">@Html.LabelFor(model => model.Email) <span>*</span> </dt>
+                    <dd style=" width:auto">
+                        @Html.TextBoxFor(model => model.Email)@Html.ValidationMessageFor(model => model.Email, null, new { @style = "margin-left: 100px;" })
+                    </dd>
+                    <dt style="float: left; width: 100px;">@Html.LabelFor(model => model.Phone)</dt>
+                    <dd style=" width:auto">
+                        @Html.TextBoxFor(model => model.Phone)
+                    </dd>
+                    @*<dt style="display: none;">@Html.LabelFor(model => model.ProductId) : </dt>
+                    <dd style="display: none;">
+                        @Html.EditorFor(model => model.ProductId)
+                    </dd>
+                    <dt style="display: none;">@Html.LabelFor(model => model.ProductName) : </dt>
+                    <dd style="display: none;">
+                        @Html.EditorFor(model => model.ProductName)
+                    </dd>
+                    <dt style="float: left; width: 100px;">@Html.LabelFor(model => model.Subject) : </dt>
+                    <dd style=" width:auto">
+                        @Html.EditorFor(model => model.Subject)
+                    </dd>*@
+                    <dt style="float: left; width: 100px;">@Html.LabelFor(model => model.Enquiry) </dt>
+                    <dd class="textClass" style=" width:auto">
+                        @Html.TextAreaFor(model => model.Enquiry, new { style = "height:72px" })
+                    </dd>
+                </dl>
+                <div class="requiredLine clearfix">
+                    <div class="required">
+                        <span>*</span> @T("Account.Fields.Required")</div>
+                    <div class="submit" style=" width:200px; float:right;">
+                        <a href="javascript:;" id="priceOfferLink" class="button1 right">@T("Account.NewsLetter.Submit")</a></div>
+                </div>
+    
+                <!--<div class="popupClose"><a href="#">CLOSE</a></div>-->
+            }
+        </div>
+        <!-- formfield ends -->
+        <!-- content ends here -->
+        @* <div id="successResult" style="display:none">
+                 <div id="messageSent">
+                    <p class="textCenter">    <img width="22" height="22" alt="" src="../../_img/popupthanks.png">
+                    </p>
+                        <p class="textCenter">
+                            YOUR MESSAGE HAS BEEN SENT</p>
+                </div>
+                </div>
+       <div id="errorResult" style="display:none">
+                <div id="messageNotSent">
+                    <p class="textCenter">
+                        <img width="22" height="22" alt="" src="../../_img/error_password.png">
+                    </p>
+                    <p class="textCenter">
+                        YOUR MESSAGE HAS NOT BEEN SENT</p>
+                </div>
+                  </div>   *@
+    </div>
+</div>

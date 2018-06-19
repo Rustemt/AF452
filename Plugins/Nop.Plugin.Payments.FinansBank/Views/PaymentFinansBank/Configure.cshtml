@@ -1,0 +1,174 @@
+﻿@{
+    Layout = "";
+}
+@model Nop.Plugin.Payments.FinansBank.Models.ConfigurationModel
+@using Nop.Web.Framework;
+@using (Html.BeginForm())
+{
+    <table class="adminContent">
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.UseTestServer):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.UseTestServer)
+                @Html.ValidationMessageFor(model => model.UseTestServer)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.ServiceUrl):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.ServiceUrl)
+                @Html.ValidationMessageFor(model => model.ServiceUrl)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.ClientId):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.ClientId)
+                @Html.ValidationMessageFor(model => model.ClientId)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.Name):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.Name)
+                @Html.ValidationMessageFor(model => model.Name)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.Password):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.Password)
+                @Html.ValidationMessageFor(model => model.Password)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.TestOrder):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.TestOrder)
+                @Html.ValidationMessageFor(model => model.TestOrder)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>Test Payment Settings</b>
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.TestServiceUrl):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.TestServiceUrl)
+                @Html.ValidationMessageFor(model => model.TestServiceUrl)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.TestClientId):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.TestClientId)
+                @Html.ValidationMessageFor(model => model.TestClientId)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.TestName):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.TestName)
+                @Html.ValidationMessageFor(model => model.TestName)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.TestPassword):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.TestPassword)
+                @Html.ValidationMessageFor(model => model.TestPassword)
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" width="100%">
+                <button type="submit" name="save" value="save" class="t-button">
+                    Save</button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>3D Payment Settings</b>
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.StoreKey):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.StoreKey)
+                @Html.ValidationMessageFor(model => model.StoreKey)
+            </td>
+        </tr>
+
+         <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.SuccessURL):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.SuccessURL)
+                @Html.ValidationMessageFor(model => model.SuccessURL)
+            </td>
+        </tr>
+         <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.ErrorURL):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.ErrorURL)
+                @Html.ValidationMessageFor(model => model.ErrorURL)
+            </td>
+        </tr>
+         <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.HostAddress3D):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.HostAddress3D)
+                @Html.ValidationMessageFor(model => model.HostAddress3D)
+            </td>
+        </tr>
+         <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.StoreType):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.StoreType)
+                @Html.ValidationMessageFor(model => model.StoreType)
+            </td>
+        </tr>
+         <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.StoreName):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.StoreName)
+                @Html.ValidationMessageFor(model => model.StoreName)
+            </td>
+        </tr>
+
+
+    </table>
+    
+}

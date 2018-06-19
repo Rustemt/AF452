@@ -1,0 +1,18 @@
+﻿@model IList<ProductModel>
+@using Nop.Web.Framework.UI;
+@using Nop.Web.Models.Catalog;
+@if (Model.Count > 0)
+{
+    <div id="alsoLike">
+        <div>
+            @T("ProductDetail.YouMayLike")</div>
+        <ul class="clearfix">
+            @foreach (var product in Model)
+            {
+                <li><a href="@Url.Action("Product", new { productId = product.Id, SeName = product.SeName })" title="@product.Name">
+                    <img src="@product.DefaultPictureModel.ImageUrl" width="95" height="123" alt="@product.Name" /></a></li>
+                     
+            }
+        </ul>
+    </div>
+}

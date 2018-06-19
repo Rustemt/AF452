@@ -1,0 +1,38 @@
+﻿@{
+    Html.AddTitleParts(T("Titles.RegisterCompleted").Text);
+    Html.AddMetaKeywordParts(T("Keywords.RegisterCompleted").Text);
+    Html.AddMetaDescriptionParts(T("Description.RegisterCompleted").Text);
+    
+    ViewBag.Title = "RegistedCompleted";
+    Layout = "~/Views/Shared/_Root.cshtml";
+}
+
+<div id="container" style="padding-top:50px; ">
+
+<div id="content" class="clearfix" style=" background-image:url('/Content/bolsans.jpg'); height:600px;  background-repeat:no-repeat;">
+   
+     <div style=" float:right; height:600px;">
+        
+        <div style=" margin-right:50px; margin-top:180px; width:420px; height:180px; background-color:White; opacity:0.8; ">
+            <h1 class="campaign" style=" padding-top:35px;  ">@T("Campaign.Register.Completed")</h1>
+            <br />
+            <hr style="  border-color:#f5f5f5; border-width:1px; opacity:0.2; margin-right:10px; margin-left:10px;" />
+            <br />
+            <h2 class="campaign" style=" margin:0px 20px 0px 20px; color:#666; font-size:13px;">@T("Campaign.Break.A.Leg")</h2><br />
+            
+        
+        
+            
+            <div style="margin-left: 100px;">  <a href="@Url.Action("Index","Home")" class="button2">@T("Checkout.ContinueShopping")</a> </div>
+            
+
+        </div>
+   
+        <div style=" margin-right:0px; width:420px;margin-top: 0px; height:50px; background-color:White; opacity:0.8; ">
+        </div>
+    
+    </div>
+
+</div>
+
+</div>

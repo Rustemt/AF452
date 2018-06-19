@@ -1,0 +1,8 @@
+﻿Group: Discount requirements
+FriendlyName: Customer has one of these manufacturer in the cart
+SystemName: DiscountRequirement.HasManufacturer
+Version: 1.02
+SupportedVersions: 2.40
+Author: nopCommerce team
+DisplayOrder: 1
+FileName: Nop.Plugin.DiscountRules.HasManufacturer.dll

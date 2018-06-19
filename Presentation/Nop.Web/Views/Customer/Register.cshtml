@@ -1,0 +1,102 @@
+﻿@model Nop.Web.Models.Customer.RegisterModel
+@using Nop.Web.Framework;
+@using Nop.Web.Framework.Security.Captcha;
+@using Nop.Web.Models.Common
+@{
+    Layout = "~/Views/Shared/_Root.cshtml";
+
+    //title
+    Html.AddTitleParts(T("Titles.Register").Text);
+    Html.AddMetaKeywordParts(T("Keywords.Register").Text);
+}
+
+<div id="container"> 
+ @if (ViewBag.msgModel.MessageList.Count > 0)
+    {
+     MessageModel msgModel = ViewBag.msgModel;
+     msgModel.Successful = false;
+     @Html.Partial("MessageInline", msgModel);
+    }
+  <!-- content  -->
+  <div id="content" class="clearfix"> 
+    <!-- login  -->
+    <div id="login" class="clearfix"> 
+        @using (Html.BeginRouteForm("Register", FormMethod.Post, new { id = "form" + Model.Username }))
+        {
+            @Html.AntiForgeryToken()
+      <!-- loginLeft  -->
+      <div id="loginLeft">
+        <h5 class="title">@T("Register.NewCustomer")</h5>
+        <dl class="formfield">
+          <dt>@Html.LabelFor(model => model.Email) : </dt>
+          <dd>
+             @Html.EditorFor(model => model.Email)
+              @Html.ValidationMessageFor(model => model.Email)
+          </dd>
+
+          <dt>@Html.LabelFor(model => model.FirstName) : </dt>
+          <dd>
+              @Html.EditorFor(model => model.FirstName)
+              @Html.ValidationMessageFor(model => model.FirstName)
+          </dd>
+          <dt>@Html.LabelFor(model => model.LastName) : </dt>
+          <dd>
+             @Html.EditorFor(model => model.LastName)
+              @Html.ValidationMessageFor(model => model.LastName)
+          </dd>
+          @if (Model.GenderEnabled)
+          {
+          <dt>@Html.LabelFor(model => model.Gender) : </dt>
+          <dd>
+            @Html.AFDropDown("Gender", Model.Genders, "style=\" width:130px;\"")
+          </dd>
+          }
+          <dt>@Html.LabelFor(model => model.Password) : </dt>
+          <dd>
+            @Html.EditorFor(model => model.Password)
+              @Html.ValidationMessageFor(model => model.Password)
+          </dd>
+          <dt>@Html.LabelFor(model => model.ConfirmPassword) : </dt>
+          <dd>
+            @Html.EditorFor(model => model.ConfirmPassword)
+              @Html.ValidationMessageFor(model => model.ConfirmPassword)
+          </dd>
+            @if (Model.DisplayCaptcha)
+          {
+            <table>
+                <tr class="row">
+                    <td colspan="2">
+                        @Html.Raw(Html.GenerateCaptcha())
+                    </td>
+                </tr>
+            </table>
+          }
+        </dl>
+        
+        <input type="submit" value="@T("Account.RegisterContinueButton")" class="continue" id="Register"/> </div>
+      <!-- loginLeft ends --> 
+        }
+      <!-- loginRight  -->
+      <div id="loginRight">
+        <h5 class="title">@T("Account.Register.ContentHeader")</h5>
+        <div class="registerText"> <span>1</span>
+          <h6>@T("Account.Register.Content1Title")</h6>
+          <p>@T("Account.Register.Content1")</p>
+        </div>
+        <div class="registerText"> <span>2</span>
+          <h6>@T("Account.Register.Content2Title")</h6>
+          <p>@T("Account.Register.Content2")</p>
+        </div>
+        <div class="registerText"> <span>3</span>
+          <h6>@T("Account.Register.Content3Title")</h6>
+          <p>@T("Account.Register.Content3")</p>
+        </div>
+        </div>
+      <!-- loginRight ends --> 
+   
+    </div>
+    <!-- login ends --> 
+  </div>
+  <!-- content ends --> 
+  
+</div>

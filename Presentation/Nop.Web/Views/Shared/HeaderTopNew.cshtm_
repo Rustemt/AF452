@@ -1,0 +1,21 @@
+﻿@*AF*@
+@model Nop.Web.Models.Common.HeaderLinksModel
+
+<ul id="userMenu">
+    @if (Model.IsAuthenticated)
+    { 
+        <li id="umShopBag" class="umShopBag_next">@Html.Action("MiniShoppingCartNew", "ShoppingCart")</li> 
+        <li id="umWishList"><a href="@Url.RouteUrl("Wishlist")" title="@T("HeaderTop.WishList")">@T("HeaderTop.WishList")</a></li>
+        <li id="umMyAcc"><a href="@Url.Action("overview", "customer")" title="@T("HeaderTop.MyAccount")">@T("HeaderTop.MyAccount")</a></li>
+        <li id="umLogout"><a href="@Url.RouteUrl("Logout")" title="@T("HeaderTop.LogOut")">@T("HeaderTop.LogOut")</a></li>
+        <li id="umEmailSignUp"><a href="javascript:;" class="selected" title="@T("HeaderTop.EmailSignUp")">@T("HeaderTop.EmailSignUp")</a>@Html.Action("NewsletterBox", "NewsLetter")</li>
+        <li id="umBlog"><a href="http://blog.alwaysfashion.com/" title="Blog" target="_blank">BLOG</a></li>
+    }
+    else
+    {
+        <li id="umShopBag">@Html.Action("MiniShoppingCartNew", "ShoppingCart")</li>
+        <li id="umLogin"><a href="@Url.RouteUrl("Login")" title="@T("HeaderTop.Login")">@T("HeaderTop.Login")</a></li>
+        <li id="umEmailSignUp"><a href="javascript:;" class="selected" title="@T("HeaderTop.EmailSignUp")">@T("HeaderTop.EmailSignUp")</a>@Html.Action("NewsletterBox", "NewsLetter")</li>
+        <li id="umBlog"><a href="http://blog.alwaysfashion.com/" title="Blog" target="_blank">BLOG</a></li>
+    }
+</ul>

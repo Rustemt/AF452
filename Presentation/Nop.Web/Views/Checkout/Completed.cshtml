@@ -1,0 +1,51 @@
+﻿@*AF*@
+@model Nop.Web.Models.Checkout.CheckoutCompletedModel
+@{
+    Layout = "~/Views/Shared/_Root.cshtml";
+
+    Html.AddTitleParts(T("PageTitle.Checkout").Text);
+    
+    // adpilot tracking code
+    var orderService = Nop.Core.Infrastructure.EngineContext.Current.Resolve<Nop.Services.Orders.IOrderService>();
+    var order = orderService.GetOrderById(Model.OrderId);
+    var orderTotal = Decimal.Round(order.OrderTotal, 2);
+    var orderItemIds = string.Join(",", order.OrderProductVariants.Select(x => x.ProductVariantId));
+}
+@section JavaScript
+{
+    <script charset="ISO-8859-9" src="@Url.ContentV("~/Scripts/Checkout.js")" type="text/javascript"></script>
+}
+
+@if (Request.Url.AbsoluteUri.Contains("alwaysfashion") == true || Request.Url.AbsoluteUri.Contains("188.132.239.242") == true)
+{
+    @Html.Raw(Model.GgConversionScript);
+}
+
+@using Nop.Web.Models.Checkout;
+
+<div id="container">
+  <!-- content  -->
+  <div id="content" class="clearfix">
+    <div id="orderThankyou">
+      <div id="orderCapsule">
+        <h1>@T("Checkout.ThankYou")</h1>
+        <p>@T("Checkout.CheckYourMail")</p>
+        <p><img src="@Url.Content("~/_img/af.png")" alt="" /></p>
+        <p><a href="@Url.Action("Index0310","Home")" class="button2">@T("Checkout.ContinueShopping")</a></p>
+      </div>
+      <div id="orderBottom"></div>
+    </div>
+  </div>
+  <!-- content ends  -->
+</div>
+@section PostDocument
+{
+    @*@Html.Partial("AdWordTracker")*@
+}
+
+@section GoogleAnalytics
+{    
+    ga('set', 'dimension1', '@orderItemIds');
+    ga('set', 'dimension2', 'purchase');
+    ga('set', 'dimension3', '@orderTotal.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)');
+}

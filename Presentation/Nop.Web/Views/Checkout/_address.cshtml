@@ -1,0 +1,117 @@
+﻿ @*AF*@
+@model Nop.Web.Models.Common.AddressModel
+ @{var address = Model;
+   bool displayOne = false;
+   if (ViewBag.displayOne != null)
+   { 
+       displayOne = ViewBag.displayOne;
+   }
+
+   var selectedState = Model.AvailableStates.FirstOrDefault(x => (Model.StateProvinceId.HasValue && x.Value == Model.StateProvinceId.Value.ToString()));
+   var selectedCountry = Model.AvailableCountries.FirstOrDefault(x => (Model.CountryId.HasValue && x.Value == Model.CountryId.Value.ToString()));
+   var selectedGender = Model.Genders.FirstOrDefault(x => string.Compare(x.Value, Model.Title, true) == 0);
+  
+  } 
+@using (Html.BeginRouteForm("checkout", FormMethod.Get, new { id = "form" + Model.Id , @class="formCheckOut"}))
+{
+ 
+ <div class="clearfix addressContainer" addressId="@address.Id" style="@(displayOne ? "" : "display:none")">
+          <input type="hidden" id="savedText" value="@T("Common.Saved")" />
+          <h2 class="title"><strong>@(string.IsNullOrWhiteSpace(address.Name) ? "" : @"" + address.Name + "")</strong> @T("Checkout.AddressTitle")</h2>
+          <dl class="formfield">
+           <dt>@T("Address.Fields.Name") : </dt>
+           
+            <dd>
+              @Html.EditorFor(model => model.Name)@Html.ValidationMessageFor(model => model.Name)
+            </dd>
+           @*if language is turkish no need to titles*@
+          @*  @if (WorkContext.WorkingLanguage.Id != 2)
+            {*@
+                  <dt>@T("Address.Fields.Title") : </dt>
+                  <dd>
+                     @Html.AFDropDown("Title", Model.Genders, selectedGender)
+                  </dd> 
+            @*}*@
+            <dd class="title">
+              <div class="row clearfix">
+                <div class="left">@Html.LabelFor(model => model.FirstName) :</div>
+                <div class="right">@Html.LabelFor(model => model.LastName) :</div>
+              </div>
+            </dd>
+            <dd>
+              <div class="row clearfix">
+                <div class="left">
+                  @Html.EditorFor(model => model.FirstName)@Html.ValidationMessageFor(model => model.FirstName)
+
+                </div>
+                <div class="right">
+                  @Html.EditorFor(model => model.LastName)@Html.ValidationMessageFor(model => model.LastName)
+                </div>
+              </div>
+            </dd>
+            <dt>@Html.LabelFor(model => model.Address1) :</dt>
+            <dd class="textClass">
+               @Html.TextAreaFor(model => model.Address1)@Html.ValidationMessageFor(model => model.Address1)
+            </dd>
+            <dt>@Html.LabelFor(model => model.City):</dt>
+            <dd>
+              @Html.EditorFor(model => model.City)@Html.ValidationMessageFor(model => model.City)
+            </dd>
+            <dt> @Html.LabelFor(model => model.StateProvinceId) : </dt>
+            <dd>
+            
+            @Html.AFDropDown("StateProvinceId", Model.AvailableStates, selectedState)
+
+            </dd>
+            <dt>@Html.LabelFor(model => model.ZipPostalCode) :</dt>
+            <dd>
+              @Html.EditorFor(model => model.ZipPostalCode)
+            </dd>
+            <dt>@Html.LabelFor(model => model.CountryId):</dt>
+            <dd>
+            
+             @Html.AFDropDown("CountryId", Model.AvailableCountries, selectedCountry) 
+
+            </dd>
+            <dt>@Html.LabelFor(model => model.PhoneNumber):</dt>
+            <dd>
+                @Html.EditorFor(model => model.PhoneNumber)@Html.ValidationMessageFor(model => model.PhoneNumber)
+            </dd>
+             <div style="display:@(ViewBag.IsShipping?"none":"")">
+           <dd>
+                      <div class="selectBox" name="AddressType">
+                          <span>@(!Model.IsEnterprise ? T("Address.Fields.AddressType.Personel") : T("Address.Fields.AddressType.Company"))</span>
+                          <ul>
+                              <li class="@(!Model.IsEnterprise ? "on" : "")" addressType="P">@T("Address.Fields.AddressType.Personel")</li>
+                              <li class="@(!Model.IsEnterprise ? "" : "on")" addressType="C">@T("Address.Fields.AddressType.Company")</li>
+                          </ul>
+                      </div>
+                  </dd>
+           <div class="company" @(!Model.IsEnterprise ? "style=display:none;" : "")>
+            <dt>@Html.LabelFor(model => model.Company): </dt>
+            <dd>
+              @Html.EditorFor(model => model.Company)@Html.ValidationMessageFor(model => model.Company)
+            </dd>
+            <dt>@Html.LabelFor(model => model.TaxNo):</dt>
+            <dd>
+               @Html.EditorFor(model => model.TaxNo)@Html.ValidationMessageFor(model => model.TaxNo)
+            </dd>
+            <dt>@Html.LabelFor(model => model.TaxOffice):</dt>
+            <dd>
+              @Html.EditorFor(model => model.TaxOffice)@Html.ValidationMessageFor(model => model.TaxOffice)
+            </dd>
+            </div>
+           <div class="personal" @(Model.IsEnterprise ? "style=display:none;" : "")>
+            <dt>@Html.LabelFor(model => model.CivilNo):</dt>
+            <dd>
+              @Html.EditorFor(model => model.CivilNo)@Html.ValidationMessageFor(model => model.CivilNo)
+            </dd>
+            </div>
+            </div>
+          </dl>
+          @Html.HiddenFor(model => model.IsEnterprise)
+          @Html.HiddenFor(model => Model.DefaultShippingAddress)
+          @Html.HiddenFor(model => Model.DefaultBillingAddress)
+          <div class="saveInfo clearfix"> <input type="submit" style="height:24px" class="save" value="@T("Common.Save")" /> <a href="javascript:;" class="clear">@T("Common.Clear")</a> </div>
+           </div>
+}

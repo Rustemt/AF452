@@ -1,0 +1,13 @@
+﻿@model Nop.Web.Models.Common.CurrencySelectorModel
+@if (Model.AvailableCurrencies.Count > 1)
+{
+    <a class="languge currency-select cur_@(Model.CurrentCurrency.Id)" id="currency-select" href="#"><span>@Model.CurrentCurrency.Name</span></a>
+    <ul class="languge_bar frank-bar" id="frank-bar">
+        @foreach (var cur in Model.AvailableCurrencies)
+        {
+            if (Model.CurrentCurrency.Id != cur.Id) {
+            <li class="cur_@(cur.Id)"><a href="@Url.Action("CurrencySelected", "Common", new { customerCurrency = cur.Id })">@cur.Name</a></li>
+            }
+        }
+    </ul>
+}

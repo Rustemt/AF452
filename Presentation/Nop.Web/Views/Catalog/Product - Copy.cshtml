@@ -1,0 +1,388 @@
+﻿@*AF*@
+@model Nop.Web.Models.Catalog.ProductModel
+@{
+    Layout = "~/Views/Shared/_Root.cshtml";
+   
+    //Html.AddTitleParts(Model.DefaultVariantModel.Sku); 
+    //Html.AddTitleParts(String.IsNullOrEmpty(Model.MetaTitle) ? Model.Name : Model.MetaTitle);
+    //Html.AddTitleParts(Model.Manufacturer);
+    string _manufacturer = "";
+    if (Model.Manufacturer != null)
+    {
+        _manufacturer = Model.Manufacturer.ToString() + " ";
+    }
+
+    string pageTitle = _manufacturer + "" + (String.IsNullOrEmpty(Model.MetaTitle) ? Model.Name : Model.MetaTitle).ToString() + " " + Model.DefaultVariantModel.Sku.ToString();
+    
+    Html.AddTitleParts(pageTitle);
+    
+    //TODO: implement !
+    //This is done only for "watch" categories :"erkek, kadın"
+    if (Model.CategoryId == 40 || Model.CategoryId == 41)
+    {
+        Html.AddMetaDescriptionParts(String.IsNullOrWhiteSpace(Model.MetaDescription) ? string.Format(T("Product.SeoDescription").Text, Model.Manufacturer.Trim() + " " + Model.Name.Trim() + " " + Model.DefaultVariantModel.Sku, Model.Manufacturer + " " + Model.DefaultVariantModel.Sku) : Model.MetaDescription);
+        Html.AddMetaKeywordParts(String.IsNullOrWhiteSpace(Model.MetaKeywords) ? string.Format(T("Product.SeoKeywords").Text, Model.Manufacturer, Model.DefaultVariantModel.Sku, Model.Name) : Model.MetaKeywords);
+    }
+    else
+    {
+        Html.AddMetaDescriptionParts(String.IsNullOrWhiteSpace(Model.MetaDescription) ? string.Format(T("Product.SeoDescriptionOthers").Text, Model.Manufacturer.Trim() + " " + Model.Name.Trim() + " " + Model.DefaultVariantModel.Sku, Model.Manufacturer + " " + Model.DefaultVariantModel.Sku) : Model.MetaDescription);
+        Html.AddMetaKeywordParts(Model.MetaKeywords);
+    }
+    }
+@using Nop.Web.Extensions;
+@using Nop.Web.Models.Catalog;
+@using Nop.Core;  
+@using Nop.Core.Domain.Catalog;
+@using Nop.Web.Framework.Localization;
+@{
+    var defaultVariant = Model.DefaultVariantModel;
+    var defaultPictureModel = defaultVariant.DefaultPictureModel == null ? Model.DefaultPictureModel : defaultVariant.DefaultPictureModel;
+    var onSet = false;
+    var sizeChartSpec = Model.SpecificationAttributeModels.FirstOrDefault(x => x.SpecificationAttributeName == "SizeChart");
+    string price = "";
+    string priceMain = "";
+    string priceFloating = "";
+   
+    string applicationPath = Request.ApplicationPath;
+    string url = Request.Url.PathAndQuery;   
+    var localizedUrl = url.AddLocalizedPathToRawUrl(applicationPath, WorkContext.WorkingLanguage);
+    localizedUrl = WebHelper.GetFullPath(localizedUrl);
+    int ProductDetailDropDownValue = Nop.Core.Infrastructure.EngineContext.Current.Resolve<CatalogSettings>().ProductDetailDropDownValue;
+}
+@section JavaScript
+{
+    <link href="@Url.Content("~/_css/jquery.jqzoom.css")" type="text/css" rel="stylesheet"/>
+    <script src="@Url.Content("~/Scripts/jquery.jqzoom-core.js")" type="text/javascript"></script>
+    <script src="@Url.ContentV("~/Scripts/product-detail.js")" type="text/javascript"></script>
+   
+}
+@section JavaScriptVariables
+{
+    <script type="text/javascript">
+    var _addToCartUrl="@Url.Action("AddToCartProduct", "ShoppingCart")";
+    var _addToWishList = "@Url.Action("AddProductToWishlist", "ShoppingCart")";//, new { id = Model.DefaultVariantModel.Id, url = Request.Url.AbsoluteUri })"; 
+    </script>
+}
+@section FacebookTags
+{
+    <meta property="og:title" content="@Model.Manufacturer @Model.Name" />
+    <meta property="og:description" content="@Nop.Core.Html.HtmlHelper.StripTags(Model.FullDescription)" />
+    <meta property="og:image" content="@Model.DefaultVariantModel.DefaultPictureModel.ImageUrl"/>
+    <meta property="og:url" content="@localizedUrl"/>
+}
+<!-- content container  -->
+@section Announcement{@Html.Action("NewsAnnouncement","News")}
+<input type="hidden" id="variantId" value="@defaultVariant.Id"/>
+<input type="hidden" id="productId" value="@Model.Id"/>
+<input type="hidden" id="priceOfferToolTip" value="@T("ProductDetail.QuoteRequest.ToolTip")"/>
+<div id="container">
+    <div id="content" class="clearfix">
+        <!--product breadcrumb-->
+        @Html.Action("ProductBreadcrumb280", "Catalog", new { productId = Model.Id })
+        <!-- product info -->
+        <div id="product" class="clearfix">
+            <div class="productLeft">
+                <!-- pic start -->
+                @foreach (var variantModel in Model.ProductVariantModels)
+                {
+                    if (variantModel.Stock== 0)
+                    {
+                    <div class="sold-out" variantId="@variantModel.Id">
+                    </div>
+                    }
+                    else if (variantModel.ProductVariantPrice.PriceWithDiscount != null && !variantModel.HideDiscount)
+                    {
+                    <div class="sale" variantId="@variantModel.Id">
+                    </div>
+                    }
+                    <div class="productPic clearfix" variantId="@variantModel.Id">
+                        <div class="productPicLeft">
+                            <a href="@variantModel.DefaultPictureModel.FullSizeImageUrl">
+                                <img src="@variantModel.DefaultPictureModel.ImageUrl" width="470" height="612" alt="@Model.Manufacturer @variantModel.Name @variantModel.Sku"/></a></div>
+                        <ul class="productPicRight">
+                            @{onSet = false;}
+                            @foreach (var picture in variantModel.PictureModels)
+                            {
+                                <li class="@(!onSet ? "on" : "")"><a href="@picture.FullSizeImageUrl" rel="@picture.FullSizeImageUrl">
+                                    <img src="@picture.ImageUrl" width="76" height="99" alt=""/></a></li>
+                                onSet = true;
+                            }
+                        </ul>
+                    </div>
+                    
+                }
+                <!-- pic end -->
+                <div class="fullScreen">
+                    <a href="@Url.RouteUrl("Product", new { productId = Model.Id, SeName = Model.SeName })" title="">
+                        @T("ProductDetail.FullScreen")</a></div>
+                @Html.Partial("_productShare")
+                <!-- you may also like start -->
+                @Html.Action("SuggestedProducts", "Catalog", new { categoryId = Model.CategoryId, productId = Model.Id })
+                <!-- you may also like end -->
+            </div>
+            <div class="productRight">
+                <div class="clearfix" style="height: 665px; overflow: hidden;">
+                    <div class="clearfix" id="productRightTop">
+                        @foreach (var variantModel in Model.ProductVariantModels)
+                        {
+                            if (variantModel.HidePriceIfCallforPrice)
+                            {
+                                price = "";
+                            }
+                            else if (variantModel.ProductVariantPrice.PriceWithDiscount != null)
+                            {
+                                price = variantModel.ProductVariantPrice.PriceWithDiscount;
+                            }
+                            else
+                            {
+                                price = variantModel.ProductVariantPrice.Price;
+                            }
+                            string callForPrice = variantModel.ProductVariantPrice.CallForPrice ? "block" : "none";
+                            string buyButton = variantModel.ProductVariantPrice.CallForPrice ? "none" : "block";
+                    
+                            <h1 variantid="@variantModel.Id">
+                                <a href="@Url.RouteUrl("ManufacturerSe", new { SeName = Model.ManufacturerSeName })">@Model.Manufacturer</a>
+                                <span class="alt">@variantModel.Name</span>
+                                <span class="alt2">@variantModel.Sku</span>
+                            </h1>                            
+                            if (variantModel.ProductVariantPrice.DiscountPrice != null)
+                            {
+                            <div class="listPrice" variantId="@variantModel.Id">@T("ProductDetail.ListPrice"): <span>@variantModel.ProductVariantPrice.Price</span></div> 
+                            }
+                            <div id="priceStock" class="clearfix" variantId="@variantModel.Id">
+                                <!-- price -->
+                                <div style="width: 155px" class="price">
+                                    <p>@price</p>
+                                    <!--You Save: $585.00 (10%)-->
+                                </div>
+                                @if (!string.IsNullOrEmpty(variantModel.StockAvailablity))
+                                {
+                                <div class="@(variantModel.Stock > 0 ? "stock" : "soldOut")">
+                                    @variantModel.StockAvailablity
+                                </div>
+                                }
+                                <!-- price ends -->
+                                <!-- stock -->
+                                <!-- stock ends -->
+                                <!-- quantity -->
+                                <div style="width:78px; display:@buyButton" class="quantity">
+                                    <!-- drop down -->
+                                    <div style="width: 22px" class="quantityLeft">
+                                        @T("Products.Qty"):
+                                    </div>
+                                    <div class="quantityRight">
+                                        <div class="selectBox">
+                                            <span>1</span>
+                                            <ul>
+                                                <li class="on">1</li>
+                                                @for (int i = 2; i <= Math.Min(defaultVariant.Stock, ProductDetailDropDownValue); i++)
+                                                {
+                                                    <li>@i</li> 
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!-- drop down ends -->
+                                </div>
+                                <!-- quantity ends -->
+                                @if (variantModel.ProductVariantPrice.PriceWithDiscount != null)
+                                {
+                                    <div class="savedPrice">@T("ProductDetail.Save"): <span>@variantModel.ProductVariantPrice.DiscountPrice<span style="margin-left:5px;">@variantModel.ProductVariantPrice.DiscountPercentage</span></span>
+                                    </div>
+                                }
+                            </div>
+                        }
+                        <!-- price stock ends -->
+                        @if (Model.AttributeSelectionModel.Count > 0 || sizeChartSpec != null)
+                        {
+                            <!-- attributes -->
+                            <div id="productColorSize" class="clearfix">
+                                <!-- drop down -->
+                                @{int level = 0;}
+                                @foreach (var attributeGroup in Model.AttributeSelectionModel.GroupBy(x => x.AttributeId))
+                                {
+                                    level++;
+                                    foreach (var attr in attributeGroup)
+                                    {
+                                        onSet = false;
+                                    <div class="color" parentId="@attr.ParentProductVariantAttributeValueId" level="@level" attributeId="@attr.AttributeId">
+                                        <!-- drop down -->
+                                        <div class="colorLeft">@attr.Name</div>
+                                        <div class="colorRight">
+                                            <div class="selectBox">
+                                                <span>@attr.ValueModels[0].Name</span>
+                                                <ul>
+                                                    @foreach (var value in attr.ValueModels)
+                                                    {
+                                                        string isPrice = Model.ProductVariantModels.Where(x => x.Id == value.VariantId).FirstOrDefault().ProductVariantPrice.CallForPrice ? "callPrice" : "price";
+                                                        <li class="@(onSet ? "" : "on") @isPrice" valueId="@value.ProductVariantAttributeValueId" ownerVariantId="@value.VariantId" quantity="@value.Quantity">@value.Name</li>
+                                                        onSet = true;
+                                                    }
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <!-- drop down ends -->
+                                    </div>
+                                    }
+                                }
+                                @if (sizeChartSpec != null)
+                                {
+                                    @Html.Action("SizeChart", new { systemName = sizeChartSpec.SpecificationAttributeOption })
+                                }
+                            </div>
+                            <!-- attributes ends -->
+                        }
+                        <!-- add to aaa -->
+                        @foreach (var variantModel in Model.ProductVariantModels)
+                        {
+                            // string callForPrice = variantModel.ProductVariantPrice.CallForPrice ? "block" : "none";
+                            // string buyButton = variantModel.ProductVariantPrice.CallForPrice ? "none" : "block";
+                            bool hasStock = variantModel.Stock > 0;
+                            <div id="productAddTo" class="clearfix" variantId="@variantModel.Id">
+                             @if (hasStock)
+                             {
+                                    <div id="productAddToLeft">
+                                        <a href="javascript:;" class="button2" title="@T("ShoppingCart.AddToWishlist")">@T("ShoppingCart.AddToWishlist")</a>
+                                    </div>
+                          
+                                    if (variantModel.ProductVariantPrice.CallForPrice)
+                                    {
+                                        <div id="productPriceOffer">
+                                        <a product-id="@Model.DefaultVariantModel.Id" product-img="@defaultPictureModel.ImageUrl" product-name="@Model.Manufacturer - @Model.DefaultVariantModel.Name"  href="#sendPrice" class="button1" id="offerLink">@T("ShoppingCart.OfferPrice")</a>
+                                        <div class="offerTooltip">@T("ProductDetail.QuoteRequest.ToolTip")</div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                 <div id="productAddToRight">
+                                    @* <a href="#"  class="button1 productvariantaddtocartbutton" value="Add to cart" name="addtocart-@(Model.ProductVariantModels.FirstOrDefault().Id)" title="@T("ShoppingCart.AddToCart")">@T("ShoppingCart.AddToCart")</a>*@
+                                     <input type="submit" name="addtocart-@(Model.Id)" class="button1" value="@T("ShoppingCart.AddToCart")" />
+                                  </div>
+                                    }
+
+
+                                }
+                            </div>
+                        }
+                        <!-- add to ends -->
+                        <!-- description -->
+                    </div>
+                    <div id="productDesc">
+                        <p>@Html.Raw(Model.FullDescription)</p>
+                        @if (Model.SpecificationAttributeModels.Count > 0)
+                        {
+                            <h3>@Model.Manufacturer @Model.ProductVariantModels[0].Name @T("Products.Specs")</h3>
+                        }
+@* @foreach (var specG in Model.SpecificationAttributeModels.GroupBy(x => x.SpecificationAttributeId))
+                     {
+                         var rep = specG.First();
+                         var value = "";
+                         if (!rep.Visible) { continue; }
+                         foreach (var spec in specG)
+                          {
+                              if (!spec.Visible) { continue; }
+                              value += ", " + @spec.SpecificationAttributeOption;
+                          }
+                            value = value.Remove(0, 2);
+                         <dl class="clearfix">
+                            <dt>@rep.SpecificationAttributeName :</dt><dd>
+                        @value
+                         </dd></dl>
+                     }*@
+                        @foreach (var spec in Model.SpecificationAttributeModels)
+                        {
+                            if (!spec.Visible) { continue; }
+                            <dl class="clearfix">
+                                <dt>@spec.SpecificationAttributeName</dt><dd>: @spec.SpecificationAttributeOption</dd></dl>
+                        }
+                        <dl class="clearfix">
+                            <dt>@T("Products.Sku")</dt>
+                            @foreach (var variantModel in Model.ProductVariantModels)
+                            {
+                                <dd variantId="@variantModel.Id">
+                                    : @variantModel.Sku</dd>
+                            }
+                        </dl>
+                       
+                            @{if(defaultVariant.GiftCard.IsGiftCard)
+                              {
+                       var dataDictGiftCard = new ViewDataDictionary();
+                         dataDictGiftCard.TemplateInfo.HtmlFieldPrefix = string.Format("giftcard_{0}", Model.Id);
+                            @Html.Partial("_GiftCardInfo",defaultVariant.GiftCard, dataDictGiftCard) 
+                                }
+                                     }
+                    </div>
+                    
+                    <!-- description ends -->
+                </div>
+               
+                <!-- try at home -->
+                <div id="tryAtHome">
+                    <div>
+                        @T("Products.TryIt")</div>
+                    @*<p>
+                        @T("Products.TryItMessage")</p>*@
+                </div>
+                <!-- try at home ends -->
+                <!-- find similar -->
+                @Html.Action("RelatedProducts", "Catalog", new { categoryId = Model.CategoryId, productId=Model.Id})
+                <!-- find similar ends -->
+            </div>
+        </div>
+        <!-- product info ends -->
+    </div>
+    <!-- content ends -->
+</div>
+<!-- container ends -->
+@foreach (var variantModel in Model.ProductVariantModels)
+{
+    <div class="fullScreenZoom on" variantId="@variantModel.Id">
+        <div class="fullScreenZoomPic">
+            <img src="@variantModel.DefaultPictureModel.FullSizeImageUrl" width="100%" alt=""/>
+        </div>
+        <ul class="fullScreenZoomThumbs">
+            @{onSet = false;}
+            @foreach (var picture in variantModel.PictureModels)
+            {
+                <li class="@(!onSet ? " on" : "")"><a href="@picture.FullSizeImageUrl">
+                    <img src="@picture.ImageUrl" width="76" height="99" alt=""/></a></li>
+                onSet = true;
+
+            }
+        </ul>
+        <div class="fullScreenZoomClose">
+            @T("Common.Close")</div>
+    </div>
+}
+@foreach (var _variant in Model.ProductVariantModels)
+{
+    if (_variant.ProductVariantPrice.CallForPrice)
+    {
+    @Html.Action("OfferPrice", "Common")
+        break;
+    }
+}
+
+@if (Model.IsGuest)
+{
+    //@Html.Partial("_landingRegisteration", new Nop.Web.Models.Newsletter.NewsletterBoxModel()) 
+}
+
+@section BodyEnd
+{
+    <!-- Google Code for Remarketing Tag -->
+    <script type="text/javascript">
+        var google_tag_params = {
+            ecomm_prodid: '@Model.Id',
+            ecomm_pagetype: 'product',
+            ecomm_totalvalue: @Model.DefaultVariantModel.ProductVariantPrice.PriceWithDiscountValue.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)
+            };
+    </script>
+}
+
+@section GoogleAnalytics
+{    
+    ga('set', 'dimension1', '@Model.Id');   
+    ga('set', 'dimension2', 'productdetail');   // home, cart, purchase, productdetail, searchresults
+    ga('set', 'dimension3', '@Model.DefaultVariantModel.ProductVariantPrice.PriceWithDiscountValue.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)'); 
+}

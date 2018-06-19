@@ -1,0 +1,39 @@
+﻿@model Nop.Web.Models.Customer.CustomerInfoModel
+
+@{
+    Html.AddTitleParts(T("Titles.Overview").Text);
+    Html.AddMetaKeywordParts(T("Keywords.Overview").Text);
+    Layout = "~/Views/Shared/_Root.cshtml";
+}
+<div id="container">
+    <div id="content" class="clearfix">
+    
+    
+    @Html.Partial("~/Views/Customer/MyAccountNavigation.cshtml",Model.NavigationModel, new ViewDataDictionary())
+    
+    
+    @{Nop.Core.Domain.Customers.Customer modelCustomer =  ViewData["customer"] as Nop.Core.Domain.Customers.Customer;
+
+     }
+    <div class="clearfix" id="accountInformation"> 
+      <!-- myDetails -->
+      <div  id="myDetails">
+        <h6 class="title">@T("Account.YourPersonalDetails") <a class="button2" href="@Url.Action("info", "customer")">@T("MYACCOUNT.EDIT.INFO")</a></h6>
+         @Html.Partial("~/Views/Customer/CustomerDetailShow.cshtml", Model, new ViewDataDictionary())
+        <h6 class="title"> @T("Myaccount.Overview.Addressbook") <a class="button2" href="@Url.Action("addresses", "customer")">@T("MYACCOUNT.EDIT.INFO")</a></h6>
+         @Html.Partial("~/Views/Customer/AddressesShow.cshtml", modelCustomer, new ViewDataDictionary())
+      </div>
+      <!-- myDetails ends --> 
+      <!-- SubCribeNewsLatter -->
+      <div  id="OrderInformation" style="border-style: none">
+        <h6 class="title">@T("MYACCOUNT.OVERVIEW.ORDERS.DATE")<a class="button2" href="@Url.Action("orders", "customer")">@T("MYACCOUNT.OVERVIEW.VIEWALL")</a></h6>
+         @Html.Partial("~/Views/Customer/OrderList.cshtml",modelCustomer.Orders.OrderByDescending(x => x.CreatedOnUtc).ToList(), new ViewDataDictionary())
+        <h6 class="title">@T("MYACCOUNT.OVERVIEW.WISHLIST") <a class="button2" href="@Url.Action("WishList", "ShoppingCart")">@T("MYACCOUNT.OVERVIEW.VIEWALL")</a></h6>
+         @Html.Action("WishListSummary","ShoppingCart")
+      </div>
+    </div>
+    <!-- SubCribeNewsLatter ends --> 
+  </div>
+ </div>
+
+

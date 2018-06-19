@@ -1,0 +1,10 @@
+﻿@{
+    Layout = "";
+}
+@model Nop.Plugin.Payments.PurchaseOrder.Models.PaymentInfoModel
+@using Nop.Web.Framework;
+ <p>
+                @Html.AFRadioButton("Payments.PurchaseOrder", @T("Payment.PaymentMethod.Wire").Text, "paymentMethod", selected: false)
+            </p>
+            <p>
+                @T("Payment.PaymentMethod.WireContent")</p>

@@ -1,0 +1,8 @@
+﻿Group: Payment methods
+FriendlyName: KuveytTurk
+SystemName: Payments.CC.KuveytTurk
+Version: 1.00
+SupportedVersions: 2.40
+Author: AF Team
+DisplayOrder: 1
+FileName: Nop.Plugin.Payments.KuveytTurk.dll

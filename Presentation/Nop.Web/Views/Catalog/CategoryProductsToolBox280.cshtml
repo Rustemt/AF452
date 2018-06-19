@@ -1,0 +1,23 @@
+﻿@*AF*@
+@model Nop.Web.Models.Catalog.CatalogPagingFilteringModel280
+@section JavaScript
+{
+    <link href="@Url.Content("~/jspot/jSpot.css")" type="text/css" rel="stylesheet"/>
+    <script src="@Url.Content("~/jspot/jSpot2.js")" type="text/javascript"></script>
+    <script src="@Url.ContentV("~/Scripts/sub-category.js")" type="text/javascript"></script>
+}
+@Html.Partial("_categoryProductsOptions280", Model)
+@if (!Model.FilteringDisabled)
+{
+    <input type="hidden" id="yourSelectionToolTip" value="@T("YourSelection.Filtering.ToolTip")"/>
+}
+<!-- your selection -->
+<div class="yourSelection clearfix">
+    @{ViewContext.Controller.ViewData["filterExists"] = false;}
+    @Html.Partial("_yourSelection280", Model)
+    @if (!Model.FilteringDisabled && !(bool)ViewContext.Controller.ViewData["filterExists"])
+    {
+        <div class="yourselectiontooltip">@T("YourSelection.Filtering.ToolTip")</div>
+    }
+</div>
+<!-- your selection ends -->

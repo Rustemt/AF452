@@ -1,0 +1,15 @@
+﻿@model NewsItemExtraContentModel
+
+@using (Html.BeginForm())
+{
+    <div class="section-header">
+        <div class="title">
+        <img src="@Url.Content("~/Administration/Content/images/ico-content.png")" alt="" />
+            @T("Admin.News.ExtraContents.AddNew") @Html.ActionLink("(" + T("Admin.News.ExtraContents.BackToNewsItem") + ")", "Edit", new { id = Model.NewsItemId })
+        </div>
+        <div class="options">
+            <input type="submit" value="@T("Admin.Common.Save")" class="t-button" />
+        </div>
+    </div>
+    @Html.Partial("_CreateOrUpdateExtraContent", Model)
+}

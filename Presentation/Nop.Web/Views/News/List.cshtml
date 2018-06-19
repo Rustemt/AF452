@@ -1,0 +1,93 @@
+﻿@model Nop.Web.Models.News.NewsItemListModel
+@using Nop.Web;
+@{
+    Layout = "~/Views/Shared/_Root.cshtml";
+    //title
+    Html.AddTitleParts(T("PageTitle.NewsArchive").Text);
+    int count = 0;
+    string monthOnCss = "on";
+    
+}
+@section JavaScript
+{
+    <link href="@Url.Content("~/_css/jquery.jqzoom.css")" type="text/css" rel="stylesheet"/>
+    <script type="text/javascript" src="@Url.ContentV("~/Scripts/news.js")"></script>
+}
+@section Announcement{@Html.Action("NewsAnnouncement","News")}
+<div id="container">
+    <div id="content" class="clearfix">
+        <div class="newsPageHeader">
+            <h1>@T("News.Header")</h1>
+        </div>
+        <!-- slider -->
+        <div id="newsPageSlider">
+            <div class="content">
+                <ul class="clearfix">
+                    @foreach (var mainNews in Model.MainNewsItems)
+                    {
+                        <li><a href="@Url.RouteUrl((mainNews.SystemType == 1 ? "NewsItem" : "InterviewItem" ), new { newsItemId = mainNews.Id, SeName = mainNews.SeName })">
+                            <img src="@mainNews.DefaultPictureModel.ImageUrl" width="938" alt=""/>
+                        </a>@*<div style="background: url(@mainNews.DefaultPictureModel.ImageUrl) #fafafa top center no-repeat;">
+                                <div id="newsSilder">
+                                    <!-- sub menu items ended -->
+                                    <!-- category text -->
+                                    <div id="newsInfoBox">
+                                        <h1>@mainNews.Title</h1>
+                                        <p>@Html.Raw(mainNews.Short)</p>
+                                        <p><a style="float:left" href="@Url.RouteUrl("NewsItem", new { newsItemId = mainNews.Id, SeName = mainNews.SeName })" title="">@T("News.MoreInfo")</a></p>
+                                    </div>
+                                </div>
+                            </div>*@ </li>
+                    }
+                </ul>
+                <span id="newsPageSliderPrev">Previous</span> <span id="newsPageSliderNext">Next</span>
+            </div>
+            <!-- ps. counter itemleri yanyana olmali -->
+            <ul class="counter">
+                @for (int i = 1; i <= Model.MainNewsItems.Count; i++)
+                {
+                    <li @(i == 1 ? "class=on" : "")>@i</li>
+                }
+            </ul>
+        </div>
+        <!-- slider ends -->
+        <!-- news accordion -->
+        <div class="newsPageAccordion">
+            @foreach (var monthly in Model.MonthlyNewsItems)
+            {
+                count = 0;
+                <!-- acc item -->
+                <div class="@string.Format("item clearfix {0}", monthOnCss)">
+                    <h5>@monthly.Key</h5>
+                    <div class="@string.Format("content clearfix {0}", monthOnCss)">
+                        @foreach (var news in monthly)
+                        {
+                            count++;
+                            <!-- item -->
+                            <ul class="clearfix @(count % 3 == 0 ? "last" : "")">
+                                <li class="pic"><a href="@Url.RouteUrl((news.SystemType == 1 ? "NewsItem" : "InterviewItem"), new { newsItemId = news.Id, SeName = news.SeName })">
+                                    <img src="@news.DefaultPictureModel.ImageUrl" width="306" height="306" alt="" />
+                                </a></li>
+                                <li class="text">
+                                    <h2>@news.Title</h2>
+                                    <p>@news.Short</p>
+                                    <p class="more">
+                                        <a href="@Url.RouteUrl((news.SystemType == 1 ? "NewsItem" : "InterviewItem"), new { newsItemId = news.Id, SeName = news.SeName })">@T("News.List.NewsDetail")</a></p>
+                                </li>
+                            </ul>
+                            <!-- item end -->  
+                        }
+                    </div>
+                </div>
+                <!-- acc item -->
+                        monthOnCss = "";
+            }
+        </div>
+        <!-- news accordion ends -->
+    </div>
+    <!-- content ends -->
+</div>
+@if (Model.IsGuest)
+{
+    //@Html.Partial("_landingRegisteration", new Nop.Web.Models.Newsletter.NewsletterBoxModel()) 
+}

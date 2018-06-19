@@ -1,0 +1,8 @@
+﻿Group: Discount requirements
+FriendlyName: Customer has some of these product variants in the cart
+SystemName: DiscountRequirement.HasSomeProducts
+Version: 1.02
+SupportedVersions: 2.40
+Author: AF team
+DisplayOrder: 1
+FileName: Nop.Plugin.DiscountRules.HasSomeProducts.dll

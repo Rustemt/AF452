@@ -1,0 +1,81 @@
+﻿@model Nop.Web.Models.ShoppingCart.WishlistModel.ShoppingCartItemModel
+           
+
+                            
+                        <div class="wishedItemLeft">
+                            <div class="date">
+                            @Html.AFCheckbox("wishlistitem" + Model.Id,string.Format("{0} {1}",T("WishList.AddedOn").Text, @Model.Created))
+                                @*<a href="#" group="wishlist" data-val="@Model.Id" class="checkbox">@T("WishList.AddedOn") @Model.Created</a>*@</div>
+                            <div class="pic">
+                                <a href="@Url.RouteUrl("Product", new { productId = @Model.ProductId, variantId = @Model.VariantId, SeName = @Model.ProductSeName })" title="@Model.Manufacturer">
+                                    <img src="@Model.Picture.ImageUrl" alt="@Model.Manufacturer" height="123" width="95"></a></div>
+                            <div class="info">
+                                <p>
+                                    <span>@Model.Manufacturer</span><br/>@Model.ProductName</p><div class="@(@Model.HasStock ? "stock" : "soldOut")">   @Model.HasStockText  </div><br />
+                                @if (!String.IsNullOrEmpty(@Model.AttributeInfo))
+                                {
+                                    <br/>
+                                     @Html.Raw(Model.AttributeInfo)
+                                }
+
+                                  @if (Model.OldPriceDecimal > 0)
+                                  { <br/>
+                                    <span>  @T("WishList.Price")</span> <span class="overwrite"> @Model.OldPrice</span>
+                                  }
+                                  else
+                                  {
+                                     <span>&nbsp</span><br/>
+                                  }
+                                  @if (!Model.CallForPrice)
+                                  {
+                                     
+                                       <p> <span>@(Model.OldPriceDecimal > 0 ? @T("WishList.Price.WithDiscount") : @T("WishList.Price"))</span> <span class=@(Model.OldPriceDecimal > 0 ? "green" : "")> @Model.UnitPrice</span></p>
+                                  }
+                                  else
+                                  {
+                          
+                                       <p> <span>&nbsp</span> <span class="green"> &nbsp</span></p>
+                                  }
+
+                            </div>
+                        </div>
+                        <div class="wishedItemRight">
+                        	<p><a href="javascript:;"  data-val='@Model.Id' class="button2">@T("WishList.Remove")</a></p>
+                            <p>&nbsp;</p>
+                            <p>@T("WishList.Add.Comment")</p>
+                            <p><textarea id="@Model.Id">@Model.CustomerComment</textarea></p>
+                            
+                        </div>
+
+
+                        <ul class="bottomButtons clearfix">
+                        @if (!Model.CallForPrice)
+                        {
+                            if (Model.HasStock)
+                            {
+                                  <li><a  href="javascript:;" style="padding-left: 10px; padding-right: 10px; text-align: center" data-val='@Model.Id' title="@T("ShoppingCart.AddToCart")" class="button1">@T("Category.ProductList.AddToBag")</a></li>
+                            }
+                        }
+                        else
+                        {
+                            <li> <a id="wishListOffer" data-val="offer" product-img="@Model.Picture.ImageUrl" product-id="@Model.VariantId" product-name="@Model.Manufacturer - @Model.ProductName"  class="center button1" title="@T("ShoppingCart.OfferPrice")" href="#sendPrice">@T("ShoppingCart.OfferPrice")</a></li>
+                        }
+                        	<li class="share">
+                            	<a href="javascript:;" title="Share" class="button2">@T("ProductDetail.Share")</a>
+                            	<ul class="list">
+                                     @{
+                                         string ProductUrl = "http://" + Request.Url.Authority + Url.RouteUrl("Product", new { productId = @Model.ProductId, variantId = @Model.VariantId, SeName = @Model.ProductSeName });
+                                     }
+                                	<li><a target="_blank" href="http://www.facebook.com/share.php?u=@ProductUrl" title="Facebook">Facebook</a></li>
+
+                                	<li><a target="_blank" href="http://twitter.com/share?url=@ProductUrl" title="Twitter">Twitter</a></li>
+
+
+    
+
+                               
+                                </ul>
+                            </li>
+                        	<li class="last"><a href="javascript:;" data-val='@Model.Id' title="Save" class="button6">@T("Common.Save")</a></li>
+                        </ul>
+  

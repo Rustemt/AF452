@@ -1,0 +1,61 @@
+﻿@model Nop.Web.Models.Customer.CustomerInfoModel
+           
+ @using (Html.BeginForm("Info","Customer"))
+ { 
+ 
+                 <div id="myDetails" style="width: 470px">
+                     <h6 class="title">
+                         @T("Account.YourPersonalDetails")</h6>
+                     <!-- formfield -->
+                     <dl class="formfield">
+                         <dd class="title">
+                             <div class="row clearfix">
+                                 <div class="left">
+                                     @Html.LabelFor(model => model.FirstName) :</div>
+                                 <div class="right">
+                                     @Html.LabelFor(model => model.LastName) :</div>
+                             </div>
+                         </dd>
+                         <dd>
+                             <div class="row clearfix">
+                                 <div class="left">
+                                     @Html.EditorFor(model => model.FirstName)
+                                     @Html.ValidationMessageFor(model => model.FirstName)
+                                 </div>
+                                 <div class="right">
+                                     @Html.EditorFor(model => model.LastName)
+                                     @Html.ValidationMessageFor(model => model.LastName)
+                                 </div>
+                             </div>
+                         </dd>
+                         <dt>@Html.LabelFor(model => model.Gender) : </dt>
+                         <dd>
+                             @Html.AFDropDown("Gender", Model.Genders, "style=\" width:130px;\"")
+                         </dd>
+                         <dt>@Html.LabelFor(model => model.Email) </dt>
+                         <dd>@Html.EditorFor(model => model.Email)</dd>
+                         <dt>@Html.LabelFor(model => model.NewEmail)</dt>
+                         <dd>@Html.EditorFor(model => model.NewEmail)@Html.ValidationMessageFor(model => model.Email)</dd>
+                         <dt>@Html.LabelFor(model => model.ConfirmNewEmail) :</dt>
+                         <dd>
+                             @Html.EditorFor(model => model.ConfirmNewEmail)
+                             @Html.ValidationMessageFor(model => model.ConfirmNewEmail)
+                         </dd>
+                         <dt>@Html.LabelFor(model => model.NewPassword) :</dt>
+                         <dd>
+                             @Html.PasswordFor(model => model.NewPassword)
+                             @Html.ValidationMessageFor(model => model.NewPassword)
+                         </dd>
+                         <dt>@Html.LabelFor(model => model.ConfirmNewPassword) :</dt>
+                         <dd>
+                             @Html.PasswordFor(model => model.ConfirmNewPassword)
+                             @Html.ValidationMessageFor(model => model.ConfirmNewPassword)
+                         </dd>
+                     </dl>
+                     <div class="saveInfo clearfix">
+                     <input type="hidden" value="overview" name="tab" />
+                         <input type="submit" class="save" style="margin:0 10px 0 10px;"  value="@T("Common.Save")" name="save-info-button"/>
+                         <input type="reset" class="save"  value="@T("Common.Reset")" />
+                     </div>
+                 </div>
+ }

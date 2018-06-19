@@ -1,0 +1,13 @@
+﻿@{
+    Layout = null;
+}
+
+@foreach (var item in ViewBag.keys)
+{
+    <span>@item</span><br />
+}
+----------------------------------------------------------
+@foreach (var item in ViewBag.keysPerRequest)
+{
+    <span>@item</span><br />
+}

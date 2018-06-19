@@ -1,0 +1,51 @@
+﻿@model OrderDetailsModel
+@using Nop.Core.Domain.Orders
+@using Nop.Web.Models.Order
+@using Nop.Web.Models.Common
+@using Nop.Web.Models.Customer
+@using Nop.Core.Domain.Customers
+@{
+    Layout = "~/Views/Shared/_Root.cshtml";
+    var navModel = ViewData["NavModel"] as CustomerNavigationModel;
+    navModel.SelectedTab = CustomerNavigationEnum.Orders;
+}
+<div id="container">
+    <div id="content" class="clearfix">
+        <div id="webOrderHistory">
+            @Html.Partial("~/Views/Customer/MyAccountNavigation.cshtml", navModel, new ViewDataDictionary())
+            @if (ViewBag.Msg.MessageList.Count > 0)
+            {
+                MessageModel msgModel = ViewBag.Msg;
+                @Html.Partial("MessageInline", msgModel);
+            }
+            @Html.Action("OrderInfo", "Order", Model.Id)
+            <div class="addressInformation clearfix">
+                <div class="billingAdress">
+                    <strong>@T("Myaccount.Overview.OrderBillingAddress")</strong><br />
+                    @Model.BillingAddress.FirstName @Model.BillingAddress.LastName<br />
+                    @Model.BillingAddress.Address1 &nbsp<br />
+                    @Model.BillingAddress.City , @(Model.BillingAddress.StateProvinceName == null ? "" : Model.BillingAddress.StateProvinceName)
+                    @Model.BillingAddress.ZipPostalCode<br />
+                    @(Model.BillingAddress.CountryName == null ? "" : Model.BillingAddress.CountryName)<br />
+                </div>
+                <div class="shippingAdress">
+                    <strong>@T("Myaccount.Overview.OrderShippingAddress")</strong><br />
+                    @Model.ShippingAddress.FirstName @Model.ShippingAddress.LastName<br />
+                    @Model.ShippingAddress.Address1 &nbsp<br />
+                    @Model.ShippingAddress.City , @(Model.ShippingAddress.StateProvinceName == null ? "" : Model.ShippingAddress.StateProvinceName)
+                    @Model.ShippingAddress.ZipPostalCode<br />
+                    @(Model.ShippingAddress.CountryName == null ? "" : Model.ShippingAddress.CountryName)<br />
+                </div>
+                <div class="phoneNumber">
+                    <strong>@T("Order.ShippingAddress.Phonenumber")</strong><br />
+                    @Model.BillingAddress.PhoneNumber<br />
+                </div>
+                <div class="emailAdress">
+                    <strong>@T("Order.ShippingAddress.Email")</strong><br />
+                    @Model.BillingAddress.Email<br />
+                </div>
+            </div>
+            @Html.Partial("~/Views/Order/OrderDetail.cshtml", Model)
+        </div>
+    </div>
+</div>

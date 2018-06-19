@@ -1,0 +1,113 @@
+﻿@model IList<ProductModel>
+
+@using Nop.Web.Framework.UI;
+@using Nop.Web.Models.Catalog;
+@if (Model.Count == 7)
+{
+    @*<div class="home-page-product-grid">
+        <div class="title">
+            @T("HomePage.Products")
+        </div>
+        <div class="clear">
+        </div>
+        @(Html.DataList<ProductModel>(Model, 3,
+            @<div class="item-box">
+                <div class="item">
+                    <div class="product-title">
+                        <a href="@Url.RouteUrl("Product", new { productId = item.Id, SeName = item.SeName })" title="@item.DefaultPictureModel.Title">
+                            @item.Name</a>
+                    </div>
+                    <div class="picture">
+                        <a href="@Url.RouteUrl("Product", new { productId = item.Id, SeName = item.SeName })" title="@item.DefaultPictureModel.Title">
+                            <img style="border-width: 0px;" alt="@item.DefaultPictureModel.AlternateText" src="@item.DefaultPictureModel.ImageUrl"
+                                        title="@item.DefaultPictureModel.Title" /></a>
+                    </div>
+                </div>
+            </div>
+            ))
+    </div>*@
+    string price = "";    
+    <div class="wrapper">
+        <div class="product_widget left">
+            <div class="top_product fl-rt">
+                <a href="@Url.RouteUrl("Product", new { productId = Model[0].Id, SeName = Model[0].SeName })">
+                    <img src="@Model[0].DefaultPictureModel.ImageUrl" alt="" class="image_right" height="241" width="185">
+                <div class="product_text odd">
+                    <h3>@Model[0].Manufacturer</h3>
+                    <span>@Model[0].Name</span>
+                    @{price = @Model[0].ProductPrice.CallForPrice ? T("ShoppingCart.OfferPrice").ToString() : Model[0].ProductPrice.Price;}
+                    <span class="tenpx">@price</span>
+                </div></a>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+            <div class="top_product">
+                <a href="@Url.RouteUrl("Product", new { productId = Model[1].Id, SeName = Model[1].SeName })">
+                    <img src="@Model[1].DefaultPictureModel.ImageUrl" alt="" height="402" width="309">
+                <div class="product_text">
+                    <h3>@Model[1].Manufacturer</h3>
+                    <span>@Model[1].Name</span>
+                    @{price = @Model[1].ProductPrice.CallForPrice ? T("ShoppingCart.OfferPrice").ToString() : Model[1].ProductPrice.Price;}
+                    <span class="tenpx">@price</span>
+                </div></a>
+            </div>
+        </div>
+        <div class="product_widget right">
+            <div class="top_product fl-lt">
+                <a href="@Url.RouteUrl("Product", new { productId = Model[5].Id, SeName = Model[5].SeName })">
+                    <img src="@Model[5].DefaultPictureModel.ImageUrl" alt="" height="241" width="185">
+                <div class="product_text odd">
+                    <h3>@Model[5].Manufacturer</h3>
+                    <span>@Model[5].Name</span>
+                    @{price = @Model[5].ProductPrice.CallForPrice ? T("ShoppingCart.OfferPrice").ToString() : Model[5].ProductPrice.Price;}
+                    <span class="tenpx">@price</span>
+                </div></a>
+            </div>
+            <div class="clear"></div>
+            <div class="top_product">
+                <a href="@Url.RouteUrl("Product", new { productId = Model[6].Id, SeName = Model[6].SeName })">
+                    <img src="@Model[6].DefaultPictureModel.ImageUrl" alt="" height="402" width="309">
+                <div class="product_text">
+                    <h3>@Model[6].Manufacturer</h3>
+                    <span>@Model[6].Name</span>
+                    @{price = @Model[6].ProductPrice.CallForPrice ? T("ShoppingCart.OfferPrice").ToString() : Model[6].ProductPrice.Price;}
+                    <span class="tenpx">@price</span>
+                </div></a>
+            </div>
+        </div>
+        <div class="product_widget_middle">
+            <div class="top_product">
+                <a href="@Url.RouteUrl("Product", new { productId = Model[2].Id, SeName = Model[2].SeName })">
+                    <img src="@Model[2].DefaultPictureModel.ImageUrl" alt="" height="434" width="332">
+                <div class="product_text">
+                    <h3>@Model[2].Manufacturer</h3>
+                    <span>@Model[2].Name</span>
+                    @{price = @Model[2].ProductPrice.CallForPrice ? T("ShoppingCart.OfferPrice").ToString() : Model[2].ProductPrice.Price;}
+                    <span class="tenpx">@price</span>
+                </div></a>
+            </div>
+            <div class="top_product2">
+                <a href="@Url.RouteUrl("Product", new { productId = Model[3].Id, SeName = Model[3].SeName })">
+                    <img src="@Model[3].DefaultPictureModel.ImageUrl" alt="" class="image_left" height="208" width="160">
+                <div class="product_text odd">
+                    <h3>@Model[3].Manufacturer</h3>
+                    <span>@Model[3].Name</span>
+                    @{price = @Model[3].ProductPrice.CallForPrice ? T("ShoppingCart.OfferPrice").ToString() : Model[3].ProductPrice.Price;}
+                    <span class="tenpx">@price</span>
+                </div></a>
+            </div>
+            <div class="top_product2 top_product2_right ">
+                <a href="@Url.RouteUrl("Product", new { productId = Model[4].Id, SeName = Model[4].SeName })">
+                    <img src="@Model[4].DefaultPictureModel.ImageUrl" alt="" class="image_right" height="208" width="160">
+                <div class="product_text odd">
+                    <h3>@Model[4].Manufacturer</h3>
+                    @{price = @Model[4].ProductPrice.CallForPrice ? T("ShoppingCart.OfferPrice").ToString() : Model[4].ProductPrice.Price;}
+                    <span>@Model[4].Name</span>
+                    <span class="tenpx">@price</span>
+                </div></a>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+}

@@ -1,0 +1,49 @@
+﻿@*AF*@
+@model Nop.Web.Models.Newsletter.NewsletterBoxModel
+@using Nop.Web.Framework;
+
+<div id="newsletterRegister" style="background-image: url('/Content/manken.jpg'); " >
+    <div class="registerForm">
+        <div class="_h3">@T("RegisterPopup.Title")</div>
+        <hr />
+        <p style="color: black; text-align: center;">@T("RegisterPopup.Description")</p>
+    	@using (Html.BeginForm("RegisterNewsLetter", "Customer", FormMethod.Post, new { id = "LandingRegisterationForm" }))
+     {
+         
+         <div id="productDescNewsletter"style="width:400px;background-color: white; height: auto; padding-right: 20px; margin-right: 20px; background-repeat: no-repeat; opacity:0.8;">
+         
+         <div id="loginLeft"><br/>
+          
+             <dl class="formfieldNewsLetter" style="width:400px;">
+                 
+                 <dt style="width:80px;">@Html.LabelFor(model => model.FirstName,new {style="width:40px; margin-left:20px; color:black;"}):</dt>
+                 
+                 <dd style="width: 300px;">
+                    @Html.EditorFor(model => model.FirstName,new {style="width:240px; height:25px;"} )@Html.ValidationMessageFor(model => model.FirstName)
+                </dd>
+              
+                    <dt style="width:80px;"> @Html.LabelFor(model => model.LastName, new { style = "width:40px;margin-left:20px;color:black;" }): </dt>
+                 
+                 <dd style="width: 300px;">
+                        @Html.EditorFor(model => model.LastName, new { style = "width:240px; height:25px;" })@Html.ValidationMessageFor(model => model.LastName)
+                 </dd>
+                
+                <dt style="width:80px;">@Html.LabelFor(model => model.Email, new { style = "width:40px;margin-left:20px;color:black;" }): </dt>
+                 
+                 <dd style="width: 300px;">
+                    @Html.EditorFor(model => model.Email,new { style = "width:240px; height:25px;" })@Html.ValidationMessageFor(model => model.Email)
+                </dd>
+               
+            </dl>
+        </div>
+         </div>
+            
+         <div id="submitClearfix" class="submit clearfix" style=" width:400px; background-color: white; opacity: 0.9;">
+             <a  class="button1" style="margin-right: 23px;" href="javascript:;">@T("Account.NewsLetter.Submit")</a>
+         </div>
+        
+     }
+    	    
+    </div>
+</div>
+         

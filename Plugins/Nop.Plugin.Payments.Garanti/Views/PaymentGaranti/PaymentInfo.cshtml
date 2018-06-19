@@ -1,0 +1,58 @@
+﻿@{
+    Layout = "";
+}
+@model Nop.Plugin.Payments.Garanti.Models.PaymentInfoModel
+@using Nop.Web;
+@using Nop.Web.Framework;
+@using Nop.Plugin.Payments.Garanti;
+
+@using (Html.BeginForm("GetPaymentInfo", "PaymentGaranti", FormMethod.Post, new { id = "PaymentsGaranti" }))
+{
+<div id="withCard">
+    <p>
+        <img src="@Url.Content("~/_img/cardType.png")" alt="" /></p>
+    <p>
+    @Html.AFRadioButton("Payments.Garanti", @T("Payment.PaymentMethod.CC").Text, group: "paymentMethod", selected: true)
+        </p>
+    <dl class="formfield">
+        <dt>@Html.NopLabelFor(model => model.CreditCardTypes, false) :</dt>
+        <dd>
+            @Html.AFDropDown("ccTypes", Model.CreditCardTypes, "style=\"width:200px;\"")
+          @*  @Html.DropDownListFor(model => model.CreditCardType, Model.CreditCardTypes, new { @class = "dropdownlists", style = "display:none;" })*@
+        </dd>
+        <dt>@Html.NopLabelFor(model => model.CardholderName, false):</dt>
+        <dd>
+            @Html.TextBoxFor(model => model.CardholderName, new { style = "Width: 165px;", autocomplete = "off" })
+            @Html.ValidationMessageFor(model => model.CardholderName)
+        </dd>
+        <dt>@Html.NopLabelFor(model => model.CardNumber, false):</dt>
+        <dd>
+            @* <input type="text" />*@
+            @Html.TextBoxFor(model => model.CardNumber, new { style = "Width: 165px;", autocomplete = "off", maxlength = 22 })
+            @Html.ValidationMessageFor(model => model.CardNumber)
+        </dd>
+        <dt>@Html.NopLabelFor(model => model.CardCode, false):</dt>
+        <dd>
+            <div class="row clearfix">
+                <div class="securitycode">
+                    @Html.TextBoxFor(model => model.CardCode, new { style = "Width: 60px;", autocomplete = "off", maxlength = 4 })
+                    @Html.ValidationMessageFor(model => model.CardCode)
+                </div>
+                <div class="securityQuestion">
+                    <a href="javascript:;">[ ? ]</a></div>
+            </div>
+        </dd>
+        <dt>@Html.NopLabelFor(model => model.ExpireMonth, false):</dt>
+        <dd>
+            <div class="years clearfix">
+                <div class="month">
+                    @Html.AFDropDown("ccMonth", Model.ExpireMonths)
+                </div>
+                <div class="year">
+                    @Html.AFDropDown("ccYear", Model.ExpireYears)
+                </div>
+            </div>
+        </dd>
+    </dl>
+</div>
+}

@@ -1,0 +1,8 @@
+﻿Group: Misc
+FriendlyName: XmlUpdateFromRotap xml products exporter
+SystemName: Misc.XmlUpdateFromRotap
+Version: 1.02
+SupportedVersions: 2.40
+Author: AF team
+DisplayOrder: 1
+FileName: Nop.Plugin.Misc.XmlUpdateFromRotap.dll

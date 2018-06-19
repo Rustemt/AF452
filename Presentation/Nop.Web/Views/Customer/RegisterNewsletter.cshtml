@@ -1,0 +1,52 @@
+﻿@model Nop.Web.Models.Customer.RegisterModel
+@using Nop.Web.Framework;
+@section JavaScript
+{
+}
+<div class="navigationPopup" id="NewsLetterNotification">
+    <div class="thankyou">
+        <div>
+            Thank you<br />
+            for registering for updates.
+        </div>
+        <p>
+            You will begin receiving emails<br />
+            shortly.</p>
+    </div>
+   @* <div class="popupClose">
+        <a href="javascript:;">CLOSE</a></div>*@
+</div>
+
+<div class="navigationPopup">
+@using (Html.BeginForm("RegisterNewsLetter", "Customer", FormMethod.Post, new { id="RegisterNewsLetter"}))
+{
+    <dl class="popupField">
+        <dt>@Html.LabelFor(model => model.FirstName) : <span>*</span></dt>
+        <dd>
+            @Html.EditorFor(model => model.FirstName)<br />
+            @Html.ValidationMessageFor(model => model.FirstName)
+        </dd>
+        <dt>@Html.LabelFor(model => model.LastName) : <span>*</span></dt>
+        <dd>
+            @Html.EditorFor(model => model.LastName)<br />
+            @Html.ValidationMessageFor(model => model.LastName)
+        </dd>
+        <dt>@Html.LabelFor(model => model.Gender) : </dt>
+        <dd>
+            @Html.AFDropDown("Gender", Model.Genders)
+        </dd>
+        <dt>@Html.LabelFor(model => model.Email) : <span>*</span></dt>
+        <dd>
+            @Html.EditorFor(model => model.Email)<br />
+            @Html.ValidationMessageFor(model => model.Email)
+        </dd>
+    </dl>
+    <div class="requiredLine clearfix">
+        <div class="required">
+            <span>*</span>@T("Account.Fields.Required")</div>
+        <div class="submit">
+            <a class="submit" href="javascript:;">@T("Account.NewsLetter.Submit")</a></div>
+    </div>
+    @*<div class="popupClose"><a href="#">@T("Common.Close")</a></div>*@
+}
+</div>

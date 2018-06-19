@@ -1,0 +1,35 @@
+﻿@*AF*@
+@using Nop.Web.Framework.Localization;
+@using Nop.Core;   
+@{
+    string applicationPath = Request.ApplicationPath;
+    string url = Request.Url.PathAndQuery;   
+    var localizedUrl = url.AddLocalizedPathToRawUrl(applicationPath, WorkContext.WorkingLanguage);
+    localizedUrl = WebHelper.GetFullPath(localizedUrl);
+    
+    }
+<div id="shareProduct" class="clearfix">
+    <span class="shareSpan">@T("ProductDetail.Share")</span>
+    @Html.Action("ProductEmailAFriend")
+    <div id="fb-root"></div>
+<script type="text/javascript">    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/tr_TR/all.js#xfbml=1";
+        fjs.parentNode.insertBefore(js, fjs);
+    } (document, 'script', 'facebook-jssdk'));</script>
+    <a target="_blank" href="http://www.facebook.com/share.php?u=@localizedUrl" show_faces="false" layout="button_count" send="false" class="fb-like button2" id="shareFB">
+        <img src="@Url.Content("~/_img/facebook-icon.png")" width="15" height="15" alt="Facebook"/>FACEBOOK</a>
+ @* <div style="" class="fb-like"  data-send="false" data-width="450" data-show-faces="false">FACEBOOK</div>
+  <div class="fb-like" data-send="false" data-layout="button_count" data-width="450" data-show-faces="true" data-font="arial"></div>
+  <ul class="ssoc">
+      <li><a rel="nofollow" title="Share this on Facebook" target="_blank" href="http://www.facebook.com/share.php?u=@Request.Url.AbsoluteUri"
+          class="soci sfb"><span></span></a></li>
+      <li><a rel="nofollow" title="Tweet This!" target="_blank" href="http://twitter.com/share?url=@Request.Url.AbsoluteUri"
+          class="soci stwit"><span></span></a></li>
+        </ul>*@
+    <a target="_blank" href="http://twitter.com/share?url=@Request.Url.AbsoluteUri"  show_faces="false" layout="button_count" send="false" class="button2">
+        <img src="@Url.Content("~/_img/twitter-icon.png")" width="15" height="15" alt="Twitter" />TWITTER</a>
+    <a href="javascript:print();" class="button2 soft">@T("ProductDetail.Print")</a>
+</div>

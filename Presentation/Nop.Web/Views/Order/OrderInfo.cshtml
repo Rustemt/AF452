@@ -1,0 +1,76 @@
+﻿@model Nop.Web.Models.Order.OrderDetailsModel
+@using Nop.Web.Framework;
+@{  string statusClass = "";
+    switch (Model.Status)
+    {
+        case Nop.Core.Domain.Orders.OrderStatus.Cancelled:
+            statusClass = "cancelled";
+            break;
+        case Nop.Core.Domain.Orders.OrderStatus.Complete:
+            statusClass = "shipped";
+            break;
+        default:
+            statusClass = "waiting";
+            break;
+    }
+    if(Model.ShippingStatus=="Delivered" || Model.ShippingStatus=="Shipped")
+    {
+        statusClass = "shipped";
+    }
+}
+<h5 class="title">@T("Overview.Orders.OrderDetail")</h5>
+<div class="webOrderInfo">
+    <div class="webOrderInfoDetails clearfix">
+        <div class="webOrderTitle">@T("Overview.Order.Number")</div>
+        <div class="webOrderDesc">:
+            <a href="@Url.RouteUrl("OrderDetails", new { orderId = Model.Id })" style="color:#666;">
+                <span>@Model.Id &nbsp</span></a></div>
+    </div>
+    <div class="webOrderInfoDetails clearfix">
+        <div class="webOrderTitle">@T("Overview.Order.Date")</div>
+        <div class="webOrderDesc">:
+            <span>@Model.CreatedOn.ToShortDateString()</span></div>
+    </div>
+    <div class="webOrderInfoDetails clearfix">
+        <div class="webOrderTitle">@T("Overview.Order.TrackNumber")</div>
+        <div class="webOrderDesc">:
+         <span> <a href="@Model.TrackingUrl" target="_blank">@Model.TrackingNumber</a></span>
+@*
+         @if (Model.ShippingMethod.Trim().ToLower()=="ups")
+         {
+            <span> <a href="@("http://www.ups.com.tr/WaybillSorgu.aspx?Waybill="+Model.TrackingNumber)" target="_blank">@Model.TrackingNumber</a></span>
+         }
+          @if (Model.ShippingMethod.Trim().ToLower()=="dhl")
+         {
+           <span>  <a href="@("http://www.dhl.com.tr/content/tr/en/express/tracking.shtml?brand=DHL&AWB="+Model.TrackingNumber)" target="_blank">@Model.TrackingNumber</a></span>
+         }*@
+         </div>
+    </div>
+    <div class="webOrderInfoDetails clearfix">
+        <div class="webOrderTitle">@T("Overview.Order.Status")</div>
+        <div class="webOrderDesc">:
+            <span class="@statusClass">@Model.OrderStatus</span></div>
+    </div>
+    @if (Model.IsReturnRequestAllowed && Model.HasReturnRequest)
+    {
+        <div class="webOrderInfoDetails clearfix">
+            <div class="webOrderTitle">@T("Overview.Order.ReturnStatus")</div>
+            <div class="webOrderDesc">:
+                @{
+            
+        var rrList = Model.Items.Where(x => x.ItemsReturnRequest != null).ToList();
+        if (rrList.Count != 0)
+        {
+            var rr = rrList.OrderByDescending(x => x.ItemsReturnRequest.ReturnRequestDate).FirstOrDefault();
+                    <span class="">@rr.ItemsReturnRequest.ReturnRequestStatus</span>                    
+        }
+        else
+        {
+                    <span class="">@T("Order.IsReturnRequestAllowed")</span>
+        }
+
+                }
+            </div>
+        </div>
+    }
+</div>

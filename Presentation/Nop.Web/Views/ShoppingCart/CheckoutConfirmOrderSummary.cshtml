@@ -1,0 +1,51 @@
+﻿@model Nop.Web.Models.ShoppingCart.ShoppingCartModel
+@using Nop.Core.Domain.Orders
+@using Nop.Web.Models.Checkout
+@using Nop.Web.Models.Common
+@using Nop.Web.Framework.UI
+<div class="checkoutConfirmSummary">
+<ul class="contentTop clearfix">
+    <li class="skuNo">@T("Checkout.OrderSummary.SKU")</li>
+    <li class="picture"></li>
+    <li class="orderDesc">@T("Checkout.OrderSummary.Item")</li>
+    <li class="qty">@T("Checkout.OrderSummary.Quantity") </li>
+    <li class="status">@T("Checkout.OrderSummary.UnitPrice")</li>
+    <li class="price">@T("Checkout.OrderSummary.Price")</li>
+</ul>
+@for (int i = 0; i < Model.Items.Count; i++)
+{
+    var item = Model.Items[i];
+    <ul class="eachItem clearfix @(i == (Model.Items.Count - 1) ? "summary" : "")">
+        <li class="skuNo">@item.Sku </li>
+        <li class="picture">
+            <img src="@item.Picture.ImageUrl" alt="@item.Picture.AlternateText" /></li>
+        <li class="orderDesc">
+            <h1>@item.Manufacturer</h1>
+            <p>@item.ProductName</p>
+            <h1>@item.ShippingNotification</h1>
+            @if (!String.IsNullOrEmpty(item.AttributeInfo))
+            {
+                @Html.Raw(item.AttributeInfo)
+            }
+            
+        </li>
+        <li class="qty">@item.Quantity</li>
+        <li class="status">@item.UnitPrice</li>
+        <li class="price">@item.SubTotal
+          <div style="margin-top:20px">
+                         
+                            @if (!String.IsNullOrEmpty(item.Discount))
+                            {
+                                <p class="discount">
+                                    @T("ShoppingCart.ItemYouSave")<text>:</text>@item.Discount
+                                </p>
+                            }
+                        </div>
+        </li>
+    </ul>
+}
+<ul class="subTotal clearfix" id="ulOrderTotals">
+    @Html.Action("OrderTotals", "ShoppingCart", new { isEditable = false })
+</ul>
+
+</div>

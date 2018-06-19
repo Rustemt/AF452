@@ -1,0 +1,48 @@
+﻿@model Nop.Web.Models.Checkout.CheckoutPaymentMethodModel
+@using Nop.Core.Domain.Orders
+@using Nop.Web.Models.Checkout
+@using Nop.Web.Models.Common
+@using Nop.Web.Framework.UI
+@using Nop.Web.Framework
+@{
+    var ccPaymentMethod = Model.PaymentMethods.FirstOrDefault(x => x.PaymentMethodSystemName.StartsWith("Payments.CC"));
+    var purchaseOrderMethod = Model.PaymentMethods.FirstOrDefault(x => x.PaymentMethodSystemName == "Payments.PurchaseOrder");
+    //var defaultPaymentMethod = ccPaymentMethod != null ? "Payments.CC" : purchaseOrderMethod.PaymentMethodSystemName;
+
+    string defaultPaymentMethod = null;
+    
+    if (Model.OrderTotal.Substring(0, 1) == "0")
+    {
+         defaultPaymentMethod = purchaseOrderMethod.PaymentMethodSystemName;
+    }
+    else
+    {
+         defaultPaymentMethod = "Payments.CC";
+    }
+}
+<div id="paymentOptions">
+    <input type="hidden" name="paymentMethod" value="@defaultPaymentMethod" />
+    <h1 class="title">
+        <span>3</span>@T("Payment.ChoosePaymentOption")</h1>
+    <p>
+    @T("Payment.Explanation")
+        
+    </p>
+    <div id="paymentMethod" class="clearfix">
+        @if (ccPaymentMethod != null)
+        {
+            Html.RenderAction("CCPaymentInfo");
+        }
+        <div id="withOtherMethod">
+           @* <p>
+                @Html.AFRadioButton("Payments.Paypal", "PAYPAL", "paymentMethod",selected:false)
+                <img src="_img/paypal.png" alt="" />
+            </p>*@
+            @if (purchaseOrderMethod != null)
+            {
+                var info = purchaseOrderMethod.CheckoutPaymentInfoModel;
+                @Html.Action(info.PaymentInfoActionName, info.PaymentInfoControllerName, info.PaymentInfoRouteValues)
+            }
+        </div>
+    </div>
+</div>

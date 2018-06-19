@@ -1,0 +1,79 @@
+﻿@*AF*@
+@model Nop.Web.Models.Common.MenuModel
+<ul id="navigation" class="homepage">
+    @foreach (var header in Model)
+    {
+        <li class="popup"><a href="@header.Url" title="@header.Title">@Html.Raw(header.Name)</a>
+       
+        @if (header.HasMenu)
+        {
+            <div class="navigationPopup">
+                @if (header.SubHeaders.Count > 0)
+                {
+                    <ul class="clearfix">
+                        @foreach (var subHeader in header.SubHeaders)
+                        {
+                            <li>
+                            <a href="@(subHeader.Items.Count == 0 ? subHeader.Url : "#")" @(subHeader.Items.Count == 0 ? "class=link" : "")>@Html.Raw(subHeader.Name)</a>
+                                <ul>
+                                    @foreach (var item in subHeader.Items)
+                                    {
+                                             
+                                        <li><a href="@item.Url" >@Html.Raw(item.Name) </a></li>
+                                    }
+                                </ul>
+                            </li>
+                        }
+                    </ul>
+                }
+                @if (header.Brands.Count > 0)
+                { 
+                    <ul class="clearfix">
+                        <li class="view-all-brands"><a href="@header.AllBrands.Url">@Html.Raw(header.AllBrands.Name)</a></li>
+                        <li><a href="#">@T("Menu.Brands") </a>
+                            <ul>
+                                @for (int j = 0; j < 4; j++)
+                                {
+                                    if (j == header.Brands.Count) { break; }
+                                    var brand = header.Brands[j];
+                                    <li><a href="@brand.Url" title="@brand.Title">@Html.Raw(brand.Name)</a></li>
+                                }
+                            </ul>
+                        </li>
+                        @if (header.Brands.Count > 4)
+                        {
+                            <li><a href="#">&nbsp;</a>
+                                <ul>
+                                    @for (int j = 4; j < 8; j++)
+                                    {
+                                        if (j == header.Brands.Count) { break; }
+                                        var brand = header.Brands[j];
+                                        <li><a href="@brand.Url" title="@brand.Title">@Html.Raw(brand.Name)</a></li>
+                                    }
+                                </ul>
+                            </li>
+                        }
+                    </ul>
+                }
+                @if (header.ContentItem != null)
+                {
+                    <div class="scarves clearfix">
+                        @if (header.ContentItem.ImagePath != null)
+                        {
+                            <div class="scarvesImage">
+                                <img src="@header.ContentItem.ImagePath" alt="@header.ContentItem.Title" />
+                            </div>
+                        }
+                        <div class="scarvesDetails">
+                            <p class="scarvesDetailsContentItemTitle">@header.ContentItem.Title</p>
+                            <p class="scarvesDetailsContentItemContent">@Html.Raw(Nop.Core.Html.HtmlHelper.StripTags(header.ContentItem.Content))</p>
+                            <a href="@header.ContentItem.Url" class="view">@T("Menu.ViewAll")</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        </li>
+   
+    }
+</ul>

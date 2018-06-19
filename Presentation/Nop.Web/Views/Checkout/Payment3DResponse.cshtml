@@ -1,0 +1,25 @@
+﻿@model Nop.Web.Models.Checkout.CheckoutPayment3DResponse 
+@*AF*@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title></title>
+    <script src="@Url.Content("~/Scripts/jquery.js")" type="text/javascript"></script>
+
+
+       <script type="text/javascript">
+           var url = '@Model.UrlToRedirect';
+
+             $(function() {
+                 window.top.location.href = url;
+                });
+        </script>
+
+
+</head>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,16 @@
+﻿@model Nop.Web.Models.Common.LanguageSelectorModel
+@if (Model.AvailableLanguages.Count > 1)
+{
+     
+    <a style="position:static;float:right;display:inline-block; margin-top:0px" href="" class="language" id="language" title="Choose your language">@Model.CurrentLanguage.Name</a>
+   <ul style="top:28px;" class="langList" id="langList">
+   @foreach (var lang in Model.AvailableLanguages)
+   {
+    	<li id="@lang.Id"><a href="@Url.Action("LanguageSelected", "Common", new { customerlanguage = lang.Id })" title="@lang.Name">@lang.Name</a></li>
+   }
+    </ul>
+    <span style="float:right; line-height:18px; margin-right:0px; display:inline-block;" class="currency">@T("LanguageSelector.Language")</span>
+   
+}
+
+

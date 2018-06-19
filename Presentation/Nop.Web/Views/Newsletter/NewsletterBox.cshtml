@@ -1,0 +1,60 @@
+﻿@model NewsletterBoxModel
+@using Nop.Web.Framework
+@using Nop.Web.Models.Newsletter
+<style type="text/css">
+    #Surname
+    {
+        position:fixed;
+        top:-1500px;    
+    }
+</style>
+<div class="navigationPopup"  id="NewsLetterSubscription">
+@using (Html.BeginForm("SubscribeNewsletter", "NewsLetter", FormMethod.Post, new { id = "RegisterNewsLetter", autocomplete = "off" }))
+{
+    <input type="text" id="Surname" name="Surname" value="" />
+    <dl class="popupField">
+        <dt>@Html.LabelFor(model => model.FirstName) : <span>*</span></dt>
+        <dd>
+            @Html.EditorFor(model => model.FirstName)
+            @Html.ValidationMessageFor(model => model.FirstName)
+        </dd>
+        <dt>@Html.LabelFor(model => model.LastName) : <span>*</span></dt>
+        <dd>
+            @Html.EditorFor(model => model.LastName)
+            @Html.ValidationMessageFor(model => model.LastName)
+        </dd>
+        <dt>@Html.LabelFor(model => model.Gender) : </dt>
+        <dd style="width:233px">
+            @Html.AFDropDown("Gender", Model.Genders)
+            @Html.ValidationMessageFor(model => model.Gender)
+        </dd>
+        <dt>@Html.LabelFor(model => model.Email) : <span>*</span></dt>
+        <dd>
+            @Html.EditorFor(model => model.Email)
+            @Html.ValidationMessageFor(model => model.Email)
+        </dd>
+    </dl>
+    <div class="requiredLine clearfix">
+        <div class="required">
+            <span>*</span>@T("Account.Fields.Required")</div>
+        <div class="submit">
+            <input type="submit" id="newsletter" class="submit" style="height:30px; padding-top:3px; text-align:center" value="@T("Account.NewsLetter.Submit")" />
+        </div>
+    </div>
+    <div class="popupClose"><a href="#">@T("Common.Close")</a></div>
+}
+
+<div class="navigationPopup" id="NewsLetterNotification" style="display:none;">
+    <div class="thankyou">
+        <div>
+            @T("NewsLetterSubscription.ThankYou")<br />
+            @T("NewsLetterSubscription.RegisterForUpdated")
+        </div>
+        <p>
+            @T("NewsLetterSubscription.Soon")<br />
+            @T("NewsLetterSubscription.ReceiveMails")</p>
+    </div>
+    <div class="popupClose">
+        <a href="javascript:;">@T("NewsletterBox.Close")</a></div>
+</div>
+</div>

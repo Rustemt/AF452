@@ -1,0 +1,41 @@
+﻿@model Nop.Web.Models.Catalog.ProductModel.ProductVariantModel.GiftCardModel
+@if (Model.IsGiftCard)
+{
+    using (Html.BeginForm("AddToCartProduct", "ShoppingCart", FormMethod.Post))
+    {   
+       
+        <div id="loginLeft"  style="width:350px;"><br/>
+            <dl class="formfieldGiftCard" style="width: 340px;">
+                <dt class="giftCard">@Html.LabelFor(model => model.RecipientName):</dt>
+                <dd>
+                    @Html.TextBoxFor(model => model.RecipientName)
+                </dd>
+
+                @if (Model.GiftCardType == Nop.Core.Domain.Catalog.GiftCardType.Virtual)
+                {
+                    <dt class="giftCard">@Html.LabelFor(model => model.RecipientEmail): </dt>
+                    <dd>
+                        @Html.TextBoxFor(model => model.RecipientEmail)
+                    </dd>
+                }
+                <dt class="giftCard">
+                    @Html.LabelFor(model => model.SenderName): </dt>
+                <dd>
+                    @Html.TextBoxFor(model => model.SenderName)
+                </dd>
+                @if (Model.GiftCardType == Nop.Core.Domain.Catalog.GiftCardType.Virtual)
+                {
+                    <dt class="giftCard">@Html.LabelFor(model => model.SenderEmail):</dt>
+                    <dd>
+                        @Html.TextBoxFor(model => model.SenderEmail)</dd>
+                }
+                <dt class="giftCard">
+                    @Html.LabelFor(model => model.Message): </dt>
+                <dd>
+                    @Html.TextAreaFor(model => model.Message, new { style = "Width: 190px; Height: 100px;" })
+                </dd>
+            </dl>
+        </div>
+   
+    }
+}

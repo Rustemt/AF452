@@ -1,0 +1,91 @@
+﻿@*AF*@
+@model Nop.Web.Models.Catalog.CatalogExtendedPagingFilteringModel
+@using Nop.Services.Catalog
+@{
+    var priceItem = Model.PriceRangeSliderFilter.Item;
+    string viewMode = Model.ViewMode ?? "grid2";
+
+    var webHelper = Nop.Core.Infrastructure.EngineContext.Current.Resolve<Nop.Core.IWebHelper>();
+    string UrlAll= webHelper.ModifyQueryString(webHelper.GetThisPageUrl(true), "PageSize" + "=" + 1000, null);
+    }           
+
+<div class="tools clearfix">
+            	<!-- grid starts -->
+                
+                  <div style="width: 150px;" class="toolItem">
+                    <div class="toolItemLeft">@T("ProductOptions.GridSize")</div>
+                    <div style="padding-top: 4px;" class="toolItemRight">
+                        <ul class="chooseGrid">
+                            <li id="grid1" class="small@(viewMode == "grid1" ? " on" : "")"><a title="Small" href="#">@T("ProductOptions.Small")</a></li>
+                            <li id="grid2" class="medium@(viewMode == "grid2" ? " on" : "")""><a title="Medium" href="#">@T("ProductOptions.Medium")</a></li>
+                            <li id="grid3" class="large@(viewMode == "grid3" ? " on" : "")""><a title="Large" href="#">@T("ProductOptions.Large")</a></li>
+                        </ul>
+                    </div>
+                  </div>      
+
+                <!-- grid ends -->
+
+                @if (Model.TogglePriceEnabled)
+                {
+                    <!-- toggle price --> 
+                  <div style="width: 128px;" class="toolItem" id="togglePrice">
+                    <div class="toolItemLeft">@T("ProductOptions.ShowPrice")</div>
+                    <div style="padding-top: 5px; margin-left: -10px;" class="toolItemRight"><a class="togglePrice" href="#">@T("Category.ProductList.PriceOff")</a></div>
+                    <input type="hidden" id="PriceOff" value="@T("Category.ProductList.PriceOff")" />
+                    <input type="hidden" id="PriceOn" value="@T("Category.ProductList.PriceOn")" />
+                  </div>
+                <!-- toggle price ends -->               
+                }
+                
+
+                  <!-- price slider -->
+                  <div class="toolItem" style="width: 325px;">
+                    <div class="toolItemLeft">@T("ProductOptions.PriceRange")</div>
+                    <div class="toolItemRight" style="padding-top: 4px;">
+                    	<div style="margin-top:4px" class="priceSlider"></div>
+                        <input type="hidden" id="slider-Min" value="@priceItem.Min" />
+                        <input type="hidden" id="slider-Max" value="@priceItem.Max" />
+                        <input type="hidden" id="slider-Value" value="@priceItem.Value" />
+                        <input type="hidden" id="slider-Step" value="@priceItem.StepSize" />
+                        @if (WorkContext.WorkingCurrency.CurrencyCode == "TRY")
+                        {
+                        <div class="priceSliderValue" style="width:120px"><strong>@priceItem.Value</strong>@WorkContext.WorkingCurrency.GetCurrencySymbol() @T("ProductOptions.AndUnder")</div> 
+                        }
+                        else
+                        {
+                        <div class="priceSliderValue"> @WorkContext.WorkingCurrency.GetCurrencySymbol() <strong>@priceItem.Value</strong>@T("ProductOptions.AndUnder")</div>                             
+                        }
+                    </div>
+                  </div>
+                <!-- price slider ends -->
+
+                <!-- drop down -->
+                  <div style="width: 225px;" class="toolItem">
+                    <div class="toolItemLeft">@T("ProductOptions.SortBy"):</div>
+                    <div style="width: 146px;" class="toolItemRight">
+                        <div class="selectBox">
+                            <span>@T("ProductOptions.Position")</span>
+                            <ul class="chooseOrder">
+                                <li class="on" value="0">@T("ProductOptions.Position")</li>
+                                <li value="15">@T("ProductOptions.LatestArrivals")</li>
+                                <li value="10">@T("ProductOptions.LowPrice")</li>
+                                <li value="11">@T("ProductOptions.HighPrice")</li>
+                            </ul>
+                        </div>
+                    </div>
+                  </div>
+                <!-- drop down ends -->
+
+                <!-- view all -->
+                 <div class="toolItem right">
+                 @*if (Model.TotalItems > Model.PageSize)
+                 {
+                 <a id="viewAll" class="button2 right" title="View All" href="@UrlAll">@T("ProductOptions.ViewAll")</a>
+                 }*@
+                  <input type="hidden" id="pageSize" value="@Model.PageSize" />
+                  <input type="hidden" id="pageNumber" value="@Model.PageNumber" />
+                   <input type="hidden" id="hasMore" value="@Model.HasNextPage" />
+                 </div>                
+                <!-- view all ends -->
+
+            </div>

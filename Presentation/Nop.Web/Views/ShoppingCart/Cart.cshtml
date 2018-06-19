@@ -1,0 +1,260 @@
+﻿@*AF*@
+@using System.Globalization;
+@using System.Text;
+@using Nop.Web.Models.Common
+@model Nop.Web.Models.ShoppingCart.ShoppingCartModel
+@{
+    Layout = "~/Views/Shared/_Root.cshtml";
+    Html.AddTitleParts(T("Titles.Cart").Text);
+    Html.AddMetaKeywordParts(T("Keywords.Cart").Text);
+    
+}
+@section JavaScript
+{
+ <link href="@Url.Content("~/Scripts/fancybox/jquery.fancybox-1.3.4.css")" type="text/css" rel="stylesheet"/>
+}
+@section JavaScriptVariables
+{
+    <script type="text/javascript">
+
+    </script>
+}
+<div id="container">
+    @{
+        string prodIds = "";
+        string prodPrices = "";
+        List<string> googleRemarketingProds = new List<string>();
+        List<string> googleRemarketingPrices = new List<string>();
+        
+        var messages = new List<string>();
+        bool outOfStock = false;
+        foreach (var sci in Model.Items)
+        {
+            if (sci.Warnings.Count > 0)
+            { 
+                outOfStock = true; 
+                messages.Add(T("Cart.RemoveItemMessage").Text);
+                break;
+            }
+        }
+        if (!string.IsNullOrWhiteSpace(Model.DiscountWarning))
+        {
+            messages.Add(Model.DiscountWarning);
+        }
+    
+    
+    }
+    @if (Model.Items.Count > 0)
+    {
+
+        if (messages.Count>0)
+        {
+            
+        <div class="clearfix" style="padding-bottom: 30px; padding-top: 30px;">
+            <div>
+                <div class="error_password" id="forgetPassword">
+                    <ul>@foreach(var msg in messages)
+                        {
+                            <li>
+                                <h1>@msg</h1>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+        }
+        
+        <div id="content" class="clearfix">
+            <div id="contentUp" class="clearfix">
+                <h1>@T("OrderDetails.Help")</h1>
+                <div id="contentUpRight">
+                    <a href="#customerCare" id="customerLink" class="button1 right">
+                        <img src="@Url.Content("~/_img/7x24.png")" width="36" height="36" alt="7x24" />@T("OrderDetails.EmailCustomerCare")</a>
+                    <div class="titleText">
+                        <span style=" margin-right:4px;">@T("OrderDetails.TollFree")</span>@T("ContactUs.PhoneNumber")</div>
+                </div>
+            </div>
+            <ul class="contentTop clearfix">
+                <li class="item">@T("OrderDetails.Header.Item")</li>
+                <li class="quantitiy">@T("OrderDetails.Header.Quantity")</li>
+                <li class="availibity">@T("OrderDetails.Header.Availability")</li>
+                <li class="price">@T("OrderDetails.Header.Price")</li>
+                <li class="totalPrice">@T("OrderDetails.Header.TotalPrice")</li>
+            </ul>
+            @foreach (var ci in Model.Items)
+            {
+                googleRemarketingProds.Add(ci.ProductId.ToString());
+                googleRemarketingPrices.Add(ci.UnitPriceValue.ToString("0.00", CultureInfo.InvariantCulture));
+                
+                <ul class="eachItem clearfix">
+                    <li class="itemPicture"><a href="@Url.RouteUrl("Product", new { productId = ci.ProductId, variantId = ci.VariantId, SeName = ci.ProductSeName })">
+                        <img src="@ci.Picture.ImageUrl" alt="@ci.Picture.AlternateText" /></a></li>
+                    <li class="itemDetails" style="position: relative; padding-left: 15px; height: 125px">
+                        <h1>@ci.Manufacturer</h1>
+                        <a href="@Url.RouteUrl("Product", new { productId = ci.ProductId, variantId = ci.VariantId, SeName = ci.ProductSeName })">
+                            <p>@ci.ProductName</p>
+                        </a>
+                        @if (!String.IsNullOrEmpty(ci.AttributeInfo))
+                        {
+                            @Html.Raw(ci.AttributeInfo)
+                        }
+                        <div style="position: absolute; bottom: 0px; left: 0px">
+                            @foreach (var msg in ci.Warnings)
+                            {
+                                <p style="color: Red;">@msg</p>
+                            }
+                         @*   @if (!String.IsNullOrEmpty(ci.Discount))
+                            {
+                                <p class="discount">
+                                    @T("ShoppingCart.ItemYouSave")<text>:</text>@ci.Discount
+                                </p>
+                            }*@
+                        </div>
+                    </li>
+                    <li class="itemRemove"><a href="@Url.Action("DeleteCartItem", new { id = ci.Id })">@T("Cart.RemoveItem")</a></li>
+                    <li class="itemQuantity">
+                        <div class="selectBox">
+                            <span>@ci.Quantity</span>
+                            <ul>
+                                @for (int i = 1; i <= Math.Min(ci.MaxQuantity, 10); i++)
+                                {
+                                    if (i == ci.Quantity)
+                                    { <li class="on">@i</li> }
+                                    else
+                                    { <a href="@Url.Action("UpdateCartItem", new { id = ci.Id, qty = i })"><li>@i</li></a> }
+                                }
+                            </ul>
+                        </div>
+                    </li>
+                    @if (ci.MaxQuantity > 0)
+                    {
+                        <li class="itemAvailibity checked">@T("Cart.InStock")</li>
+                    }
+                    else
+                    {
+                        <li class="itemAvailibity outofstock">@T("Cart.OutOfStock")</li>           
+                    }
+                    <li class="itemPrice">@ci.UnitPrice</li>
+                    <li class="itemTotalPrice">
+                        @ci.SubTotal
+                       @if (!String.IsNullOrEmpty(ci.Discount))
+                        {
+                            <p class="discount">
+                                @T("ShoppingCart.ItemYouSave")<text>:</text>@ci.Discount
+                            </p>
+                        }
+                    </li>
+                </ul> 
+            }
+            @{
+                               System.Text.StringBuilder sbProds = new System.Text.StringBuilder();
+                               bool sw = false;
+                               sbProds.Append("[");
+                               foreach (string str in googleRemarketingProds)
+                               {
+                                   if(sw == false)
+                                   {
+                                       sbProds.Append(str);
+                                       sw = true;
+                                   }else{
+                                        sbProds.Append(", " + str);
+                                   }
+                               }
+                               sbProds.Append("]");
+
+                               sw = false;
+                               System.Text.StringBuilder sbPrices = new System.Text.StringBuilder();
+                               sbPrices.Append("[");
+                               foreach (string str in googleRemarketingPrices)
+                               {
+                                   if (sw == false)
+                                   {
+                                       sbPrices.Append(str);
+                                       sw = true;
+                                   }
+                                   else
+                                   {
+                                       sbPrices.Append(", " + str);
+                                   }
+                               }
+                               sbPrices.Append("]");
+
+                               prodIds = sbProds.ToString();
+                               prodPrices = sbPrices.ToString();
+                               }
+            <ul class="subTotal clearfix">
+                
+                @if (Model.ShowDiscountBox)
+                {
+                    using (Html.BeginRouteForm("ShoppingCart", FormMethod.Post))
+                    {
+                        <li class="promotionalCode clearfix">
+                            <div class="codeText">@T("ShoppingCart.Totals.PromotionCodePromt"):</div>
+                            <div class="codeInput">
+                                <input type="text" name="discountcouponcode" id="discountcouponcode" value="@Model.DiscountCouponCode"/>
+                            </div>
+                            <div class="codeSubmit">
+                                <input type="submit" name="applydiscountcouponcode" value="@T("ShoppingCart.Totals.PromotionCodeSubmit")"  id="applydiscountcouponcode" style="height:25px;padding-bottom:3px;"/>
+                            </div>
+                        </li>
+                    }
+                }
+                 @Html.Action("OrderTotals", "ShoppingCart", new { isEditable = Model.IsEditable })
+
+                @if (Model.ShowGiftCardBox)
+                {
+                    using (Html.BeginRouteForm("ShoppingCart", FormMethod.Post))
+                    {
+                        <li class="promotionalCode clearfix" style="margin-top: 50px; position:absolute;">
+                            <div class="codeText"> @T("ShoppingCart.GiftCardCouponCode.Tooltip"):</div>
+                            <div class="codeInput"> 
+                                <input name="giftcardcouponcode" type="text" id="giftcardcouponcode" style="width: 187px;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         height: 26px; border-top: 1px solid #b2b2b2;" />&nbsp;
+                            </div>
+                            <div class="codeSubmit">
+                                <input type="submit" name="applygiftcardcouponcode"  value="@T("ShoppingCart.GiftCardCouponCode.Button")"
+                                       id="applygiftcardcouponcode" style="height:25px; width:auto; padding-left:8px; padding-right: 8px; padding-bottom:3px;" class="applycouponcodebutton"/>
+                            </div>
+                        </li>
+                    }
+                }
+                
+            </ul>
+            <ul class="continueShopping clearfix">
+                <li class="checkOut"><a href="@Url.RouteUrl("Checkout")">@T("Checkout")</a></li>
+                <li class="continueShop"><a href="@Url.Action("Index", "Home")">@T("Cart.ContinueShopping")</a></li>
+            </ul>
+            @Html.Action("CrossSellProducts", "Catalog")
+        </div>
+    }
+    else
+    {
+        MessageModel msgModel = ViewBag.MessageModel;
+        @Html.Partial("Message", msgModel)
+    }
+    @Html.Action("ContactBox", "Common")
+</div>
+
+@section PostDocument
+{
+}
+
+
+@section BodyEnd
+{
+    <!-- Google Code for Remarketing Tag -->
+    <script type="text/javascript">
+        var google_tag_params = {
+            ecomm_prodid: @prodIds.ToString(),
+            ecomm_pagetype: 'cart',
+            ecomm_totalvalue: @prodPrices.ToString()
+            };
+    </script>
+}
+
+@section GoogleAnalytics
+{    
+    ga('set', 'dimension1', '@prodIds.ToString()');   
+    ga('set', 'dimension2', 'cart');   // home, cart, purchase, productdetail, searchresults
+    ga('set', 'dimension3', '@prodPrices.ToString()'); 
+}

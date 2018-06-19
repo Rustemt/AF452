@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Products Version="2.40">
+  <ProductVariant>
+    <ProductVariantId>11</ProductVariantId>
+    <ProductId>11</ProductId>
+    <Name>50's Rockabilly Polka Dot Top JR Plus Size</Name>
+    <SKU>H-1</SKU>
+    <StockQuantity>10000</StockQuantity>
+    <Price>2600.0000</Price>
+    <OldPrice>0.0000</OldPrice>
+  </ProductVariant>
+  <ProductVariant>
+    <ProductVariantId>12</ProductVariantId>
+    <ProductId>12</ProductId>
+    <Name>Adobe Photoshop Elements 7</Name>
+    <SKU>H-30</SKU>
+    <StockQuantity>10000</StockQuantity>
+    <Price>1500.0000</Price>
+    <OldPrice>0.0000</OldPrice>
+  </ProductVariant>
+  <ProductVariant>
+    <ProductVariantId>51</ProductVariantId>
+    <ProductId>50</ProductId>
+    <Name>Adobe Photoshop Elements 37</Name>
+    <SKU>HN-101</SKU>
+    <StockQuantity>10000</StockQuantity>
+    <Price>3.0000</Price>
+    <OldPrice>0.0000</OldPrice>
+  </ProductVariant>
+  <ProductVariant>
+    <ProductVariantId>49</ProductVariantId>
+    <ProductId>48</ProductId>
+    <Name>Adobe Photoshop Elements 2</Name>
+    <SKU>HN-102</SKU>
+    <StockQuantity>10000</StockQuantity>
+    <Price>25.9900</Price>
+    <OldPrice>0.0000</OldPrice>
+    <ProductAttributes />
+  </ProductVariant>
+  <ProductVariant>
+    <ProductVariantId>49</ProductVariantId>
+    <ProductId>48</ProductId>
+    <Name>Adobe Photoshop Elements 2</Name>
+    <SKU>H-28</SKU>
+    <StockQuantity>10000</StockQuantity>
+    <Price>25.9900</Price>
+    <OldPrice>0.0000</OldPrice>
+    <ProductAttributes />
+  </ProductVariant>
+</Products>

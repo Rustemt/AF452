@@ -1,0 +1,39 @@
+﻿@{
+    Layout = null;
+    string price = "";
+}
+@using System.Web.UI.WebControls
+@using iTextSharp.text.pdf.qrcode
+@using Nop.Core.Infrastructure
+@model Nop.Web.Models.Catalog.RecentlyAddedProductsModel280
+
+<h3 class="cont_title style1"><span><a href="@Url.RouteUrl("RecentlyAddedProducts")">@T("Products.NewProducts")</a></span></h3>
+<div class="wrapper gift_slider clearfix">
+    <a class="gift_slider_arrow" id="prev5" href="#"></a>
+    <a class="gift_slider_arrow second" id="next5" href="#"></a>
+    <ul id="foo2">
+        @foreach (var variant in Model.Products)
+        {
+            if (variant.ProductPrice.HidePriceIfCallforPrice)
+            {
+                price = "";
+            }
+            else if (variant.ProductPrice.PriceWithDiscount != null)
+            {
+                price = variant.ProductPrice.PriceWithDiscount;
+            }
+            else
+            {
+                price = variant.ProductPrice.Price;
+            }            
+            <li><a href="@Url.RouteUrl("Product", new { productId = variant.Id, variantId = variant.VariantId, SeName = variant.SeName })">
+                <img src="@variant.DefaultPictureModel.ImageUrl" alt="@variant.DefaultPictureModel.AlternateText" height="237" width="182">
+                <div class="product_text second">
+                    <h3>@variant.Manufacturer</h3>
+                    <span>@variant.Name</span>
+                    <span>@price</span>
+                </div></a>
+            </li>
+        }
+    </ul>
+</div>

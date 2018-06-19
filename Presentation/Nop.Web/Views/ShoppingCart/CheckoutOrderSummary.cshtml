@@ -1,0 +1,65 @@
+﻿@model Nop.Web.Models.ShoppingCart.ShoppingCartModel
+@using Nop.Core.Domain.Orders
+@using Nop.Web.Models.Checkout
+@using Nop.Web.Models.Common
+@using Nop.Web.Framework.UI
+<h1 class="title">
+    <span>4</span> @T("Checkout.OrderSummary") <strong>@string.Format("({0} {1})", Model.Items.Count, T("Checkout.OrderSummary.Item"))</strong></h1>
+@*<ul class="contentTop clearfix">
+    <li class="item">@T("Checkout.OrderSummary.Item")</li>
+    <li class="giftCheck"></li>
+    <li class="summaryPriceCheck" style="float: right; padding-right: 20px;">@T("Checkout.OrderSummary.Price")</li>
+</ul>
+@foreach (var item in Model.Items)
+{
+    <ul class="eachItem clearfix summary">
+        <li class="itemPicture">
+            <img src="@item.Picture.ImageUrl" alt="@item.Picture.AlternateText" /></li>
+        <li class="itemDetails">
+            <h1>@item.Manufacturer</h1>
+            <p>@item.ProductName</p>
+            @if (!String.IsNullOrEmpty(item.AttributeInfo))
+            {
+                @Html.Raw(item.AttributeInfo)
+            }
+        </li>
+        <li class="giftOptionsCheck"><a style="display: none" href="javascript:;" class="button1">@T("Checkout.OrderSummary.GiftOptions")</a></li>
+        <li class="summaryPriceCheck">@item.SubTotal</li>
+    </ul>
+}
+*@
+@*
+<ul class="contentTop clearfix">
+    <li class="skuNo">@T("Checkout.OrderSummary.SKU")</li>
+    <li class="picture"></li>
+    <li class="orderDesc">@T("Checkout.OrderSummary.Item")</li>
+    <li class="qty">@T("Checkout.OrderSummary.Quantity") </li>
+    <li class="price">@T("Checkout.OrderSummary.Price")</li>
+    <li class="status">@T("Checkout.OrderSummary.Status")</li>
+</ul>
+@for (int i = 0; i < Model.Items.Count; i++)
+{
+    var item = Model.Items[i];
+    <ul class="eachItem clearfix @(i == (Model.Items.Count - 1) ? "summary" : "")">
+        <li class="skuNo">@item.Sku </li>
+        <li class="picture">
+            <img src="@item.Picture.ImageUrl" alt="@item.Picture.AlternateText" /></li>
+        <li class="orderDesc">
+            <h1>@item.Manufacturer</h1>
+            <p>@item.ProductName</p>
+            @if (!String.IsNullOrEmpty(item.AttributeInfo))
+            {
+                @Html.Raw(item.AttributeInfo)
+            }
+        </li>
+        <li class="qty">@item.Quantity</li>
+        <li class="price">@item.SubTotal</li>
+        <li class="status">@item.ShippingNotification</li>
+    </ul>
+}
+
+<ul class="subTotal clearfix" id="ulOrderTotals">
+    @Html.Action("OrderTotals", "ShoppingCart", new { isEditable = false })
+</ul>
+*@
+ @Html.Action("CheckoutConfirmOrderSummary", "ShoppingCart")

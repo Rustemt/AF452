@@ -1,0 +1,99 @@
+﻿@*AF*@
+@model Nop.Web.Models.Catalog.CategoryModel
+@using Nop.Core;
+@using Nop.Core.Infrastructure;
+@using Nop.Web;
+@using Nop.Web.Framework.UI;
+@using Nop.Web.Models.Catalog;
+@{
+    var products = Model.Products;
+}
+@foreach (var product in products)
+{
+    foreach (var variant in product.ProductVariantModels)
+    {
+        if (!variant.Active) { continue; }
+        var defaultPictureModel = variant.DefaultPictureModel == null ? product.DefaultPictureModel : variant.DefaultPictureModel;
+    <!-- thumb start -->
+            	
+    <div class="thumb">
+        <div class="pic">
+            <img alt="@product.DefaultPictureModel.AlternateText" src="@defaultPictureModel.ImageUrl" title="@defaultPictureModel.Title" width="188" height="245"/>
+        </div>
+        <div class="soldOut">
+            sold out
+        </div>
+        <div class="panel quickBuy">
+            <span class="close">close</span>
+            <div class="text">
+                <p>
+                    @variant.Name</p>
+                <p>
+                    <span>@product.ShortDescription</span></p>
+                @foreach (var specification in product.SpecificationAttributeModels)
+                {
+                    <p>
+                        <span>@specification.SpecificationAttributeName : @specification.SpecificationAttributeOption</span></p>  
+                }
+                <p>
+                    @variant.ProductVariantPrice.Price
+                </p>
+            </div>
+            @if (variant.ProductVariantAttributes.Count > 0)
+            {
+                <div class="options">
+                    @{int level = 0;}
+                    @foreach (var attributeGroup in product.AttributeSelectionModel.GroupBy(x => x.AttributeId))
+                    {
+
+                        foreach (var attr in attributeGroup)
+                        {
+                            level++;
+                        <dl class="clearfix" parentId="@attr.ParentProductVariantAttributeValueId" level="@level">
+                            <dt>@attr.Name</dt>
+                            <dd>
+                                <!-- drop down -->
+                                <div class="selectBox">
+                                    @{ var selectedValue = attr.ValueModels.FirstOrDefault();}
+                                    <span>@selectedValue.Name</span>
+                                    <ul>
+                                        @foreach (var value in attr.ValueModels)
+                                        {
+                                            <li class="@(selectedValue.ProductVariantAttributeValueId == value.ProductVariantAttributeValueId ? "on" : "")" valueId="@value.ProductVariantAttributeValueId" ownerVariantId="@value.VariantId">@value.Name</li>
+                                        }
+                                    </ul>
+                                </div>
+                                <!-- drop down ends -->
+                            </dd>
+                        </dl>
+                        }
+                    }
+                </div>
+
+            }
+            <div class="buttons">
+                <p>
+                    <a class="button1 center" title="@T("ShoppingCart.AddToCart")" href="#">@T("ShoppingCart.AddToCart")</a></p>
+                <p>
+                    <a class="button2 center" title="@T("Category.ProductList.GoToProduct")" href="@Url.RouteUrl("Product", new { productId = product.Id, SeName = product.SeName })">
+                       @T("Products.Details")</a></p>
+            </div>
+        </div>
+        <div class="text">
+            <p>
+                @variant.Name</p>
+            <p>
+                <span>@product.ShortDescription</span></p>
+            @foreach (var specification in product.SpecificationAttributeModels)
+            {
+                <p>
+                    <span>@specification.SpecificationAttributeName : @specification.SpecificationAttributeOption</span></p>  
+            }
+            <p>
+                @variant.ProductVariantPrice.Price
+            </p>
+        </div>
+    </div>
+    <!-- thumb end -->
+    }
+}

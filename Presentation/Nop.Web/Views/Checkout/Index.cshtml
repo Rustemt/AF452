@@ -1,0 +1,91 @@
+﻿@*AF*@
+@model Nop.Web.Models.Checkout.CheckoutProgressModel
+@{
+    Layout = "~/Views/Shared/_Root.cshtml";
+    Html.AddTitleParts(T("Titles.Checkout").Text);
+    var orderTotal = Model.OrderTotal;
+
+    //Html.AddTitleParts(Model.MetaTitle);
+    //Html.AddMetaDescriptionParts(Model.MetaDescription);
+    //Html.AddMetaKeywordParts(Model.MetaKeywords);
+}
+@section JavaScript
+{
+    <script charset="ISO-8859-9" src="@Url.ContentV("~/Scripts/Checkout.js")" type="text/javascript"></script>
+}
+@using iTextSharp.text.pdf.qrcode
+@using Nop.Web.Models.Checkout;
+@section JavaScriptVariables
+{
+    <script type="text/javascript">
+        var _saveCheckoutShippingAddress = "@Url.Action("SaveShippingAddress", "Checkout")";
+        var _saveCheckoutBillingAddress = "@Url.Action("SaveBillingAddress", "Checkout")";
+        var _selectAddress = "@Url.Action("SelectAddress", "Checkout")";
+        var _selectShippingMethod = "@Url.Action("ShippingMethod", "Checkout")";
+        var _getStatesByCountryId = "@Url.Action("GetStatesByCountryId", "Country")";
+        var _getCCEffectiveType = "@Url.Action("GetCCEffectiveType", "Checkout")";
+        var _orderTotal = @orderTotal.Substring(0, 1);
+    </script>
+}
+<div id="container">
+    <!-- content  -->
+    <div id="content" class="clearfix">
+        @Html.Partial(@"~\Views\Checkout\_checoutHeader.cshtml")
+        @Html.Action("ContactBox", "Common")
+        <!-- contentUp container  -->
+        <!-- contentUp ends  -->
+        <!-- checkOut  -->
+        @if (ViewContext.ViewData.ModelState != null)
+        {
+            var errors = this.ViewContext.ViewData.ModelState.Keys.SelectMany(key => this.ViewContext.ViewData.ModelState[key].Errors);
+            if (errors.Count() > 0)
+            {
+@*<div class="error-message">
+                @foreach (var msg in errors)
+                {
+                    <h1>@msg.ErrorMessage</h1>
+                    }
+                <h2>
+                    @T("Checkout.Payment.CheckFields")</h2>
+            </div>*@
+                var msg = new Nop.Web.Models.Common.MessageModel();
+                msg.Successful = false;
+                foreach (var error in errors)
+                {
+                    msg.MessageList.Add(error.ErrorMessage);
+                }
+                msg.MessageListExt.Add(T("Checkout.Payment.ErrorDescription").Text);
+            @Html.Partial("MessageInline", msg);
+            }
+        }
+        <div id="checkOut">
+            <!-- shipping Method -->
+            <div class="clearfix" id="ShippingMethod">
+                @Html.Action("ShippingMethod")
+            </div>
+            <!-- shipping Method ends-->
+            <!-- Adresses -->
+            @Html.Action("Addresses")
+            <!-- Adresses ends-->
+            <!-- paymentOptions -->
+            @Html.Action("Payment")
+            <!-- paymentOptions ends-->
+            <!-- OrderSummary -->
+            @Html.Action("CheckoutOrderSummary", "ShoppingCart")
+            <!-- OrderSummary ends-->
+            @using (Html.BeginRouteForm("CheckoutPaymentInfo", FormMethod.Post))
+            { 
+                <ul class="continueShopping clearfix">
+                    <li class="checkOut"><a href="javascript:;" id="checkoutPaymentInfoSubmit">@T("Checkout.Continue")</a></li>
+                    @*<li class="continueShop"><a href="@Url.Action("Index", "Home")">@T("Checkout.ContinueShopping")</a></li>*@
+                </ul>
+            }
+        </div>
+        <!-- checkOut ends  -->
+    </div>
+    <!-- content ends  -->
+</div>
+@section PostDocument
+{
+
+}

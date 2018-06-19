@@ -1,0 +1,58 @@
+﻿<div id="footer" class="clearfix">
+    <div id="footerLeft">
+        <p style="width:550px">
+            @Html.Action("FooterCategoryMenu", "Common")
+        </p>
+        <p>
+            @T("FooterLeft.AllRightsReserved")&nbsp<a href="@Url.RouteUrl("Topic", new { SystemName = "TermsOfUse" })" title="@T("FooterLeft.TermsOfUSe")">@T("FooterLeft.TermsOfUSe")</a>
+            @T("FooterLeft.And") <a href="@Url.RouteUrl("Topic", new { SystemName = "PrivacyInfo" })"
+                title="@T("FooterLeft.PrivacyPolicy")">@T("FooterLeft.PrivacyPolicy")</a></p>
+    </div>
+    <div style="text-align:right" id="footerRight">
+        <p class="textRight">
+            <a href="@Url.Action("orders", "customer")" title="@T("FooterRight.OrderStatus")">@T("FooterRight.Order")</a> <span>|</span>
+            <a href="@Url.RouteUrl("Topic", new { SystemName = "help"})#HelpShipping" title="@T("FooterRight.Shipping")">@T("FooterRight.Shipping")</a> <span>|</span>
+            <a href="@Url.RouteUrl("Topic", new { SystemName = "help" })" title="@T("FooterRight.Help")">@T("FooterRight.Help")</a> <span>|</span>
+            <a href="@Url.RouteUrl("Topic", new { SystemName = "aboutAF" })" title="@T("FooterRight.AboutAf")">@T("FooterRight.AboutAf")</a> <span>|</span>
+            <a href="@Url.RouteUrl("ContactUs")" title="@T("FooterRight.Contact")">@T("FooterRight.Contact")</a>
+            
+        </p>
+       <p class="textRight social">
+            <a target="_blank" style="target-new:tab" href="http://www.facebook.com/alwaysfashioncom" title="@T("FooterRight.FollowUs")" class="facebook"><span>
+                FACEBOOK</span> @T("FooterRight.FollowUs")</a> <span>|</span> <a style=" padding-right:0px; padding-left:18px; margin:0px;" href="https://twitter.com/#!/always_fashion" target="_blank" style="target-new:tab" title="@T("FooterRight.FollowUs")" class="twitter"><span>TWITTER</span> @T("FooterRight.FollowUs")</a>
+            
+         
+           </p><br /><br /><br />
+        <p class="textRight" style="text-align: right; display: inline-block;position:relative; width:195px">
+
+            @Html.Action("CurrencySelector", "Common")
+            <span>|</span>
+            @Html.Action("LanguageSelector", "Common")
+
+
+         @*<span class="currency">@T("CurrencySelector.Currency") &nbsp</span> 
+         <a href="" class="currency" id="currency" title="Choose your currency">Name</a>
+               <ul class="curList" id="curList">
+ 
+    	            <li id="acd"><a href="#" title="curName">abc</a></li>
+                    <li id="acd"><a href="#" title="curName">abc</a></li>
+
+                </ul>
+
+           <span>|</span>
+
+
+           
+           <a href="" style="position:static;float:right;  width:30px;display:inline-block" class="language" id="language" title="Choose your language">Name</a>
+            <ul class="langList" id="langList">
+
+    	        <li id="langId"><a href="#" title="langName">Name</a></li>
+                <li id="langId"><a href="#" title="langName">Name</a></li>
+ 
+            </ul>
+            <span  style="float:right; margin-right:0px; display:inline-block; width:30px" class="language">@T("LanguageSelector.Language")</span> 
+*@        </p>
+
+        
+    </div>
+</div>

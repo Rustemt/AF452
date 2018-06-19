@@ -1,0 +1,45 @@
+﻿@model Nop.Web.Models.Customer.CustomerInfoModel
+           
+
+
+      <div class="accountDetails">
+          <div class="accountInfo clearfix">
+            <div class="accountTitle">@Html.LabelFor(model => model.Gender) :</div>
+            <div class="accountDesc">@(Html.DisplayFor(model => model.Gender).ToString() == "M" ? T("Account.Fields.Gender.Male") : T("Account.Fields.Gender.Female"))
+          </div>
+          </div>
+          <div class="accountInfo clearfix">
+            <div class="accountTitle">@Html.LabelFor(model => model.FirstName):</div>
+            <div class="accountDesc">@Html.DisplayFor(model => model.FirstName)</div>
+          </div>
+
+          <div class="accountInfo clearfix">
+            <div class="accountTitle">@Html.LabelFor(model => model.LastName) :</div>
+            <div class="accountDesc"> @Html.DisplayFor(model => model.LastName)</div>
+          </div>
+          <div class="accountInfo clearfix">
+            <div class="accountTitle">@Html.LabelFor(model => model.Nation) :</div>
+            <div class="accountDesc">@Html.DisplayFor(model => model.Nation)</div>
+
+          </div>
+          <div class="accountInfo clearfix">
+            <div class="accountTitle">@Html.LabelFor(model => model.PhoneNumber):</div>
+            <div class="accountDesc">@Html.DisplayFor(model => model.PhoneNumber)</div>
+          </div>
+          <div class="accountInfo clearfix">
+            <div class="accountTitle">@Html.LabelFor(model => model.Email):</div>
+
+            <div class="accountDesc"><a href="javascript:;">@Html.DisplayFor(model => model.Email)</a></div>
+          </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+

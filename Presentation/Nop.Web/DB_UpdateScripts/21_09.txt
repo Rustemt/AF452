@@ -1,0 +1,158 @@
+USE [AFStore]
+GO
+
+/****** Object:  Table [dbo].[ProductAttributeOption]    Script Date: 09/21/2011 09:09:31 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[ProductAttributeOption](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[ProductAttributeId] [int] NOT NULL,
+	[Name] [nvarchar](max) NOT NULL,
+	[DisplayOrder] [int] NOT NULL,
+ CONSTRAINT [PK_ProductAttributeOption] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+ALTER TABLE [dbo].[ProductAttributeOption]  WITH CHECK ADD  CONSTRAINT [FK_ProductAttributeOption_ProductAttribute] FOREIGN KEY([ProductAttributeId])
+REFERENCES [dbo].[ProductAttribute] ([Id])
+GO
+
+ALTER TABLE [dbo].[ProductAttributeOption] CHECK CONSTRAINT [FK_ProductAttributeOption_ProductAttribute]
+GO
+
+
+
+
+
+/*
+   Wednesday, September 21, 20119:47:53 AM
+   User: 
+   Server: PC-MUSTAFA
+   Database: AFStore
+   Application: 
+*/
+
+/* To prevent any potential data loss issues, you should review this script in detail before running it outside the context of the database designer.*/
+BEGIN TRANSACTION
+SET QUOTED_IDENTIFIER ON
+SET ARITHABORT ON
+SET NUMERIC_ROUNDABORT OFF
+SET CONCAT_NULL_YIELDS_NULL ON
+SET ANSI_NULLS ON
+SET ANSI_PADDING ON
+SET ANSI_WARNINGS ON
+COMMIT
+BEGIN TRANSACTION
+GO
+ALTER TABLE dbo.ProductVariantAttributeValue ADD
+	ProductAttributeOptionId int NOT NULL CONSTRAINT DF_ProductVariantAttributeValue_ProductAttributeOptionId DEFAULT 0
+GO
+ALTER TABLE dbo.ProductVariantAttributeValue SET (LOCK_ESCALATION = TABLE)
+GO
+COMMIT
+select Has_Perms_By_Name(N'dbo.ProductVariantAttributeValue', 'Object', 'ALTER') as ALT_Per, Has_Perms_By_Name(N'dbo.ProductVariantAttributeValue', 'Object', 'VIEW DEFINITION') as View_def_Per, Has_Perms_By_Name(N'dbo.ProductVariantAttributeValue', 'Object', 'CONTROL') as Contr_Per 
+
+
+
+
+/*
+   Wednesday, September 21, 2011 2:43:10 PM
+   User: 
+   Server: PC-MUSTAFA
+   Database: AFStore
+   Application: 
+*/
+
+/* To prevent any potential data loss issues, you should review this script in detail before running it outside the context of the database designer.*/
+BEGIN TRANSACTION
+SET QUOTED_IDENTIFIER ON
+SET ARITHABORT ON
+SET NUMERIC_ROUNDABORT OFF
+SET CONCAT_NULL_YIELDS_NULL ON
+SET ANSI_NULLS ON
+SET ANSI_PADDING ON
+SET ANSI_WARNINGS ON
+COMMIT
+BEGIN TRANSACTION
+GO
+ALTER TABLE dbo.ProductAttributeOption
+	DROP CONSTRAINT FK_ProductAttributeOption_ProductAttribute
+GO
+ALTER TABLE dbo.ProductAttribute SET (LOCK_ESCALATION = TABLE)
+GO
+COMMIT
+select Has_Perms_By_Name(N'dbo.ProductAttribute', 'Object', 'ALTER') as ALT_Per, Has_Perms_By_Name(N'dbo.ProductAttribute', 'Object', 'VIEW DEFINITION') as View_def_Per, Has_Perms_By_Name(N'dbo.ProductAttribute', 'Object', 'CONTROL') as Contr_Per BEGIN TRANSACTION
+GO
+ALTER TABLE dbo.ProductAttributeOption ADD CONSTRAINT
+	FK_ProductAttributeOption_ProductAttribute FOREIGN KEY
+	(
+	ProductAttributeId
+	) REFERENCES dbo.ProductAttribute
+	(
+	Id
+	) ON UPDATE  NO ACTION 
+	 ON DELETE  CASCADE 
+	
+GO
+ALTER TABLE dbo.ProductAttributeOption SET (LOCK_ESCALATION = TABLE)
+GO
+COMMIT
+select Has_Perms_By_Name(N'dbo.ProductAttributeOption', 'Object', 'ALTER') as ALT_Per, Has_Perms_By_Name(N'dbo.ProductAttributeOption', 'Object', 'VIEW DEFINITION') as View_def_Per, Has_Perms_By_Name(N'dbo.ProductAttributeOption', 'Object', 'CONTROL') as Contr_Per 
+
+
+
+
+/*
+27-10-2011
+*/
+/* To prevent any potential data loss issues, you should review this script in detail before running it outside the context of the database designer.*/
+BEGIN TRANSACTION
+SET QUOTED_IDENTIFIER ON
+SET ARITHABORT ON
+SET NUMERIC_ROUNDABORT OFF
+SET CONCAT_NULL_YIELDS_NULL ON
+SET ANSI_NULLS ON
+SET ANSI_PADDING ON
+SET ANSI_WARNINGS ON
+COMMIT
+BEGIN TRANSACTION
+GO
+ALTER TABLE dbo.Address ADD
+	Name nvarchar(MAX) NULL,
+	CivilNo nvarchar(MAX) NULL,
+	TaxOffice nvarchar(MAX) NULL,
+	TaxNo nvarchar(MAX) NULL
+GO
+ALTER TABLE dbo.Address SET (LOCK_ESCALATION = TABLE)
+GO
+COMMIT
+select Has_Perms_By_Name(N'dbo.Address', 'Object', 'ALTER') as ALT_Per, Has_Perms_By_Name(N'dbo.Address', 'Object', 'VIEW DEFINITION') as View_def_Per, Has_Perms_By_Name(N'dbo.Address', 'Object', 'CONTROL') as Contr_Per 
+
+
+/* To prevent any potential data loss issues, you should review this script in detail before running it outside the context of the database designer.*/
+BEGIN TRANSACTION
+SET QUOTED_IDENTIFIER ON
+SET ARITHABORT ON
+SET NUMERIC_ROUNDABORT OFF
+SET CONCAT_NULL_YIELDS_NULL ON
+SET ANSI_NULLS ON
+SET ANSI_PADDING ON
+SET ANSI_WARNINGS ON
+COMMIT
+BEGIN TRANSACTION
+GO
+ALTER TABLE dbo.Address ADD
+	Title nvarchar(MAX) NULL
+GO
+ALTER TABLE dbo.Address SET (LOCK_ESCALATION = TABLE)
+GO
+COMMIT
+select Has_Perms_By_Name(N'dbo.Address', 'Object', 'ALTER') as ALT_Per, Has_Perms_By_Name(N'dbo.Address', 'Object', 'VIEW DEFINITION') as View_def_Per, Has_Perms_By_Name(N'dbo.Address', 'Object', 'CONTROL') as Contr_Per 

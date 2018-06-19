@@ -1,0 +1,158 @@
+﻿@{
+    Layout = "_Root";
+    Html.AddTitleParts(@T("Common.Title").Text);
+    Html.AddMetaDescriptionParts(@T("Common.MetaDescription").Text);
+    Html.AddMetaKeywordParts(@T("Common.MetaKeyword").Text);
+    IEnumerable<ContentItemModel> banners = ViewBag.BottomContentItemsNews;
+    IEnumerable<ContentItemModel> bottomSliderContentItems = ViewBag.BottomSliderContentItems;
+    IEnumerable<ContentItemModel> homeManufacturers = ViewBag.HomeManufacturers;
+    IEnumerable<ContentItemModel> homeContentBanner = ViewBag.HomeContentBanner;
+    ContentItemModel b;
+    List<dynamic> newItems = ViewBag.NewItems;
+}
+@using Nop.Services.Media;
+@using Nop.Services.Seo;
+@using Nop.Web.Models.Common;
+
+    <div class="banner_area">
+        <ul class="banner_slider clearfix">
+            @foreach (var n in ViewBag.NewItemsHomeMainContent)
+            {
+                var imageurl = string.Format("{0}_{1}.jpeg", n.PictureId.ToString("0000000"), n.PictureSeoFilename);
+                <li>
+                    <a href="@n.NewsItemUrl" title="@n.NewsItemMetaDescription" style="background: url(/content/images/thumbs/@imageurl) center top no-repeat"></a>
+                </li>
+            }
+        </ul>
+        <div class="wrapper slide_arrow_part">
+            <a class="slider-arrow rightarrow" href="#"></a>
+            <a class="slider-arrow leftarrow" href="#"></a>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="top_section">
+        <section class="banner_bottom">
+            <div class="wrapper">
+                <div class="left_image">@{b = banners.ElementAt(0);}
+                    <a href="@b.Url">
+                        <img src="@b.ImagePath" alt="@b.MetaDescription" height="480" width="480"></a>
+                    <div class="overlay"><a href="@b.Url"></a></div>
+                </div>
+                <div class="right_image">@{b = banners.ElementAt(1);}
+                    <a href="@b.Url">
+                        <img src="@b.ImagePath" alt="@b.MetaDescription" height="480" width="480"></a>
+                    <div class="overlay"><a href="@b.Url"></a></div>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </section>
+        <section class="wrapper">
+            <div class="lenth_pic">@{b = banners.ElementAt(2);}
+                <a href="@b.Url">
+                    <img src="@b.ImagePath" alt="@b.MetaDescription" height="314" width="970"></a>
+                <div class="overlay"><a href="@b.Url"></a></div>
+            </div>
+        </section>
+        <section class="wrapper clearfix">
+            <div class="small_banner">
+                <ul>                       
+                    <li>@{b = banners.ElementAt(3);}
+                        <a href="@b.Url">
+                        <img src="@b.ImagePath" alt="@b.MetaDescription" height="316" width="316"></a>
+                        <div class="overlay"><a href="@b.Url"></a></div>
+                    </li>
+                    <li>@{b = banners.ElementAt(4);}
+                        <a href="@b.Url">
+                        <img src="@b.ImagePath" alt="@b.MetaDescription" height="316" width="316"></a>
+                        <div class="overlay"><a href="@b.Url"></a></div>
+                    </li>
+                </ul>
+            </div>
+            <div class="slider_area clearfix">
+                <ul id="foo0">
+                    @foreach (var item in bottomSliderContentItems)
+                    {
+                        <li><a href="@item.Url"><img src="@item.ImagePath" alt="" height="316" width="316" alt="@item.MetaDescription"></a></li>
+
+                    }
+                </ul>
+                <div class="clear"></div>
+                <div class="slide_arrow_part">
+                    <a class="slider-arrow rightarrow" id="next2" href="#"></a>
+                    <a class="slider-arrow leftarrow" id="prev2" href="#"></a>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <h3 class="cont_title"><span>@T("Homepage.EditorsChoice")</span></h3>
+    <section class="product_area">
+        @Html.Action("HomepageProducts", "Catalog")        
+    </section>
+    <div class="wrapper clearfix">
+        <div class="other_logo_slider">
+            <a class="slider_arrow_right" href="#"></a>
+            <a class="slider_arrow_left" href="#"></a>
+            <ul id="foo1">
+                @foreach (var m in homeManufacturers)
+                {
+                    <li><a href="@m.Url"><img src="@m.ImagePath" alt="" height="63" width="110"></a></li>
+                }
+            </ul>
+        </div>
+    </div>
+
+    @if (newItems != null && newItems.Count == 3)
+    {
+        <h3 class="cont_title second"><span>@T("News.MenuHeader")</span></h3>
+        <div class="wrapper clearfix sectionstyle1">
+            <div class="left_post_panel">
+                @{var i = 0;}
+                @foreach (var n in ViewBag.NewItems)
+                {
+                    i++;
+                    <div class="post_pic_row @(i == 2 ? "second" : "")">
+                        <div class="post_pic @(i == 2 ? "fl-rt" : "fl-lt")">
+                            <a href="@Url.RouteUrl("NewsItem", new { newsItemId = n.NewsItemId, SeName = n.SeName != null ? SeoExtensions.GetSeName(n.SeName) : null })">
+                                <img src="@PictureService.GetPicturePath(n.PictureId, n.PictureSeoFilename, 306)" alt="" height="160" width="160"></a>
+                            <div class="overlay"><a href="@Url.RouteUrl("NewsItem", new { newsItemId = n.NewsItemId, SeName = n.SeName != null ? SeoExtensions.GetSeName(n.SeName) : null})"></a></div>
+                        </div>
+                        <div class="post_pic_cont @(i == 2 ? "fl-lt" : "fl-rt")">
+                            <h3><a href="@Url.RouteUrl("NewsItem", new { newsItemId = n.NewsItemId, SeName = n.SeName != null ? SeoExtensions.GetSeName(n.SeName) : null })">@n.Title</a></h3>
+                            <p>@n.Short</p>
+                            <a class="link2" href="@Url.RouteUrl("NewsItem", new { newsItemId = n.NewsItemId, SeName = n.SeName != null ? SeoExtensions.GetSeName(n.SeName) : null })">DEVAMINI OKU<span>&nbsp;</span></a>
+                        </div>
+                        <div class="clear"></div>
+                    </div>            
+                }
+            </div>
+            <div class="pic_box">
+                @foreach (var banner in homeContentBanner)
+                {
+                    <a href="@banner.Url">
+                        <img src="@banner.ImagePath" alt="" height="510" width="390"></a>
+                    <div class="overlay"><a href="@banner.Url"></a></div>                
+                }
+            </div>
+        </div>        
+    }
+
+    @Html.Action("RecentlyAddedProducts280HomePage", "Catalog")
+
+
+@section BodyEnd
+{
+    <!-- Google Code for Remarketing Tag -->   
+    <script type="text/javascript">
+        var google_tag_params = {
+            ecomm_prodid: '',
+            ecomm_pagetype: 'home',
+            ecomm_totalvalue:
+        };
+    </script>    
+}
+
+@section GoogleAnalytics
+{ 
+    ga('set', 'dimension2', 'home');   // home, cart, purchase, productdetail, searchresults
+}

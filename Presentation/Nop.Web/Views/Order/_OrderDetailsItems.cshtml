@@ -1,0 +1,40 @@
+﻿@model OrderDetailsModel
+@using Nop.Core.Domain.Orders
+@using Nop.Web.Models.Order
+@using Nop.Services.Localization
+@using Nop.Web.Models.Common
+
+<ul class="contentTop clearfix">
+    <li class="item">@T("OrderDetails.Header.Item")</li>
+    <li class="styleNo">@T("Order.Product(s).SKU")</li>
+    <li class="quantitiy" style="width:150px;">@T("OrderDetails.Header.Quantity")</li>
+    <li class="styleNo" style="text-align:right; width:185px;">@T("OrderDetails.Header.TotalPrice")</li>
+</ul>
+@foreach (var ci in Model.Items)
+{
+    <ul class="eachItem clearfix">
+        <li class="itemPicture">
+            <img width="94px" height="123px" src="@ci.Picture.ImageUrl" alt="@ci.Picture.AlternateText" /></li>
+        <li class="itemDetails" style="padding-top: 35px;">
+            <h1>@ci.ManufacturerName</h1>
+            <p>@ci.ProductName</p>
+            @if (!String.IsNullOrEmpty(ci.AttributeInfo))
+            {
+                @Html.Raw(ci.AttributeInfo)
+            }
+            else
+            {
+                //keep html full
+                <h2>
+                    &nbsp<span>&nbsp</span></h2>
+                <h2>
+                    &nbsp <span>&nbsp</span></h2>
+                                
+            }
+        </li>
+        <li style="padding-top: 34px;" class="styleNo">@ci.Sku</li>
+        <li class="itemQuantity">@ci.Quantity</li>
+        <li class="itemPrice">@ci.SubTotal.Replace(ci.SubTotal.Substring(ci.SubTotal.IndexOf("(")), "")</li>
+    </ul>
+            
+}

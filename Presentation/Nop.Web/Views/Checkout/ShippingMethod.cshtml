@@ -1,0 +1,31 @@
+﻿@model Nop.Web.Models.Checkout.CheckoutShippingMethodModel
+@using Nop.Core.Domain.Orders
+@using Nop.Web.Models.Checkout
+@using Nop.Web.Models.Common
+@using Nop.Web.Framework.UI
+<h1 class="title">
+    <span>1</span>@T("CheckOut.ShippingMethod")</h1>
+<ul class="shippingMethod clearfix">
+    <li class="method">@T("Checkout.SelectShippingMethod"): </li>
+    <li class="methodSelect">
+        <div class="selectBox off" id="shippingMethod">
+            <span>@Model.ShippingMethods.FirstOrDefault().Name</span>
+            <ul>
+                @{ var onSet = false;
+                }
+                @foreach (var shipOption in Model.ShippingMethods)
+                {
+                    <li class="@(onSet ? "" : "on")" data-value="@(shipOption.Name)___@(shipOption.ShippingRateComputationMethodSystemName)">@shipOption.Name</li>
+                    onSet = true;
+                }
+            </ul>
+        </div>
+    </li>
+    @if (WorkContext.CurrentCustomer.ShippingAddress != null)
+    {
+        <li class="deliveryProcess">@T("Checkout.DeliveringProccessing"): @Model.ShippingMethods.FirstOrDefault().Fee</li>
+    }
+    <li class="deliveryPrice"></li>
+</ul>
+<h2 class="title">@T("Checkout.ShippingInfo.Title")</h2>
+<p class="text">@T("Checkout.ShippingInfo.Description")</p>

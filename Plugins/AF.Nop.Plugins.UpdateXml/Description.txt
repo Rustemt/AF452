@@ -1,0 +1,8 @@
+﻿Group: AF
+FriendlyName: AF Xml Update
+SystemName: AF.Nop.Plugins.XmlUpdate
+Version: 1.0
+SupportedVersions: 2.40
+Author: AF Team
+DisplayOrder: 1
+FileName: AF.Nop.Plugins.XmlUpdate.dll

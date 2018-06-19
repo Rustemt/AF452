@@ -1,0 +1,15 @@
+﻿@*AF*@
+@{
+
+}
+<div id="header">
+ @Html.Action("NewsAnnouncement","News")
+  <div id="headerInner"> 
+    <!-- headerTop -->
+         @Html.Action("HeaderTop", "Common")
+    <!-- headerTop ends -->
+    <!-- headerBottom -->
+         @Html.Partial("HeaderBottom")
+    <!-- headerBottom ends --> 
+  </div>
+</div>

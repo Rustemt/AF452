@@ -1,0 +1,52 @@
+﻿@model ProductModel.ProductBreadcrumbModel
+@{
+    var storeLocation = Nop.Core.Infrastructure.EngineContext.Current.Resolve<Nop.Core.IWebHelper>().GetStoreLocation();
+}
+@using Nop.Web.Framework.UI;
+@using Nop.Web.Models.Catalog;  
+@{var categoryUrl="";} 
+@if (Model.DisplayBreadcrumb)
+{
+  
+    <div id="contentUp" class="noBorder clearfix">
+        <h2>
+            @for (int i = 0; i < Model.CategoryBreadcrumb.Count; i++)
+            {
+                var catBr = Model.CategoryBreadcrumb[i];
+                if (i == 0)
+                {
+                <a href="@Url.RouteUrl("CategoryMain", new { categoryId = catBr.Id, SeName = catBr.SeName })"><span>@catBr.Name
+                /</span></a>
+            
+                }
+                else if (i == Model.CategoryBreadcrumb.Count - 1)
+                {
+                    categoryUrl= Url.RouteUrl("Category", new { categoryId = catBr.Id, SeName = catBr.SeName });
+                <a href="@categoryUrl"><span>@catBr.Name </span></a>
+                }
+                else
+                {
+                <span>
+                    @catBr.Name<text> /</text>
+                </span>
+                }
+
+            }
+        </h2>
+    </div>
+    
+}
+          
+<!-- contentup ends -->
+            <div class="tools noBorder clearfix">
+            	<a href="@categoryUrl" class="button3" title="@T("ProductDetail.BackToBrowse")">
+                    <img src="@Url.Content("~/_img/back-icon.png")" width="9" height="7" alt=""/> @T("ProductDetail.BackToBrowse")
+                </a>
+                <a href="#" class="button3 right" title="@T("ProductDetail.NextProduct")">@T("ProductDetail.NextProduct")</a>        
+                <a href="#" class="button3 right" title="@T("ProductDetail.PreviousProduct")">@T("ProductDetail.PreviousProduct")</a>
+            </div>
+            <!-- tools ends -->
+@*<div id="contentUp" class="noBorder clearfix">
+    <h1>
+        <span>WATCHES /</span> MEN WATCHES</h1>
+</div>*@

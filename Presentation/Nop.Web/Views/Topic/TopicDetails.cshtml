@@ -1,0 +1,91 @@
+﻿@model TopicModel
+@using Nop.Web.Models.Topics
+@{
+    
+    //switch(Model.SystemName)
+    //{
+    //    case "aboutAF":
+    //        Html.AddTitleParts(T("Titles.AboutAf").Text);
+    //        Html.AddMetaKeywordParts(T("Keywords.AboutAf").Text);
+    //    break;
+    //    case "PrivacyInfo":
+    //        Html.AddTitleParts(T("Titles.Privacy").Text);
+    //        Html.AddMetaKeywordParts(T("Titles.Privacy").Text);
+    //    break;
+    //    case "TermsOfUse":
+    //        Html.AddTitleParts(T("Titles.TermsOfUse").Text);
+    //        Html.AddMetaKeywordParts(T("Keywords.TermsOfUse").Text);
+    //    break;
+    //    case "help":
+    //        Html.AddTitleParts(T("Titles.Help").Text);
+    //        Html.AddMetaKeywordParts(T("Keywords.Help").Text);
+    //    break;
+    //    case "shipping":
+    //        Html.AddTitleParts(T("Titles.Shipping").Text);
+    //        Html.AddMetaKeywordParts(T("Keywords.Shipping").Text);
+    //    break;
+    //    case "kampanya":
+    //    Html.AddTitleParts(Model.Title);
+    //    Html.AddMetaKeywordParts(Model.Title);
+    //    break;
+            
+    //    default:
+    //        Html.AddTitleParts(T("Titles.ContactUs").Text);
+    //        Html.AddMetaKeywordParts(T("Keywords.ContactUs").Text);  
+    //    break;
+    //}
+
+    Html.AddTitleParts(Model.MetaTitle);
+    Html.AddMetaKeywordParts(Model.MetaKeywords); 
+    
+    var isPopup = ViewBag.IsPopup;
+    if (isPopup == null || isPopup == false)
+    {
+        Layout = "~/Views/Shared/_Root.cshtml";
+    }
+    else
+    {
+        /*pop-up windows*/
+        Layout = "~/Views/Shared/_RootPopup.cshtml";
+    }
+
+    if (!Model.IsPasswordProtected)
+    {
+        Html.AddTitleParts(!String.IsNullOrEmpty(Model.MetaTitle) ? Model.MetaTitle : Model.Title);
+        Html.AddMetaDescriptionParts(Model.MetaDescription);
+        Html.AddMetaKeywordParts(Model.MetaKeywords);
+    }
+}
+@section JavaScript
+{
+
+}
+@if (Model.IsPasswordProtected)
+{
+}
+<div id="container">
+        <div id="content" class="clearfix">
+            <div id="contentUp" class="clearfix">
+                <h1>@Model.Title</h1>
+                <div id="contentUpRight"><a href="#customerCare" id="customerLink" class="button1 right"><img src="@Url.Content("~/_img/7x24.png")" width="36" height="36" alt="7x24" /> @T("ContactUs.EmailUs")</a> <div class="titleText"><span style=" margin-right:4px;">@T("ContactUs.FreeCall")</span>@T("ContactUs.PhoneNumber")</div></div>
+            </div>
+            <div id="contentLeft">
+            
+            @if (Model.SystemName == "aboutAF")
+            {   @Html.Partial("TopicMenuAF")}
+            else if(Model.SystemName =="AF-in-the-Press")
+            {   @Html.Partial("TopicMenuAFinPress")}
+            else if(Model.SystemName == "alwaysfashion-in-the-press")
+            {   @Html.Partial("TopicMenuAF")}    
+            else
+            {   @Html.Partial("TopicMenu")}
+                
+        @*  @( Model.SystemName != "aboutAF" ? Html.Action("TopicMenu") : Html.Action("TopicMenuAF"))*@
+            </div>
+            <div id="contentRight">
+             @Html.Raw(Model.Body)
+             </div>
+        </div>
+    </div>
+
+    @Html.Action("ContactBox","Common")

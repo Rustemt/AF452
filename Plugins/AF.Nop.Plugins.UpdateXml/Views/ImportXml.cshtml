@@ -1,0 +1,52 @@
+﻿@{
+    Layout = "~/Administration/Views/Shared/_AdminLayout.cshtml";
+}
+@model AF.Nop.Plugins.XmlUpdate.Models.ImportXmlModel
+@using Nop.Web.Framework;
+@using Telerik.Web.Mvc.UI
+@using AF.Nop.Plugins.XmlUpdate.Models
+@using Nop.Admin.Models.Catalog;
+
+<div class="section-header">
+    <div class="title">
+        <img src="@Url.Content("~/Administration/Content/images/ico-catalog.png")" alt="" />
+        @T("AF.XmlUpdate.ImportXml")
+        @Html.ActionLink("( Back )", "ConfigureMiscPlugin", "Plugin", new { systemName = "AF.Nop.Plugins.XmlUpdate", area = "Admin" }, null)
+    </div>
+</div>
+
+<table class="adminContent" >
+    <tr>
+        <td class="adminTitle">
+            @Html.NopLabelFor(model => model.Provider.Name):
+        </td>
+        <td class="adminData">
+            @Model.Provider.Name
+        </td>
+    </tr>
+
+    <tr>
+        <td class="adminTitle">
+            @Html.NopLabelFor(model => model.Provider.Url):
+        </td>
+        <td class="adminData">
+            @Model.Provider.Url
+        </td>
+    </tr>
+
+    <tr>
+        <td colspan="2">
+            @(Html.Telerik().Grid<ProcessRecord>(Model.Products.Data).Name("products-grid")
+                .Columns(columns =>
+                {
+                    columns.Bound(x => x.ManufacturerName);
+                    columns.Bound(x => x.Sku);
+                    columns.Bound(x => x.ProductName);
+                    columns.Bound(x => x.Price);
+                    columns.Bound(x => x.Quantity);
+                })
+            )
+
+        <td>
+    </tr>
+</table>

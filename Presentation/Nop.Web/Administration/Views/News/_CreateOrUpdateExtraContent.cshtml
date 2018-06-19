@@ -1,0 +1,34 @@
+﻿@model NewsItemExtraContentModel
+@using Telerik.Web.Mvc.UI;
+@Html.ValidationSummary(false)
+@Html.HiddenFor(model => model.ExtraContent.Id)
+     <table class="adminContent">
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.ExtraContent.Title):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.ExtraContent.Title)
+                @Html.ValidationMessageFor(model => model.ExtraContent.Title)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.ExtraContent.DisplayOrder):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.ExtraContent.DisplayOrder)
+                @Html.ValidationMessageFor(model => model.ExtraContent.DisplayOrder)
+            </td>
+        </tr>
+         <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.ExtraContent.FullDescription):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(x => x.ExtraContent.FullDescription, "RichEditor")
+                @Html.ValidationMessageFor(model => model.ExtraContent.FullDescription)
+            </td>
+         </tr>
+    </table> 
+    

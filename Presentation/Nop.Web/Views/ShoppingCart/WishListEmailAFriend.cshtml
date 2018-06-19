@@ -1,0 +1,36 @@
+﻿@model Nop.Web.Models.ShoppingCart.WishlistEmailAFriendModel
+
+<div id="sendMail" style="display:none">
+<div id="sendWishListEmail" class="navigationPopup" style="background: none; display: block; position: static; width: 250px; padding: 30px 50px;">
+        
+        <div class="detail">
+         @using (Html.BeginForm("EmailWishlistSend", "ShoppingCart", FormMethod.Post, new { id = "ProductSendEmailForm" }))
+        {
+            
+            <dl class="popupField">
+                <dt>@Html.LabelFor(model => model.YourEmailAddress)  <span>*</span></dt>
+                <dd>
+                    @Html.TextBoxFor(model => model.YourEmailAddress)@Html.ValidationMessageFor(model => model.YourEmailAddress)
+                </dd>
+                <dt>@Html.LabelFor(model => model.FriendEmail) <span>*</span> </dt>
+                <dd>
+                     @Html.TextBoxFor(model => model.FriendEmail)@Html.ValidationMessageFor(model => model.FriendEmail)
+                </dd>
+                <dt>@Html.LabelFor(model => model.PersonalMessage) <span>*</span></dt>
+                <dd class="textClass">
+                @Html.TextAreaFor(model => model.PersonalMessage)@Html.ValidationMessageFor(model => model.PersonalMessage)
+                </dd>
+           </dl>
+            <div class="requiredLine clearfix">
+                <div class="required">
+                    <span>*</span> @T("Common.RequiredFields")</div>
+                <div class="submit">
+                    <a id="WishListSendEmail" href="javascript:;" class="button1 right">@T("Common.Send")</a></div>
+            </div>
+        }
+
+        </div>
+        
+</div>
+</div>
+

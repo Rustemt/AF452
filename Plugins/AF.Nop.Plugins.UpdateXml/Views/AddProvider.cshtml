@@ -1,0 +1,22 @@
+﻿@{
+    Layout = "~/Administration/Views/Shared/_AdminLayout.cshtml";
+}
+@model AF.Nop.Plugins.XmlUpdate.Models.ProviderModel
+
+
+
+@using (Html.BeginForm())
+{
+    <div class="section-header">
+        <div class="title">
+            <img src="@Url.Content("~/Administration/Content/images/ico-catalog.png")" alt="" />
+            @T("AF.XmlUpdate.Provider.Add")
+            @Html.ActionLink("( Back )", "ConfigureMiscPlugin", "Plugin", new { systemName = "AF.Nop.Plugins.XmlUpdate", area = "Admin" }, null)
+        </div>
+        <div class="options">
+            <button type="submit" name="save" value="save" class="t-button">@T("Admin.Common.Save")</button>
+        </div>
+    </div>
+
+    @Html.Partial("~/Plugins/AF.Nop.Plugins.XmlUpdate/Views/_AddOrUpdateProvider.cshtml", Model)
+}

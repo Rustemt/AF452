@@ -1,0 +1,116 @@
+﻿@using Nop.Core.Domain.Catalog;
+@{
+    List<Category> cats = ViewBag.Categories;
+}
+    <div class="footer_top">
+        <div class="wrapper">
+            <ul>
+                <li>
+                    <a href="@Url.RouteUrl("Topic", new { SystemName = "shipping"})">
+                        <img src="/_img/v2/icon1.png" alt="" height="35" width="44"></a>
+                    <span>@T("FooterIcon.Shipment")</span>
+                </li>
+                <li>
+                    <a href="@Url.RouteUrl("Topic", new { SystemName = "teklif-iste"})">
+                        <img src="/_img/v2/icon2.png" alt="" height="35" width="39"></a>
+                    <span>@T("FooterIcon.GetQuote")</span>
+                </li>
+                <li>
+                    <a href="@Url.RouteUrl("Topic", new { SystemName = "return-policy"})" title="@T("FooterRight.Shipping")">
+                        <img src="/_img/v2/icon3.png" alt="" height="35" width="40"></a>
+                    </a>
+                    <span>@T("FooterIcon.Return")</span>
+                </li>
+                <li class="no-margin">
+                    <a href="@Url.RouteUrl("Topic", new { SystemName = "shipping"})">
+                        <img src="/_img/v2/icon4.png" alt="" height="35" width="33"></a>
+                    <span>@T("FooterIcon.InterShipment")</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="wrapper clearfix">
+            <div class="footer_nav">
+                <ul>
+                    <li><span>@T("Footer.Corporate")</span></li>
+                    <li><a href="@Url.RouteUrl("Topic", new { SystemName = "aboutAF" })" title="@T("FooterRight.AboutAf")">@T("FooterRight.AboutAf")</a></li>
+                    @*<li><a href="@Url.RouteUrl("Topic", new { SystemName = "alwaysfashion-in-the-press" })">@T("Footer.Press")</a></li>*@
+                    @*<li><a href="@Url.RouteUrl("Topic", new { SystemName = "musteriGorusleri" })">@T("Footer.CustomerOpinions")</a></li>*@
+                </ul>
+                <ul>
+                    <li><span>@T("Menu.Brands")</span></li>
+                    @foreach (Nop.Core.Domain.Catalog.Manufacturer m in ViewBag.ManufacturersShowCase)
+                    {
+                        <li><a href="@Url.RouteUrl("ManufacturerSe", new { SeName = m.SeName })">@m.Name</a></li>
+                    }
+                </ul>
+                <ul class="column3rd">
+                    <li><span>@T("FooterRight.Help")</span></li>
+                    <li><a href="@Url.RouteUrl("Topic", new { SystemName = "return-policy"})" title="@T("FooterRight.Shipping")">@T("FooterRight.Shipping")</a></li>                    
+                    <li><a href="@Url.RouteUrl("Topic", new { SystemName = "payment-options"})" title="@T("Footer.PaymentSecurity")">@T("Footer.PaymentSecurity")</a></li>
+                    <li><a href="@Url.RouteUrl("Topic", new { SystemName = "security"})" title="@T("Footer.Order")">@T("Footer.Order")</a></li>
+                    @*<li><a href="@Url.Action("overview", "customer")" title="@T("HeaderTop.MyAccount")">@T("HeaderTop.MyAccount")</a></li>*@
+                    <li><a href="@Url.RouteUrl("Topic", new { SystemName = "teklif-iste" })" title="@T("Footer.FAQ")">@T("Footer.InquireOffer")</a></li>
+                    <li><a href="@Url.RouteUrl("Topic", new { SystemName = "faq" })" title="@T("Footer.FAQ")">@T("Footer.FAQ")</a></li>
+                    <li><a href="@Url.RouteUrl("Topic", new { SystemName = "PrivacyInfo" })" title="@T("FooterLeft.PrivacyPolicy")">@T("FooterLeft.PrivacyPolicy")</a></li>
+                    <li><a href="@Url.RouteUrl("Topic", new { SystemName = "TermsOfUse" })" title="@T("FooterLeft.TermsOfUSe")">@T("FooterLeft.TermsOfUSe")</a></li>
+                    <li><a href="@Url.RouteUrl("ContactUs")" title="@T("FooterRight.Contact")">@T("FooterRight.Contact")</a></li>
+                </ul>
+                <ul class="no-padding">
+                    <li><span>@T("Footer.SiteMap")</span></li>
+                    @foreach (Category mainCat in cats.Where(x => x.ShowOnHomePage == true).OrderBy(x => x.DisplayOrder))
+                    {
+                        <li><a href="@Url.RouteUrl("CategoryMain", new { categoryId = mainCat.Id, SeName = mainCat.SeName })">@mainCat.Name</a></li>
+                    }
+                    @if (ViewBag.LanguageCulture == "tr-tr")
+                    {
+                        <li><a href="@Url.RouteUrl("NewsArchive")">@T("News.MenuHeader")</a></li>
+                    }                    
+                    <li class="markalar"><a href="@Url.RouteUrl("ManufacturersAll")">@T("Manufacturer.Manufacturers")</a></li>
+                    <li><a href="@Url.RouteUrl("RecentlyAddedProducts")">@T("Products.NewProducts")</a></li>
+                </ul>
+                <div class="clear"></div>
+            </div>
+            <div class="share_icon">
+                <h4>@T("Footer.Follow")</h4>
+                <ul>
+                    <li class="ico1"><a target="_blank" href="http://www.pinterest.com/alwaysfashion/"></a></li>
+                    <li class="ico2"><a target="_blank" href="http://instagram.com/alwaysfashioncom/"></a></li>
+                    <li class="ico3"><a target="_blank" href="https://twitter.com/#!/always_fashion"></a></li>
+                    <li class="ico4"><a target="_blank" href="https://plus.google.com/+Alwaysfashioncom/"></a></li>
+                    <li class="ico5 no-margin"><a target="_blank" href="http://www.facebook.com/alwaysfashioncom"></a></li>
+                </ul>
+                <span>+90 212 246 68 38</span>
+            </div>
+            <div class="submit_mail">
+                <h4>@T("Footer.Newsletter")</h4>
+                <div class="clearfix">
+                    @using (Html.BeginForm("RegisterNewsLetter", "Customer", FormMethod.Post, new { id="frmRegisterNewsLetter"}))
+                    {
+                    <input class="input_btn2" id="btnNewsLetter" type="submit" value="@T("Account.NewsLetter.Submit")" />
+                    <input class="input_text2" name="Email"  id="Email" value="@T("Footer.NewsletterEmail")" onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;" 
+                        errorMessage="@T("Newsletter.Email.Wrong")"
+                        />
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="wrapper footer_bottom clearfix">
+            <a class="fl-lt" href="@Url.RouteUrl("Topic", new { SystemName = "security"})">
+                <img src="/_img/v2/comodo.png" alt="" height="18" width="79"></a>
+            <ul>
+                <li>
+                    <img src="/_img/v2/visa.png" alt="" height="8" width="24"></li>
+                <li>
+                    <img src="/_img/v2/amex.png" alt="" height="8" width="35"></li>
+                <li>
+                    <img src="/_img/v2/mcard.png" alt="" height="8" width="51"></li>
+            </ul>
+            <span>
+                <img src="/_img/v2/agy.png" alt="" height="17" width="215"></span>
+        </div>
+        <div class="wrapper copyright">
+            <span>@T("FooterLeft.AllRightsReserved")</span>
+        </div>
+    </div>

@@ -1,0 +1,70 @@
+﻿@model Nop.Web.Models.Catalog.ProductEmailAFriendModel
+<style type="text/css">
+    #Surname
+    {
+        position:fixed;
+        top:-1500px;    
+    }
+</style>
+<div class="sendEmail">
+        <em class="button">@T("Product.Share.SendEmail")</em>
+        <div class="detail">
+            <h6>
+                @T("Product.Share.SendEmail.Title")</h6>
+         @using (Html.BeginForm("ProductEmailAFriendSend", "Catalog", FormMethod.Post, new { id = "ProductSendEmailForm", autocomplete = "off" }))
+        {
+             <input type="text" id="Surname" name="Surname" value="" />
+             @Html.HiddenFor(model => model.VariantId)
+            <dl class="formfield">
+                <dt>@Html.LabelFor(model => model.YourName): </dt>
+                <dd>
+                    @Html.TextBoxFor(model => model.YourName)@Html.ValidationMessageFor(model => model.YourName)<span class="mark">*</span></dd>
+           
+                <dt>@Html.LabelFor(model => model.YourEmailAddress): </dt>
+                <dd>
+                    @Html.TextBoxFor(model => model.YourEmailAddress)@Html.ValidationMessageFor(model => model.YourEmailAddress)<span class="mark">*</span></dd>
+                <dt>@Html.LabelFor(model => model.FriendName): </dt>
+                <dd>
+                    @Html.TextBoxFor(model => model.FriendName)@Html.ValidationMessageFor(model => model.FriendName)<span class="mark">*</span></dd>
+           
+                <dt>@Html.LabelFor(model => model.FriendEmail) : </dt>
+                <dd>
+                     @Html.TextBoxFor(model => model.FriendEmail)@Html.ValidationMessageFor(model => model.FriendEmail)<span class="mark">*</span></dd>
+                <dt>@Html.LabelFor(model => model.PersonalMessage): </dt>
+                <dd class="textClass">
+                @Html.TextAreaFor(model => model.PersonalMessage)@Html.ValidationMessageFor(model => model.PersonalMessage)<span class="mark">*</span>
+                </dd>
+            </dl>
+            <div class="clearfix">
+                <div class="req">
+                    <span>*</span> @T("Common.RequiredFields")</div>
+                <div class="button">
+                    <a id="ProductSendEmail" href="javascript:;" class="button1 right">@T("Common.Send")</a></div>
+            </div>
+        }
+           @* <span class="close">@T("Common.Close")</span>*@
+            <!-- form success -->
+            <div id="ProductSendEmailSuccess" style="display:none;">
+            <p>&nbsp;</p>
+                                <p class="textCenter"><img src="@Url.Content("~/_img/popupthanks.png")" width="32" height="34" /></p>
+                                <h6 class="textCenter">@T("Products.EmailAFriend.SuccessfullySentTitle")</h6>
+                                <p class="textCenter message">@T("Products.EmailAFriend.SuccessfullySent")</p>
+                                <p>&nbsp;</p>
+                                <p>&nbsp;</p>
+                                <p>&nbsp;</p>
+                                </div>
+            <!-- form fail -->
+            <div id="ProductSendEmailError" style="display:none;">            
+                                <p>&nbsp;</p>
+                                <p class="textCenter"><img src="@Url.Content("~/_img/error_password.png")" width="22" height="22" /></p>
+                                <h6 class="textCenter">@T("Products.EmailAFriend.SentFailureTitle")</h6>
+                                <p class="textCenter message">@T("Products.EmailAFriend.SentFailure")</p>
+                                <p>&nbsp;</p>
+                                <p>&nbsp;</p>
+                                <p>&nbsp;</p>
+                                </div>
+        </div>
+        
+</div>
+
+

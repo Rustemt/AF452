@@ -1,0 +1,22 @@
+﻿@*AF*@
+@model Nop.Web.Models.Common.MessageModel
+
+  <!-- content  -->
+  <div id="content" class="clearfix">
+    <div id="orderThankyou">
+      <div id="orderCapsule" style="background:white" >
+      @* div style style="background:@Url.Content("~/_img/error_password.png") center 20px #FFF no-repeat;"*@
+      @foreach (var message in Model.MessageList)
+      {
+        <h1 >@message</h1> 
+      }
+       <p style="display:inline-block">@T("Checkout.CategoryProductSelect")</p>
+       <a href="@Url.RouteUrl("ContactUs")"><p style="display:inline-block">@T("ContactUs.PageLink")</p></a>
+        @*<p><img src="@Url.Content("~/_img/af.png")" alt="" /></p>*@
+        <p><a href="@Model.ActionUrl" class="button2">@Model.ActionText</a></p>
+      </div>
+      <div id="orderBottom"></div>
+    </div>
+  </div>
+  <!-- content ends  -->
+

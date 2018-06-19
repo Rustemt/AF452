@@ -1,0 +1,24 @@
+﻿@model OrderDetailsModel
+@using Nop.Core.Domain.Orders
+@using Nop.Web.Models.Order
+@using Nop.Services.Localization
+@using Nop.Web.Models.Common
+@if (Model.HasReturnRequest)
+{
+
+    @Html.Partial("_OrderDetailsReturnRequestItems", Model)
+}
+else
+{ 
+    @Html.Partial("_OrderDetailsItems", Model)
+
+}
+ @if (Model.IsReturnRequestAllowed && !Model.HasReturnRequest)
+ {
+    if (Model.IsReturnRequestAllowed)
+    {
+     <ul style="float: right;">
+         <a class="button2" href="@Url.RouteUrl("ReturnRequest", new {orderId = @Model.Id})">
+             @T("Order.ReturnItems")</a></ul>
+     }
+ }

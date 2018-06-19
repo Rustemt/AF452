@@ -1,0 +1,150 @@
+﻿@*AF*@
+@model ProductListModel
+@using Nop.Core;
+@using Nop.Core.Infrastructure;
+@using Nop.Web;
+@using Nop.Web.Framework.UI;
+@using Nop.Web.Models.Catalog;
+@{
+    var products = Model.Products;
+    bool hasStock = true;
+    string price = "";
+}
+
+                @foreach (var product in products)
+                {
+                    foreach (var variant in product.ProductVariantModels)
+                    {
+                        if (!variant.Active)
+                        {
+                            continue;
+                        }
+                        if (variant.HidePriceIfCallforPrice)
+                        {
+                            price = "";
+                        }
+                        else if (variant.ProductVariantPrice.PriceWithDiscount != null)
+                        {
+                            price = variant.ProductVariantPrice.PriceWithDiscount;
+                        }
+                        else
+                        {
+                            price = variant.ProductVariantPrice.Price;
+                        }
+                        var defaultPictureModel = variant.DefaultPictureModel == null ? product.DefaultPictureModel : variant.DefaultPictureModel;
+                        hasStock = variant.Stock > 0;
+                    <!-- thumb start -->
+                    <div class="thumb list">
+                        <input type="hidden" name="ProductId" value="@product.Id"/>
+                        <input type="hidden" name="VariantId" value="@variant.Id"/>
+                        <div class="pic">
+                            <img src="@defaultPictureModel.ImageUrl" width="157" height="204" alt="@defaultPictureModel.AlternateText"  title="@defaultPictureModel.Title"/></div>
+                        @if (!hasStock)
+                        {
+                            <div class="soldOut">
+                            </div>
+                        }
+                        else if (variant.ProductVariantPrice.PriceWithDiscount != null && !variant.HideDiscount)
+                        {
+                            <div class="sale">
+                            </div>
+                        }
+                        <div class="panel">
+                            <span class="close">close</span> <a href="@Url.RouteUrl("Product", new { productId = product.Id, variantId = variant.Id, SeName = product.SeName })" >
+                                <div class="text">
+                                    <p>
+                                        @product.Manufacturer</p>
+                                    <p>
+                                        @variant.Name</p>
+                                    @*          @foreach (var specification in product.SpecificationAttributeModels)
+                    {
+                        <p>
+                            <span>@specification.SpecificationAttributeName : @specification.SpecificationAttributeOption</span></p>  
+                    }*@
+                                    <p>
+                                        @price
+                                    </p>
+                                </div>
+                            </a>
+                            <div class="options" style="display: none">
+                                @{int level = 0;}
+                                @foreach (var attributeGroup in product.AttributeSelectionModel.GroupBy(x => x.AttributeId))
+                                {
+
+                                    foreach (var attr in attributeGroup)
+                                    {
+                                        level++;
+                                    <dl class="clearfix" parentId="@attr.ParentProductVariantAttributeValueId" level="@level" attributeId="@attr.AttributeId">
+                                        <dt>@attr.Name</dt>
+                                        <dd>
+                                            <!-- drop down -->
+                                            <div class="selectBox">
+                                                @{ var selectedValue = attr.ValueModels.FirstOrDefault(x => x.VariantId == variant.Id);
+                                                   if (selectedValue == null)
+                                                   {
+                                                       selectedValue = attr.ValueModels.FirstOrDefault();
+                                                   }
+                                                }
+                                                <span>@selectedValue.Name</span>
+                                                <ul>
+                                                    @foreach (var value in attr.ValueModels)
+                                                    {
+                                                        <li class="@(selectedValue.ProductVariantAttributeValueId == value.ProductVariantAttributeValueId ? "on" : "")" valueId="@value.ProductVariantAttributeValueId" ownerVariantId="@value.VariantId">@value.Name</li>
+                                                    }
+                                                </ul>
+                                            </div>
+                                            <!-- drop down ends -->
+                                        </dd>
+                                    </dl>
+                                    }
+                                }
+                                <dl class="clearfix" parentid="0">
+                                    <dt>@T("Category.ProductList.Quantity")</dt>
+                                    <dd>
+                                        <!-- drop down -->
+                                        <div class="selectBox quantity">
+                                            <span>1</span>
+                                            <ul>
+                                                <li class="on">1</li>
+                                                @for (int i = 2; i <= Math.Min(variant.OrderMaximumQuantity, 5); i++)
+                                                {
+                                                    <li>@i</li> 
+                                                }
+                                            </ul>
+                                        </div>
+                                        <!-- drop down ends -->
+                                    </dd>
+                                </dl>
+                            </div>
+                            <div class="buttons">
+                                @{
+                                    
+                                   
+                                                //first selected buy/offer button settings
+
+                                                string callForPrice = variant.ProductVariantPrice.CallForPrice ? "block" : "none";
+                                                string buyButton = variant.ProductVariantPrice.CallForPrice ? "none" : "block";
+                                
+                                }
+                                @if (hasStock)
+                                {
+                                    <p style="display:@callForPrice">
+                                        <a  data-val="offer" product-id="@variant.Id" product-name="@product.Manufacturer - @variant.Name"   product-img="@defaultPictureModel.ImageUrl" class="button1 center" title="@T("ShoppingCart.OfferPrice")" href="#sendPrice">
+                                            @T("ShoppingCart.OfferPrice")</a></p>
+                                }
+                                @if (hasStock)
+                                {
+                                    <p style="display:@buyButton">
+                                        <a style="padding-left:10px; padding-right:10px" class="button1 center @(hasStock ? "" : "soldout")" title="@T("Category.ProductList.AddToBag")" href="javascript:;">@T("Category.ProductList.AddToBag")</a></p>
+                                }
+                                <p>
+                                    <a class="button2 center" title="@T("Category.ProductList.GoToProduct")" href="@Url.RouteUrl("Product", new { productId = product.Id, variantId = variant.Id, SeName = product.SeName })">
+                                        @T("Category.ProductList.GoToProduct")</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- thumb end -->
+                    }
+                }
+
+@*@Html.Action("OfferPrice", "Common")*@ 

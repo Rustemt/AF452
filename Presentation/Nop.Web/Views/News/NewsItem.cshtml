@@ -1,0 +1,233 @@
+﻿@model Nop.Web.Models.News.NewsItemModel
+           
+@{
+    Html.AddTitleParts(T("PageTitle.NewsArchive").Text);
+    Html.AddTitleParts(String.IsNullOrEmpty(Model.MetaTitle) ? Model.Title : Model.MetaTitle);
+    Html.AddMetaDescriptionParts(Model.MetaDescription);
+    Html.AddMetaKeywordParts(Model.MetaKeywords); 
+}
+@using Nop.Web;
+@using Nop.Web.Extensions;
+@using Nop.Web.Models.Catalog;
+@using Nop.Core;  
+@using Nop.Core.Domain.Catalog;
+@using Nop.Web.Framework.Localization;
+@using Nop.Services.Seo;
+@{
+    Layout = "~/Views/Shared/_Root.cshtml";
+    //title
+
+    int count = 0;
+    string monthOnCss = "on";
+    string applicationPath = Request.ApplicationPath;
+    string url = Request.Url.PathAndQuery;   
+    var localizedUrl = url.AddLocalizedPathToRawUrl(applicationPath, WorkContext.WorkingLanguage);
+    localizedUrl = WebHelper.GetFullPath(localizedUrl);
+    var imageurl = "";
+    
+}
+@section JavaScript
+{
+    <link href="@Url.Content("~/_css/jquery.jqzoom.css")" type="text/css" rel="stylesheet"/>
+    <script type="text/javascript" src="@Url.ContentV("~/Scripts/news.js")"></script>
+}
+@section FacebookTags
+{
+    <meta property="og:title" content="@Model.Title" />
+    <meta property="og:description" content="@Nop.Core.Html.HtmlHelper.StripTags(Model.MetaDescription)" />
+    <meta property="og:image" content="@Model.DefaultPictureModel.ImageUrl"/>
+    <meta property="og:url" content="@localizedUrl"/>
+}
+@section Announcement{@Html.Action("NewsAnnouncement","News")}
+<div id="container">
+    <div id="content" class="clearfix">
+        <div class="newsPageHeader">
+            <p>
+                <a href="@Url.RouteUrl("NewsArchive")">@T("News.Archive")</a></p>
+            <h1>@Model.Title</h1>
+        </div>
+        <!-- contentup ends -->
+        <div class="tools clearfix">
+            <a href="@Url.RouteUrl("NewsArchive")" class="button3" title="Listeye Dön">
+                <img src="@Url.Content("~/_img/back-icon.png")" width="9" height="7" alt="" />@T("News.GoBack")</a>
+            @if (Model.NextNewsItemId != 0)
+            {        
+                <a href="@Url.RouteUrl("NewsItem", new { newsItemId = Model.NextNewsItemId, SeName = Model.NextNewsItemSeName })" class="button3 right" title="@T("News.Next")">@T("News.Next")</a>
+            }
+            @if (Model.PreviousNewsItemId != 0)
+            {
+                <a href="@Url.RouteUrl("NewsItem", new { newsItemId = Model.PreviousNewsItemId, SeName = Model.PreviousNewsItemSeName })" class="button3 right" title="@T("News.Previous")">@T("News.Previous")</a>
+            }
+        </div>
+        <!-- tools ends -->
+        <!-- slider -->
+        <div id="newsPageSlider">
+            <div class="content">
+                <ul class="clearfix">
+                    @foreach (var picture in Model.PictureModels)
+                    {
+                        <li><a href="#">
+                            <img src="@(picture.FullSizeImageUrl)" width="938" alt="" /></a></li>
+                    }
+                </ul>
+                @if (Model.PictureModels.Count > 1)
+                {
+                    <span id="newsPageSliderPrev" class="sub"></span>
+                    <span id="newsPageSliderNext" class="sub"></span>
+                }
+            </div>
+            <!-- ps. counter itemleri yanyana olmali -->
+            <ul class="counter">
+                @if (Model.PictureModels.Count > 1)
+                {
+                    for (int i = 1; i <= Model.PictureModels.Count; i++)
+                    {
+                        <li @(i == 1 ? "class=on" : "")>@i</li>
+                    }
+                }
+                else
+                {
+                    for (int i = 1; i <= Model.PictureModels.Count; i++)
+                    {
+                        <li style="visibility:hidden;" @(i == 1 ? "class=on" : "")>@i</li>
+                    }
+                }
+            </ul>
+            @if (ViewBag.Products != null)
+            {  <div class="bottomButton">
+                <a href="@Url.RouteUrl("NewsItemProducts", new { NewsItemId = Model.Id })" class="button1">@T("News.Shop")</a></div>
+            }
+        </div>
+        <!-- slider ends -->
+        <div id="newsPageContent" class="clearfix">
+            <div id="newsPageContentLeft">
+                @Html.Raw(Model.Full)
+               <ul class="socialItems clearfix">
+                    <li class="facebook">
+                        <div style="width: 100px;"> <div class="fb-like" data-href="@(Request.Url.AbsoluteUri)" data-send="false" data-layout="button_count" data-width="100" data-show-faces="false"></div></div>
+                    </li>
+                    <li class="twitter">
+                        <div style="width: 93px;">
+                        <a href="https://twitter.com/share" class="twitter-share-button" data-url="@(Request.Url.AbsoluteUri)" data-via="always_fashion">Tweet</a>
+                        </div>
+                    </li>
+                    <li class="pinterest">
+                      <div style="width: 60px;">
+                        <div class="pin-it">
+                            <a href="@(string.Format("http://pinterest.com/pin/create/button/?url={0}&media={1}&description={2}", Request.Url.AbsoluteUri, Model.DefaultPictureModel.FullSizeImageUrl, Model.MetaDescription))"  class="pin-it-button" count-layout="horizontal" target="_blank">
+                            <img border="0" src="http://assets.pinterest.com/images/PinExt.png" title="Pin It" alt=""/></a>
+                        </div>
+                      </div>
+                     </li>
+                    <li class="googlePlus"><div style="width: 78px;">
+                        <div class="g-plusone" data-size="medium"></div><script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+                        </div>
+                    </li>
+                    <li class="tumblr">
+                        <script type="text/javascript" src="http://platform.tumblr.com/v1/share.js"></script>
+                        <a href="http://www.tumblr.com/share" title="Share on Tumblr" style="display:inline-block; text-indent:-9999px; overflow:hidden; width:81px; height:20px; background:url('http://platform.tumblr.com/v1/share_1.png') top left no-repeat transparent;">Share on Tumblr</a>
+                    </li>
+                </ul>
+              
+                @if (ViewBag.Products.Count != null)
+                {
+                    <div class="_h4">@T("News.Products")</div>
+                    <div id="newsBottomSlider" class="clearfix">
+                        <div id="newsBottomSliderLeft">
+                        </div>
+                        <div id="newsBottomSliderContent">
+                            <ul class="clearfix">
+                                @foreach (var product in ViewBag.Products)
+                                {
+                                    imageurl = string.Format("{0}_{1}_222{2}", product.PictureId.ToString("0000000"), product.PictureSeoFilename, ".jpeg");
+                                    <li><a href="@Url.RouteUrl("Product", new { productId = product.ProductId, SeName = product.ProductSeName != null ? SeoExtensions.GetSeName(product.ProductSeName) : null })">
+                                        <img src="/content/images/thumbs/@imageurl" width="170" height="222" alt="" />
+                                    </a></li>
+                                }
+                            </ul>
+                        </div>
+                        <div id="newsBottomSliderRight"></div>
+                    </div>
+                }
+
+ @*               @if (ViewBag.NewsItemProductsSummary != null)
+                {
+                    <h4>@T("News.Products")</h4>
+                    <div id="newsBottomSlider" class="clearfix">
+                        <div id="newsBottomSliderLeft">
+                        </div>
+                        <div id="newsBottomSliderContent">
+                            <ul class="clearfix">
+                                @foreach (ProductSummary product in ViewBag.NewsItemProductsSummary)
+                                {	
+                                    <li><a href=" @Url.RouteUrl("Product", new { productId = product.Id, SeName = product.SeName })">
+                                        <img src="/content/images/thumbs/@product.ImageSePartUrl\.jpg" width="170" height="222" alt="" />
+                                    </a></li>
+                                }
+                            </ul>
+                        </div>
+                        <div id="newsBottomSliderRight"></div>
+                    </div>
+                }*@
+
+
+
+            </div>
+            <div id="newsPageContentRight">
+                <!-- item -->
+                 @foreach (var extraContent in Model.ExtraContentModels)
+                 {
+                <div class="item">
+                 @Html.Raw(extraContent.FullDescription)
+                </div>
+                 }
+                  <!-- item ends -->
+
+               @* <div class="item">
+                    @Html.Action("TopicBlock", "Topic", new { systemName = "news.Top_" + Model.Id })
+                </div>
+                <!-- item ends -->
+                <!-- item -->
+                <div class="item">
+                    @Html.Action("TopicBlock", "Topic", new { systemName = "news.Bottom_" + Model.Id })
+                </div>
+                <!-- item ends -->*@
+            </div>
+            <!-- content bottom -->
+            <div id="newsPageContentBottom" class="clearfix">
+                @if (Model.PreviousNewsItemId != 0)
+                {
+                    <div class="item">
+                        <div class="pic">
+                            <a href="@Url.RouteUrl("NewsItem", new { newsItemId = Model.PreviousNewsItemId, SeName = Model.PreviousNewsItemSeName })">
+                                <img src="@Model.PreviousNewsItemPictureUrl" width="100" height="100" alt="" />
+                            </a>
+                        </div>
+                        <div class="text">
+                            <a href="@Url.RouteUrl("NewsItem", new { newsItemId = Model.PreviousNewsItemId, SeName = Model.PreviousNewsItemSeName })">@T("News.Previous")</a>
+                        </div>
+                    </div>
+                }
+                @if (Model.NextNewsItemId != 0)
+                {
+                    <div class="item">
+                        <div class="pic">
+                            <a href="@Url.RouteUrl("NewsItem", new { newsItemId = Model.NextNewsItemId, SeName = Model.NextNewsItemSeName })">
+                                <img src="@Model.NextNewsItemPictureUrl" width="100" height="100" alt="" />
+                            </a>
+                        </div>
+                        <div class="text">
+                            <a href="@Url.RouteUrl("NewsItem", new { newsItemId = Model.NextNewsItemId, SeName = Model.NextNewsItemSeName })">@T("News.Next")</a>
+                        </div>
+                    </div>
+                }
+            </div>
+            <!-- content bottom ends -->
+        </div>
+    </div>
+    <!-- content ends -->
+</div>
+@if (Model.IsGuest)
+{
+    //@Html.Partial("_landingRegisteration", new Nop.Web.Models.Newsletter.NewsletterBoxModel()) 
+}

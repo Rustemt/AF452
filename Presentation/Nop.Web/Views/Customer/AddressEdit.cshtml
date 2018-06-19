@@ -1,0 +1,102 @@
+﻿@model Nop.Web.Models.Common.AddressModel
+@using Nop.Web.Framework;
+
+@using (Html.BeginForm("AddressEdit", "Customer", FormMethod.Post, new { id="formShipping"}))
+{
+    if (Model.Id == 0)
+    { Model.Name = string.Empty; }
+@Html.HiddenFor(model => Model.Id)
+@Html.HiddenFor(model => Model.DefaultShippingAddress)
+@Html.HiddenFor(model => Model.DefaultBillingAddress)
+<div id="addressShippingContainer">
+ <div id="Shipping" class="addressContainer clearfix" AddressType = "P" style="display:block">
+        <dl class="formfield">
+          <dt>@Html.LabelFor(model => model.Name) : </dt>
+          <dd>
+           @Html.EditorFor(model => model.Name)@Html.ValidationMessageFor(model => model.Name)
+          </dd>
+          <dt>@T("Address.Title")</dt>
+          <dd>@Html.AFDropDown("Title", Model.Genders)</dd>
+          <dd class="title">
+            <div class="row clearfix">
+              <div class="left">@Html.LabelFor(model => model.FirstName) :</div>
+              <div class="right">@Html.LabelFor(model => model.LastName) :</div>
+            </div>
+          </dd>
+          
+          <dd>
+            <div class="row clearfix">
+              <div class="left">
+                @Html.EditorFor(model => model.FirstName)@Html.ValidationMessageFor(model => model.FirstName)
+              </div>
+              <div class="right">
+                @Html.EditorFor(model => model.LastName)@Html.ValidationMessageFor(model => model.LastName)
+              </div>
+            </div>
+          </dd>
+          <dt>@Html.LabelFor(model => model.Address1) :</dt>
+          <dd class="textClass">
+          @Html.TextAreaFor(model => model.Address1)@Html.ValidationMessageFor(model => model.Address1)
+          </dd>
+          <dt>@Html.LabelFor(model => model.City) : </dt>
+          <dd>
+            @Html.EditorFor(model => model.City)@Html.ValidationMessageFor(model => model.City)
+          </dd>
+          <dt>@Html.LabelFor(model => model.StateProvinceId) : </dt>
+          <dd>
+            @Html.AFDropDown("StateProvinceId", Model.AvailableStates)
+          </dd>
+          <dt>@Html.LabelFor(model => model.ZipPostalCode) : </dt>
+          <dd>
+            @Html.EditorFor(model => model.ZipPostalCode)
+          </dd>
+          <dt>@Html.LabelFor(model => model.CountryId) : </dt>         
+          <dd>
+         @Html.AFDropDown("CountryId", Model.AvailableCountries) 
+          </dd>
+          <dt>@Html.LabelFor(model => model.PhoneNumber) : </dt>
+          <dd>
+            @Html.EditorFor(model => model.PhoneNumber)@Html.ValidationMessageFor(model => model.PhoneNumber)
+          </dd> 
+          
+     @*     <div style="display:none">
+           <dt>@Html.LabelFor(model => model.CivilNo) : </dt>
+          <dd>
+            @Html.EditorFor(model => model.CivilNo)
+          </dd>
+            <dt>@Html.LabelFor(model => model.Company) : </dt>
+          <dd>
+            @Html.EditorFor(model => model.Company)
+          </dd>
+            <dt>@Html.LabelFor(model => model.TaxOffice) : </dt>
+          <dd>
+            @Html.EditorFor(model => model.TaxOffice)
+          </dd>
+           <dt>@Html.LabelFor(model => model.TaxNo) : </dt>
+          <dd>
+            @Html.EditorFor(model => model.TaxNo)
+          </dd>
+          </div>*@
+         </dl>
+         @Html.HiddenFor(model => model.TaxNo)
+         @Html.HiddenFor(model => model.TaxOffice)
+         @Html.HiddenFor(model => model.Company)
+         @Html.HiddenFor(model => model.CivilNo)
+         @Html.HiddenFor(model => model.IsEnterprise)
+         <div id="checkShipping" class="rules"><a class="checkbox @(Model.DefaultShippingAddress ? "checked" : "")" href="javascript:;">@T("Address.Mark.AsShipping")</a></div>
+         <p>@T("Address.Shipping.Message")</p>
+        </div>
+         @{
+            string displayUpdateButton = Model.Id == 0 ? "none" : "block";
+            string displayAddButton = Model.Id == 0 ? "block" : "none";
+    
+         }
+        <div class="saveInfo clearfix"> 
+        <input type="submit" id="shippingAddressButtonEdit" style="display:@displayUpdateButton; height:24px;cursor:pointer" class="address save" value="@T("Common.Edit")" />
+        <input type="submit" id="shippingAddressButtonAdd" style="display:@displayAddButton; height:24px;cursor:pointer" class="address save" value="@T("Common.Save")" />
+        <a href="@Url.Action("AddressDelete", "Customer", new { addressId = Model.Id })" class="delete">@T("Common.Delete")</a>
+         </div>
+  </div>
+
+    
+}

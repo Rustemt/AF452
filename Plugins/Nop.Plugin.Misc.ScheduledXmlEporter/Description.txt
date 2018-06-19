@@ -1,0 +1,8 @@
+﻿Group: Misc
+FriendlyName: ScheduledXmlEporter xml products exporter
+SystemName: Misc.ScheduledXmlEporter
+Version: 1.02
+SupportedVersions: 2.40
+Author: AF team
+DisplayOrder: 1
+FileName: Nop.Plugin.Misc.ScheduledXmlEporter.dll

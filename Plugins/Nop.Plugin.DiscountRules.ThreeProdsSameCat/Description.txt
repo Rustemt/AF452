@@ -1,0 +1,8 @@
+﻿Group: Discount requirements
+FriendlyName: Three Prods Same Category
+SystemName: DiscountRequirement.ThreeProdsSameCat
+Version: 1.00
+SupportedVersions: 2.40
+Author: AF team
+DisplayOrder: 1
+FileName: Nop.Plugin.DiscountRules.ThreeProdsSameCat.dll

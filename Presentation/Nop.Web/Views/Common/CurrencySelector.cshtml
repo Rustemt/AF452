@@ -1,0 +1,13 @@
+﻿@model Nop.Web.Models.Common.CurrencySelectorModel
+@if (Model.AvailableCurrencies.Count > 1)
+{
+    <span style="display:inline-block" class="currency">@T("CurrencySelector.Currency") &nbsp</span> 
+    <a href="" style="line-height:12px; padding-bottom:2px;width:70px; display:inline-block"  class="currency" id="currency" title="Choose your currency">@Model.CurrentCurrency.Name</a>
+   <ul style="bottom:-1px;right:129px;" class="curList" id="curList">
+   @foreach (var cur in Model.AvailableCurrencies)
+   {
+    	<li style="width:68px" id="@cur.Id"><a style="width:79px" href="@Url.Action("CurrencySelected", "Common", new { customerCurrency = cur.Id })" title="@cur.Name">@cur.Name</a></li>
+   }
+    </ul>
+   
+}

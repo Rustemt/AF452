@@ -1,0 +1,170 @@
+﻿@model Nop.Web.Models.ShoppingCart.WishlistModel
+@using Nop.Core.Domain.Orders
+@using Nop.Web.Models.Checkout
+@{
+    Layout = "~/Views/Shared/_Root.cshtml";
+    //title
+    Html.AddTitleParts(T("Titles.Wishlist").Text);
+    Html.AddMetaKeywordParts(T("Keywords.Wishlist").Text);
+}
+@section JavaScript
+{
+    <script src="@Url.ContentV("~/Scripts/wishlist.js")" type="text/javascript"></script>
+}
+@section JavaScriptVariables
+{
+    <script type="text/javascript">
+        var _addtoCartFromWishlist="@Url.Action("AddtoCartFromWishlist", "ShoppingCart")";
+        var _updateWishlist="@Url.Action("UpdateWishlist", "ShoppingCart")";
+        var _deleteWishListCartItem="@Url.Action("DeleteWishListCartItem", "ShoppingCart")";
+        var _deleteWishListCartItemCollection="@Url.Action("DeleteWishListCartItemCollection", "ShoppingCart")";
+        var _sortWishListby="@Url.Action("SortWishListby", "ShoppingCart")";
+    </script>
+}
+<!-- content container  -->
+<div id="container">
+ @if (Model.Items.Count > 0)
+ {
+    <div id="content" class="clearfix">
+        @Html.Partial("~/Views/Customer/MyAccountNavigation.cshtml", Model.Navigationmodel)
+        <div id="whislistHeader" class="clearfix">
+            <div id="whislistHeaderLeft">@T("WishList.WishList")</div>
+            <ul id="whislistHeaderRight">
+                <li><a href="#sendWishListEmail" id="sendEmailLink" title="Share List" class="button2">@T("WishList.Share.List")</a></li>@*@Html.Action("WishListAction", "ShoppingCart")   *@
+                <li><a href="javascript:print();" title="Print List" class="button2">@T("WishList.Print.List")</a></li>
+                <li style="display: none"><a href="#" title="Make Public" class="button4">@T("WishList.Make.Public")</a></li>
+                <li style="display: none" class="privatePublic">@T("Your.WishList") <span class="state red">
+                    [@T("WishList.Private")]</span></li>
+                <!--<li class="privatePublic">YOUR WISH LIST IS <span class="state green">[PRIVATE]</span></li>-->
+            </ul>
+        </div>
+        <!-- whislist header ends -->
+        <!-- select tools -->
+        <div class="tools whislist noBorder clearfix">
+            <!-- drop down -->
+            <div class="toolItem" style="width: 228px;">
+                <div class="toolItemLeft">@T("ProductSorting.SortBy"):</div>
+                <div class="toolItemRight" style="width: 146px;">
+                    <div class="selectBox">
+                        <span>@T("ProductOptions.Position")</span>
+                        <ul id="wishListSelectBox" class="chooseOrder">
+                                <li class="on" value="0">@T("ProductOptions.Position")</li>
+                                <li value="15">@T("ProductOptions.LatestArrivals")</li>
+                                <li value="10">@T("ProductOptions.LowPrice")</li>
+                                <li value="11">@T("ProductOptions.HighPrice")</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- drop down ends -->
+            <!-- drop down -->
+            @*
+                  <div class="toolItem" style="width: 210px;">
+                    <div class="toolItemLeft">@T("WishList.View")</div>
+                    <div class="toolItemRight" style="width: 146px;">
+                      <div class="selectBox">
+                        <span>LATEST ARRIVALS</span>
+                        <ul>
+                            <li class="on">LATEST ARRIVALS</li>
+
+                            <li>LOW PRICE</li>
+                            <li>HIGH PRICE</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>      
+                *@
+            <!-- drop down ends -->
+            <!-- drop down -->
+            @*    <div class="toolItem" style="width: 210px;">
+                    <div class="toolItemLeft">VIEW:</div>
+                    <div class="toolItemRight" style="width: 146px;">
+                      <div class="selectBox">
+                        <span>LATEST ARRIVALS</span>
+                        <ul>
+                            <li class="on">LATEST ARRIVALS</li>
+
+                            <li>LOW PRICE</li>
+                            <li>HIGH PRICE</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>      *@
+            <!-- drop down ends -->
+            <!-- seach-->
+            <div style="display: none;" class="innerSearch clearfix">
+                <span class="left">@T("WishList.Search.WishList")</span>
+                <div class="innerSearchContainer">
+                    <div class="innerSearchLeft">
+                        <input type="text"></div>
+                    <div class="innerSearchRight">
+                        <a href="#" title="@T("WishList.Search")">@T("WishList.Search")</a></div>
+                </div>
+            </div>
+            <!-- search ends -->
+        </div>
+        <!-- select tools ends -->
+        <!-- select bar -->
+        <div class="whislistSelectBar clearfix">
+            <div class="whislistSelectBarLeft">
+                <a href="javascript:;" group="wishlist" class="checkbox cbSelectAll" mode="all" title="@T("WishList.Select.All")">@T("WishList.Select.All")</a><span></span><a id="removeAll" href="javascript:;" title="@T("WishList.Remove.Selected")">@T("WishList.Remove.Selected")</a><span>I</span><a href="#" title="@T("WishList.ShowAll")">@T("WishList.ShowAll")</a>
+            </div>
+            @*search to be implemented*@ @*<div class="whislistSelectBarRight">@T("WishList.You.Searched") <span>WATCH</span></div>*@
+        </div>
+        <!-- select bar ends -->
+        <!-- wished items -->
+        <div class="wishedItemsContainer">
+            
+            @Html.Partial("WishListProducts", Model.Items)
+        </div>
+        <!-- wished items end -->
+        <!-- select bar -->
+        <div class="whislistSelectBar clearfix">
+            <div class="whislistSelectBarLeft">
+                <a href="#" group="wishlist" class="checkbox cbSelectAll" mode="all" title="@T("WishList.Select.All")">@T("WishList.Select.All")</a><span>I</span><a id="removeAll" href="javascript:;" title="@T("WishList.Remove.Selected")">@T("WishList.Remove.Selected")</a><span>I</span><a href="#" title="@T("WishList.ShowAll")">@T("WishList.ShowAll")</a>
+            </div>
+        </div>
+        <!-- select bar ends -->
+        <!-- bottom buttons -->
+        <div id="wishListFooter" class="clearfix">
+            <a href="@Url.Action("Index", "Home")" class="button2 big" title="@T("WishList.Countinue")">@T("WishList.Countinue")</a>
+            <a href="javascript:;" id="buySelected" title="@T("WishList.Buy.Selected")" class="button1 big right">@T("WishList.Buy.Selected")</a></div>
+        <!-- bottom buttons ends -->
+    </div>
+    @Html.Action("WishListEmailAFriend", "ShoppingCart")
+ }
+ else
+ {
+     Nop.Web.Models.Common.MessageModel msgModel = ViewBag.MessageModel;
+       @* @Html.Partial("Message", msgModel)*@
+         <div id="content" class="clearfix">
+        @Html.Partial("~/Views/Customer/MyAccountNavigation.cshtml", Model.Navigationmodel)
+       @* <div id="whislistHeader" class="clearfix">
+           <div id="whislistHeaderLeft">@T("WishList.WishList")</div>
+            <ul id="whislistHeaderRight">
+                <li><a href="#sendWishListEmail" id="sendEmailLink" title="Share List" class="button2">@T("WishList.Share.List")</a></li>
+                <li><a href="javascript:print();" title="Print List" class="button2">@T("WishList.Print.List")</a></li>
+                <li style="display: none"><a href="#" title="Make Public" class="button4">@T("WishList.Make.Public")</a></li>
+                <li style="display: none" class="privatePublic">@T("Your.WishList") <span class="state red">
+                    [@T("WishList.Private")]</span></li>
+                <!--<li class="privatePublic">YOUR WISH LIST IS <span class="state green">[PRIVATE]</span></li>-->
+            </ul>
+        </div>*@
+    <div id="orderThankyou">
+      <div id="orderCapsule" style="background:white" >
+      @* div style style="background:@Url.Content("~/_img/error_password.png") center 20px #FFF no-repeat;"*@
+      @foreach (var message in msgModel.MessageList)
+      {
+        <h1 >@message</h1> 
+      }
+       <p style="display:inline-block">@T("Checkout.CategoryProductSelect")</p>
+       <a href="@Url.RouteUrl("ContactUs")"><p style="display:inline-block">@T("ContactUs.PageLink")</p></a>
+        @*<p><img src="@Url.Content("~/_img/af.png")" alt="" /></p>*@
+        <p><a href="@msgModel.ActionUrl" class="button2">@msgModel.ActionText</a></p>
+      </div>
+      <div id="orderBottom"></div>
+    </div>
+  </div>
+  }
+</div>
+@Html.Action("OfferPrice", "Common")

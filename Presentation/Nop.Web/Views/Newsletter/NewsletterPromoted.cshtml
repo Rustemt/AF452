@@ -1,0 +1,97 @@
+﻿@model Nop.Web.Models.Newsletter.NewsletterBoxModel
+@using Nop.Web.Framework;
+@using Nop.Web.Framework.Security.Captcha;
+@using Nop.Web.Models.Common
+@{
+    Layout = "~/Views/Shared/_Root.cshtml";
+
+    //title
+    Html.AddTitleParts(T("Titles.NewsLetterPromoted").Text);
+    Html.AddMetaKeywordParts(T("Keywords.NewsLetterPromoted").Text);
+}
+
+<div id="container"> 
+ @if (ViewContext.ViewData.ModelState != null)
+        {
+            var errors = this.ViewContext.ViewData.ModelState.Keys.SelectMany(key => this.ViewContext.ViewData.ModelState[key].Errors);
+            var msg = new MessageModel();
+            msg.Successful = false;
+            if (errors.Count() > 0)
+            {
+                foreach (var erros in errors)
+                {
+                    msg.MessageList.Add(erros.ErrorMessage);
+                }
+                @Html.Partial("MessageInline", msg);
+            }
+
+        }
+  <!-- content  -->
+  @if (ViewBag.Success !=null && ViewBag.Success)
+  {
+    @Html.Action("TopicBlock", "Topic", new { systemName = "NewsletterPromoted_Successful" })
+  }
+  else
+  {
+  <div id="content" class="clearfix"> 
+    <!-- login  -->
+    <div id="login" class="clearfix"> 
+       @using (Html.BeginForm("NewsletterPromoted", "Newsletter", FormMethod.Post, new { id = "NewsletterPromoted" }))
+       {
+            @Html.AntiForgeryToken()
+      <!-- loginLeft  -->
+      <div id="loginLeft">
+        <h5 class="title">@T("NewsLetterSubscription.NewsletterPromotedTitle")</h5>
+        <dl class="formfield">
+          <dt>@Html.LabelFor(model => model.Email) : </dt>
+          <dd>
+             @Html.EditorFor(model => model.Email)
+              @Html.ValidationMessageFor(model => model.Email)
+          </dd>
+
+          <dt>@Html.LabelFor(model => model.FirstName) : </dt>
+          <dd>
+              @Html.EditorFor(model => model.FirstName)
+              @Html.ValidationMessageFor(model => model.FirstName)
+          </dd>
+          <dt>@Html.LabelFor(model => model.LastName) : </dt>
+          <dd>
+             @Html.EditorFor(model => model.LastName)
+              @Html.ValidationMessageFor(model => model.LastName)
+          </dd>
+          @if (Model.GenderEnabled)
+          {
+          <dt>@Html.LabelFor(model => model.Gender) : </dt>
+          <dd>
+            @Html.AFDropDown("Gender", Model.Genders, "style=\" width:130px;\"")
+          </dd>
+          }
+          <dt>@Html.LabelFor(model => model.CountryId) : </dt>
+          <dd>
+             @Html.AFDropDown("CountryId", Model.AvailableCountries) 
+          </dd>
+         <dd style="padding: 0px; margin: 0px">
+                            <div style="padding-top: 0px; margin-top: 0px" class="row clearfix">
+                                <a href="javascript:;" class="checkbox">@T("NewsletterPromoted.AcceptPolicy")</a>
+                                <input type="hidden" name="AcceptPolicy" id="AcceptPolicy" />
+                            </div>
+                            </dd>
+        </dl>
+        
+        <input type="submit" value="@T("Account.NewsLetter.Submit")" class="continue" id="Register"/>
+        </div>
+      <!-- loginLeft ends --> 
+       }
+      <!-- loginRight  -->
+      <div id="loginRight">
+       @Html.Action("TopicBlock", "Topic", new { systemName = "NewsletterPromoted" })
+      <!-- loginRight ends --> 
+   
+    </div>
+    <!-- login ends --> 
+  </div>
+  <!-- content ends --> 
+  
+</div>
+  }
+</div>

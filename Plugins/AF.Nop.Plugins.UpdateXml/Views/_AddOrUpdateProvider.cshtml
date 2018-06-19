@@ -1,0 +1,153 @@
+﻿@{
+    Layout = "";
+}
+@model AF.Nop.Plugins.XmlUpdate.Models.ProviderModel
+@using Nop.Web.Framework;
+@using Nop.Web.Framework;
+
+
+<style>
+    .xml-properties ul {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    }
+
+    .xml-properties li strong {
+        display: inline-block;
+        min-width: 100px;
+    }
+</style>
+
+<table class="adminContent">
+    <tr>
+        <td class="adminTitle">
+            @Html.NopLabelFor(model => model.Enabled):
+        </td>
+        <td class="adminData">
+            @Html.CheckBoxFor(model => Model.Enabled)
+            @Html.ValidationMessageFor(model => model.Enabled)
+        </td>
+    </tr>
+
+    <tr>
+        <td class="adminTitle">
+            @Html.NopLabelFor(model => model.Name):
+        </td>
+        <td class="adminData">
+            @Html.EditorFor(model => Model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </td>
+    </tr>
+
+    <tr>
+        <td class="adminTitle">
+            @Html.NopLabelFor(model => model.Url):
+        </td>
+        <td class="adminData">
+            @Html.EditorFor(model => Model.Url)
+            @Html.ValidationMessageFor(model => model.Url)
+        </td>
+    </tr>
+
+    <tr>
+        <td class="adminTitle">
+            @Html.NopLabelFor(model => model.XmlRootNode):
+        </td>
+        <td class="adminData">
+            @Html.EditorFor(model => Model.XmlRootNode)
+            @Html.ValidationMessageFor(model => model.XmlRootNode)
+        </td>
+    </tr>
+
+    <tr>
+        <td class="adminTitle">
+            @Html.NopLabelFor(model => model.XmlItemNode):
+        </td>
+        <td class="adminData">
+            @Html.EditorFor(model => Model.XmlItemNode)
+            @Html.ValidationMessageFor(model => model.XmlItemNode)
+        </td>
+    </tr>
+
+    <tr>
+        <td class="adminTitle">
+            @Html.NopLabelFor(model => model.AuthType):
+        </td>
+        <td class="adminData">
+            @Html.DropDownListFor(model => Model.AuthType, Model.AuthTypes)
+            @Html.ValidationMessageFor(model => model.AuthType)
+        </td>
+    </tr>
+
+    <tr>
+        <td class="adminTitle">
+            @Html.NopLabelFor(model => model.Username):
+        </td>
+        <td class="adminData">
+            @Html.EditorFor(model => Model.Username)
+            @Html.ValidationMessageFor(model => model.Username)
+        </td>
+    </tr>
+
+    <tr>
+        <td class="adminTitle">
+            @Html.NopLabelFor(model => model.Password):
+        </td>
+        <td class="adminData">
+            @Html.EditorFor(model => model.Password)
+            @Html.ValidationMessageFor(model => model.Password)
+        </td>
+    </tr>
+
+    <tr>
+        <td class="adminTitle">
+            @Html.NopLabelFor(model => model.UnpublishZeroStock):
+        </td>
+        <td class="adminData">
+            @Html.CheckBoxFor(model => Model.UnpublishZeroStock)
+            @Html.ValidationMessageFor(model => model.UnpublishZeroStock)
+        </td>
+    </tr>
+
+    <tr>
+        <td class="adminTitle">
+            @Html.NopLabelFor(model => model.AutoResetStock):
+        </td>
+        <td class="adminData">
+            @Html.CheckBoxFor(model => Model.AutoResetStock)
+            @Html.ValidationMessageFor(model => model.AutoResetStock)
+        </td>
+    </tr>
+
+    <tr>
+        <td class="adminTitle">
+            @Html.NopLabelFor(model => model.AutoUnpublish):
+        </td>
+        <td class="adminData">
+            @Html.CheckBoxFor(model => Model.AutoUnpublish)
+            @Html.ValidationMessageFor(model => model.AutoUnpublish)
+        </td>
+    </tr>
+
+    <tr>
+        <td class="adminTitle">
+            @Html.NopLabelFor(model => model.Properties):
+        </td>
+        <td class="adminData xml-properties">
+            @Html.ValidationMessageFor(model => model.Properties)
+            <ul>
+                @for (int i = 0; i < Model.Properties.Count; i++)
+                {
+                    <li>
+                        @Html.CheckBoxFor(model => model.Properties[i].Enabled)
+                        <strong>@Model.Properties[i].ProductProperty</strong>
+                        @Html.EditorFor(model => model.Properties[i].Name)
+                        @Html.HiddenFor(model => model.Properties[i].ProductProperty)
+                        @Html.ValidationMessageFor(model => model.Properties[i].Name)
+                    </li>
+                }
+            </ul>
+        </td>
+    </tr>
+</table>

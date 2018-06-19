@@ -1,0 +1,72 @@
+﻿@*AF*@
+@model Nop.Web.Models.Common.CategoryMenuModel
+@{
+    Layout = "~/Views/Shared/_Root.cshtml";
+
+    Html.AddTitleParts(!String.IsNullOrEmpty(Model.MetaTitle) ? Model.MetaTitle : Model.Name);
+    Html.AddMetaDescriptionParts(Model.MetaDescription);
+    Html.AddMetaKeywordParts(Model.MetaKeywords);
+
+    var backgroundImagePath = Model.ContentItem != null ? Model.ContentItem.ImagePath : "";
+    var contentTitle = Model.ContentItem != null ? Model.ContentItem.Title : "";
+    var content = Model.ContentItem != null ? Model.ContentItem.Content : "";
+    var contentUrl = Model.ContentItem != null ? Model.ContentItem.Url : "";
+        }
+        
+@section Announcement{@Html.Action("NewsAnnouncement","News")}
+<div id="main" onclick="javascript:  location = '@contentUrl'; " style="background: url(@backgroundImagePath) #fafafa top center no-repeat; cursor:pointer;">
+    	<div id="mainInner">
+        	<ul id="innerMenu">
+            @foreach (var subHeader in Model.SubHeaders)
+            {
+            	<li>
+                @if (subHeader.Items.Count == 0)
+                {
+                	<a href="@subHeader.Url" title="@subHeader.Title">@subHeader.Name</a>
+                }
+                else
+                {
+                     <a href="@subHeader.Url" title="@subHeader.Title">@subHeader.Name</a>
+                }
+                	<ul>
+                    @foreach (var item in subHeader.Items)
+                    {
+                    	<li><a href="@item.Url" title="@item.Title">@item.Name</a></li>
+                    }   
+                    </ul>
+                </li>
+            }
+
+            </ul>
+            <!-- sub menu items ended -->
+            <!-- category text -->
+            <div id="infoBox">
+            	@*<h1>@contentTitle</h1>*@
+                <p>@Html.Raw(content)</p>
+                <p><a href="@contentUrl" title="@contentTitle">@T("CategoryMain.ViewDetails")</a></p>
+            </div>
+            <!-- category text -->
+        </div>
+        <!-- main inner ends -->
+    </div>
+@if (Model.IsGuest)
+    {
+    //@Html.Partial("_landingRegisteration", new Nop.Web.Models.Newsletter.NewsletterBoxModel()) 
+}
+
+@section BodyEnd
+{
+    <!-- Google Code for Remarketing Tag -->   
+    <script type="text/javascript">
+        var google_tag_params = {
+            ecomm_prodid: '',
+            ecomm_pagetype: 'searchresults',
+            ecomm_totalvalue:
+        };
+    </script>    
+}
+
+@section GoogleAnalytics
+{     
+    ga('set', 'dimension2', 'searchresults');   // home, cart, purchase
+}

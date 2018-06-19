@@ -1,0 +1,185 @@
+﻿@{
+    Layout = "";
+}
+@model Nop.Plugin.Payments.Akbank.Models.ConfigurationModel
+@using Nop.Web.Framework;
+@using (Html.BeginForm())
+{
+    <table class="adminContent">
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.UseTestServer):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.UseTestServer)
+                @Html.ValidationMessageFor(model => model.UseTestServer)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.ServiceUrl):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.ServiceUrl)
+                @Html.ValidationMessageFor(model => model.ServiceUrl)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.ClientId):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.ClientId)
+                @Html.ValidationMessageFor(model => model.ClientId)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.Name):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.Name)
+                @Html.ValidationMessageFor(model => model.Name)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.Password):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.Password)
+                @Html.ValidationMessageFor(model => model.Password)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.TestOrder):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.TestOrder)
+                @Html.ValidationMessageFor(model => model.TestOrder)
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <b>3D Payment Settings</b>
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model._3dclientid):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model._3dclientid)
+                @Html.ValidationMessageFor(model => model._3dclientid)
+            </td>
+        </tr>
+         <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model._3dislemtipi):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model._3dislemtipi)
+                @Html.ValidationMessageFor(model => model._3dislemtipi)
+            </td>
+        </tr>
+         <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model._3dstoretype):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model._3dstoretype)
+                @Html.ValidationMessageFor(model => model._3dstoretype)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model._3durl):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model._3durl)
+                @Html.ValidationMessageFor(model => model._3durl)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model._3dokUrl):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model._3dokUrl)
+                @Html.ValidationMessageFor(model => model._3dokUrl)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model._3dfailUrl):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model._3dfailUrl)
+                @Html.ValidationMessageFor(model => model._3dfailUrl)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model._3dStoreKey):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model._3dStoreKey)
+                @Html.ValidationMessageFor(model => model._3dStoreKey)
+            </td>
+        </tr>
+
+
+
+
+        <tr>
+            <td>
+                <b>Test Payment Settings</b>
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.TestServiceUrl):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.TestServiceUrl)
+                @Html.ValidationMessageFor(model => model.TestServiceUrl)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.TestClientId):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.TestClientId)
+                @Html.ValidationMessageFor(model => model.TestClientId)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.TestName):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.TestName)
+                @Html.ValidationMessageFor(model => model.TestName)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.TestPassword):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.TestPassword)
+                @Html.ValidationMessageFor(model => model.TestPassword)
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" width="100%">
+                <button type="submit" name="save" value="save" class="t-button">
+                    Save</button>
+            </td>
+        </tr>
+    </table>
+    
+}

@@ -1,0 +1,76 @@
+﻿@using System.Web.UI.WebControls
+@model Nop.Web.Models.Newsletter.NewsletterBoxModel
+@{
+    Html.AddTitleParts(T("Titles.CampaignRegister").Text);
+    Html.AddMetaKeywordParts(T("Keywords.CampaignRegister").Text);
+    Html.AddMetaDescriptionParts(T("Description.CampaignRegister").Text);
+    
+    ViewBag.Title = "CampaignRegister";
+    Layout = "~/Views/Shared/_Root.cshtml";
+}
+
+@section JavaScriptVariables
+{
+    <script type="text/javascript">
+    var _policyCheckedMessage ="@T("Campaign.Register.TermOfUse").Text";
+    </script>
+}
+
+<div id="containerCampaign" style="padding-top:50px; " >
+<div id="contentCampaign" class="clearfix" style=" @(WorkContext.WorkingLanguage.Id == 2 ? "background-image:url('/Content/kayit-tr.jpg');" : "background-image:url('/Content/kayit-en.jpg');") text-align:center; margin-bottom:30px; ">
+ <div id="login"  class="clearfix" style=" float:right; padding-right:30px; padding-top:320px;"> 
+ @using (Html.BeginForm("CampaignRegister", "Home", FormMethod.Post))
+ {      
+         <div id="productDesc" style="margin-left:110px; margin-top:20px; padding-top:20px; padding-bottom: 10px; height: 250px; background-color:White; opacity:0.8; width:420px;">
+         
+         <div id="loginLeft"><br/>
+          
+             <dl class="formfieldNewsLetter" style="width:400px;">
+                 
+                 <dt style="width:80px; ">@Html.LabelFor(model => model.FirstName, new { style = "width:40px; margin-left:20px; color:black;text-align:left;" }):</dt>
+                 
+                 <dd style="width: 300px;">
+                     @Html.EditorFor(model => model.FirstName, new { style = "width:240px; height:25px;" })@Html.ValidationMessageFor(model => model.FirstName)
+                 </dd>
+              
+                 <dt style="width:80px;"> @Html.LabelFor(model => model.LastName, new { style = "width:40px;margin-left:20px;color:black;" }): </dt>
+                 
+                 <dd style="width: 300px;">
+                     @Html.EditorFor(model => model.LastName, new { style = "width:240px; height:25px;" })@Html.ValidationMessageFor(model => model.LastName)
+                 </dd>
+                
+                 <dt style="width:80px;">@Html.LabelFor(model => model.CampaignMail, new { style = "width:40px;margin-left:20px;color:black;" }): </dt>
+                 
+                 <dd style="width: 300px;">
+                     @Html.EditorFor(model => model.CampaignMail, new { style = "width:240px; height:25px;" })@Html.ValidationMessageFor(model => model.CampaignMail)
+                 </dd>
+                 
+                 <dt style="width:80px;">@Html.LabelFor(model => model.Gender, new { style = "width:40px;margin-left:20px;color:black;" }): </dt>
+               
+                 <dd style="width: 300px;">
+                     @Html.AFDropDown("Gender", Model.Genders, "style=\" width:130px;\"")
+                 </dd>
+                 
+                 <dt style="width:80px;">@Html.LabelFor(model => model.AvailableCountries, new { style = "width:40px;margin-left:20px;color:black; " }): </dt>
+               
+                 <dd style="width: 300px;">
+                     @Html.AFDropDown("CountryId", Model.AvailableCountries, "style=\"width:130px;\"") 
+                 </dd>
+                 
+                 <dt class="termOfUseCheck" style="width:30px; padding-left: 20px;">@Html.CheckBoxFor(model => model.TermOfUse, new { id = "terms-conditions-agreement",style="float: left;" })@Html.ValidationMessageFor(model => model.TermOfUse) </dt>
+               
+                 <dd style="width: 350px; padding-left:40px; padding-right: 0px; margin-bottom: 20px;">
+                     <a  href="@Url.RouteUrl("Topic", new { SystemName = "CampaignTermsOfUse" })" target="_blank" style=" float:left; padding-top:3px;  font-size:12px; color:Black;">@T("Campaign.TermsOfUse")  </a>
+                     <input type="submit" style=" padding: 5px 10px 5px 10px;margin-right: 10px;width: 100px;float:right; margin-left: 0px; " value="@T("Account.RegisterContinueButton")" class="continue" id="CampaignRegister"/>
+                 </dd>
+
+             </dl>
+             
+        </div>
+         </div>
+       
+ }
+ </div>
+
+</div>
+</div>

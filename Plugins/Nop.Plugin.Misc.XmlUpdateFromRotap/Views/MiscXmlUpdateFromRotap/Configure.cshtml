@@ -1,0 +1,86 @@
+﻿@{
+    Layout = null; 
+}
+@using System.Web.Mvc.Html
+@using Nop.Plugin.Misc.XmlUpdateFromRotap.Models
+@using Nop.Web.Framework
+@model XmlUpdateFromRotapSettingsModel
+<div>
+    @using (Html.BeginForm())
+    {
+        <table class="adminContent">            
+            <tr>
+                <td class="adminTitle">
+                    @Html.NopLabelFor(m => m.AutoSync):
+                </td>
+                <td class="adminData">
+                    @Html.EditorFor(m => m.AutoSync)
+                    @Html.ValidationMessageFor(m => m.AutoSync)
+                </td>
+            </tr>
+            <tr id="pnlAutoSyncEachMinutes">
+                <td class="adminTitle">
+                    @Html.NopLabelFor(model => model.AutoSyncEachMinutes):
+                </td>
+                <td class="adminData">
+                    @Html.EditorFor(model => model.AutoSyncEachMinutes)
+                    @Html.ValidationMessageFor(model => model.AutoSyncEachMinutes)
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">
+                    @Html.NopLabelFor(model => model.EmailForReporting):
+                </td>
+                <td class="adminData">
+                    @Html.EditorFor(model => model.EmailForReporting)
+                    @Html.ValidationMessageFor(model => model.EmailForReporting)
+                </td>
+            </tr>  
+            <tr>
+                <td class="adminTitle">
+                    @Html.NopLabelFor(model => model.EmailForReportingCC):
+                </td>
+                <td class="adminData">
+                    @Html.EditorFor(model => model.EmailForReportingCC)
+                    @Html.ValidationMessageFor(model => model.EmailForReportingCC)
+                </td>
+            </tr>  
+            <tr>
+                <td class="adminTitle">
+                    @Html.NopLabelFor(model => model.NameForReporting):
+                </td>
+                <td class="adminData">
+                    @Html.EditorFor(model => model.NameForReporting)
+                    @Html.ValidationMessageFor(model => model.NameForReporting)
+                </td>
+            </tr>  
+            <tr>
+                <td class="adminTitle">
+                    @Html.NopLabelFor(model => model.EnablePriceUpdate):
+                </td>
+                <td class="adminData">
+                    @Html.EditorFor(model => model.EnablePriceUpdate)
+                    @Html.ValidationMessageFor(model => model.EnablePriceUpdate)
+                </td>
+            </tr>            
+            <tr>
+                <td class="adminTitle">
+                    @Html.NopLabelFor(model => model.LastStartDate):
+                </td>
+                <td class="adminData">
+                    @Html.EditorFor(model => model.LastStartDate)<button type="submit" name="run" value="run" class="t-button">
+                        @T("Nop.Plugin.Misc.XmlUpdateFromRotap.RunNow")
+                    </button>
+                </td>
+            </tr>   
+                     
+            <tr>
+                <td colspan="2" width="100%">
+                    <button type="submit" name="save" value="save" class="t-button">
+                        @T("Admin.Common.Save")</button>
+                </td>
+            </tr>
+            
+        </table>
+    }
+</div>

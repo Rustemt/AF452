@@ -1,0 +1,19 @@
+﻿@*AF*@
+
+    <div id="headerBottom">
+     @Html.Action("Menu","Common")
+
+     @using (Html.BeginRouteForm("ProductSearch", FormMethod.Get))
+     {
+      <div id="searchBox"><a href="#" title="@T("HeaderBottom.Search")">@T("HeaderBottom.Search")</a>
+        <div class="searchBoxHover clearfix">
+          <div class="searchBoxInput">
+          <input type="text" name="Q" title="@T("HeaderBottom.Input.Search")" value="@T("HeaderBottom.Input.Search")" /></div>
+          <div class="searchBoxButton">
+        @*  <input type="submit" value="@T("HeaderBottom.Search.Lowcase")" />*@
+          <input type="submit" value="" />
+          </div>
+        </div>
+      </div>
+     }
+    </div>

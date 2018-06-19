@@ -1,0 +1,9 @@
+﻿@model Nop.Web.Models.Topics.TopicModel
+           
+<div class="sizeChart clearfix">
+                        	<span class="sizeChartButton">@Model.Title</span>
+                            <div class="detail clearfix">
+                            	@Html.Raw(Model.Body)
+                                <p><span class="close">@T("Common.Close")</span></p>
+                            </div>
+                        </div>

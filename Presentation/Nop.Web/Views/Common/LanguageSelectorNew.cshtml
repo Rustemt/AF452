@@ -1,0 +1,13 @@
+﻿@model Nop.Web.Models.Common.LanguageSelectorModel
+@if (Model.AvailableLanguages.Count > 1)
+{
+    <a class="languge flag@(Model.CurrentLanguage.Id)" id="languge" href="#"><span>@Model.CurrentLanguage.Name</span></a>
+    <ul class="languge_bar" id="languge_bar">
+    @foreach (var lang in Model.AvailableLanguages)
+    {
+        if (Model.CurrentLanguage.Id != lang.Id) {
+            <li class="flag@(lang.Id)"><a href="@Url.Action("LanguageSelected", "Common", new { customerlanguage = lang.Id })">@lang.Name</a></li>
+        }
+    }
+    </ul>
+}

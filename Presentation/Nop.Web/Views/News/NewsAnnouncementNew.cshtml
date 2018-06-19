@@ -1,0 +1,27 @@
+﻿@model NewsItemListModel
+@using Nop.Core.Domain.Catalog
+@using Nop.Core.Infrastructure
+@using Nop.Services.Catalog
+@using Nop.Web.Models.News
+@if (Model.MainNewsItems.Count > 0)
+{
+    var news = Model.MainNewsItems.First();
+
+    try {
+    <div class="header_top_out">
+        <div id="foo3">
+            @foreach (var color in news.Short.Split(','))
+	        {
+            <div class="header_top" style="background: @color">
+                <div class="wrapper">
+                    <span>@Html.Raw(news.Full)</span>
+                </div>
+            </div>		 
+	        }
+        </div>
+    </div> 
+    }
+    catch (Exception)
+    {
+    }                 
+}

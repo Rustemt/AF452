@@ -1,0 +1,131 @@
+﻿@*AF*@ @*@model Nop.Web.Models.Catalog.CategoryModel*@
+@model CatalogExtendedPagingFilteringModel
+@using Nop.Web.Models.Catalog;
+@{
+    var manufacturers = Model.ManufacturerFilter.Items;
+    var fiteredManufacturers = Model.ManufacturerFilter.AlreadyFilteredItems;
+    var categories = Model.CategoryFilter.Items;
+    var fiteredCategories = Model.CategoryFilter.AlreadyFilteredItems;
+    var specifications = Model.SpecificationFilter.NotFilteredItems;
+    var filteredSpecifications = Model.SpecificationFilter.AlreadyFilteredItems;
+    var productAttributes = Model.ProductAttributeFilter.Items;
+    var filteredProductAttributes = Model.ProductAttributeFilter.AlreadyFilteredItems;
+    var filterSummaryHtml = "";
+    int count = 0;
+}
+<div class="selection">
+    <span>
+        <img src="@Url.Content("~/_img/your-selection-icon.png")" width="11" height="9" alt="">@T("Catalog.YourSelection")</span>
+    <div class="selectionMenu" @(Model.ShowFilteringPanel ? "style=display:block" : "") >
+        <div class="bg"  @(Model.ShowFilteringPanel ? "style=display:block" : "")>
+            &nbsp;</div>
+        <div class="selectionMenuInner">
+            <div class="clearfix">
+                @if (manufacturers.Count > 0)
+                {
+                    <!-- item -->
+                    <div class="item" id="M">
+                        <h4>@T("Catalog.YourSelection.Brand")</h4>
+                        <ul>
+                            @foreach (var item in manufacturers)
+                            {
+                                var filteredItem = fiteredManufacturers.FirstOrDefault(x => x.Id == item.Id);
+                                <li><a title="" href="#" class="brand@(item.Id)@(filteredItem != null ? " checked" : "")">@item.Name</a>
+                                    <input type="hidden" name="id" value="@item.Id" />
+                                </li>
+                                if (filteredItem != null)
+                                {
+                                    filterSummaryHtml += string.Format("<li parentId=\"\" rel=\"brand{0}\"><span>{1}</span></li>", item.Id, @item.Name);
+                                }       
+                            }
+                        </ul>
+                    </div>
+                    <!-- item ends -->
+                    count++;
+                }
+                @if (categories.Count > 0)
+                {
+                    <!-- item -->
+                    <div class="item" id="C">
+                        <h4>@T("Catalog.YourSelection.Category")</h4>
+                        <ul>
+                            @foreach (var item in categories)
+                            {
+                                var filteredItem = fiteredCategories.FirstOrDefault(x => x.Id == item.Id);
+                                <li><a title="" href="#" class="cat@(item.Id)@(filteredItem != null ? " checked" : "")">@item.Name</a>
+                                    <input type="hidden" name="id" value="@item.Id" />
+                                </li>
+                                if (filteredItem != null)
+                                {
+                                    filterSummaryHtml += string.Format("<li parentId=\"\" rel=\"cat{0}\"><span>{1}</span></li>", item.Id, @item.Name);
+                                }    
+                            }
+                        </ul>
+                    </div>
+                    <!-- item ends -->
+                    count++;
+                }
+                @foreach (var attribute in specifications.GroupBy(x => x.AttributeId))
+                {
+                    var optionList = attribute.ToList();
+                  
+                    <div class="item" id="S@(optionList[0].AttributeId)">
+                        <h4>@optionList[0].SpecificationAttributeName</h4>
+                        <ul>
+                            @foreach (var item in optionList)
+                            {
+                                var filteredItem = filteredSpecifications.FirstOrDefault(x => x.OptionId == item.OptionId);
+                                <li><a title="" href="#" class="item@(item.OptionId)@(filteredItem != null ? " checked" : "")" parentId="@item.AttributeId">@item.SpecificationAttributeOptionName</a>
+                                    <input type="hidden" name="id" value="@item.OptionId" />
+                                </li>
+                                if (filteredItem != null)
+                                {
+                                    filterSummaryHtml += string.Format("<li parentId=\"{2}\" rel=\"item{0}\"><span>{1}</span></li>", item.OptionId, @item.SpecificationAttributeOptionName, item.AttributeId);
+                                }
+
+                            }
+                        </ul>
+                    </div>
+                            count++;
+                }
+                @foreach (var attribute in productAttributes.GroupBy(x => x.AttributeId))
+                {
+                    var attrList = attribute.ToList();
+                   
+                    <div class="item" id="A@(attrList[0].AttributeId)">
+                        <h4>@attrList[0].AttributeName</h4>
+                        <input type="hidden" name="parentId" value="@attrList[0].AttributeId" />
+                        <ul>
+                            @foreach (var value in attrList)
+                            {
+                                var filteredItem = filteredProductAttributes.FirstOrDefault(x => x.OptionId == value.OptionId);
+                                <li><a title="" href="#" class="attr@(value.OptionId)@(filteredItem != null ? " checked" : "")" parentId="@value.AttributeId">@value.AttributeOptionName</a>
+                                    <input type="hidden" name="id" value="@value.OptionId" />
+                                </li>            
+                                if (filteredItem != null)
+                                {
+                                    filterSummaryHtml += string.Format("<li parentId=\"{2}\" rel=\"attr{0}\"><span>{1}</span></li>", value.OptionId, value.AttributeOptionName, value.AttributeId);
+                                }
+                            }
+                               
+                        </ul>
+                    </div>
+                            count++;
+                }
+            </div>
+            <p class="clearfix">
+                <a class="button2" id="clearSelections" title="Clear Selections" href="#">@T("Catalog.YourSelection.ClearSelections")</a>
+                <a id="apply" class="button1" title="Clear Selections" href="#">@T("Catalog.YourSelection.Apply")</a>
+            </p>
+        </div>
+    </div>
+</div>
+<ul class="selections">
+ @{if (!string.IsNullOrWhiteSpace(filterSummaryHtml))
+   {
+
+       filterSummaryHtml += "<li class=\"clearAll\"><a title=\"Clear All\">" + @T("Catalog.YourSelection.ClearAll") + "</a></li>";
+   }
+       }
+ @Html.Raw(filterSummaryHtml)
+</ul>

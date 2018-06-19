@@ -1,0 +1,24 @@
+﻿@model Nop.Web.Models.Customer.PasswordRecoveryConfirmModel
+@{
+    Layout = "~/Views/Shared/_Root.cshtml";
+
+    //title
+    Html.AddTitleParts(T("PageTitle.Login").Text);
+}
+<div id="container">
+<!-- content  -->
+  <div id="content" class="clearfix">
+  <!-- login  -->
+    <div id="login">
+    <!-- forgetPassword  -->
+      <div id="forgetPassword">
+        <h1>@T("Account.PasswordRecovery.PasswordHasBeenChanged")</h1>
+        <h2>@T("Account.PasswordRecovery.ClickToEnter")</h2>
+        <p><a href="@Url.Action("Login","Customer")" class="button2" title="@T("Account.PasswordRecovery.EmailHasBeenSentAction")">@T("Account.PasswordRecovery.EmailHasBeenSentAction")</a></p>
+      </div>
+      <!-- forgetPassword  ends -->
+    </div>
+    <!-- login ends --> 
+  </div>
+  <!-- content ends --> 
+</div>

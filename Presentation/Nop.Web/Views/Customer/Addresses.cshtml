@@ -1,0 +1,86 @@
+﻿@model Nop.Web.Models.Customer.CustomerAddressListModel
+@{
+    Layout = "~/Views/Shared/_Root.cshtml";
+
+    //title
+    Html.AddTitleParts(T("Titles.Addresses").Text);
+    Html.AddMetaKeywordParts(T("Keywords.Addresses").Text);
+}
+@using Nop.Web.Framework;
+@using Nop.Web.Models.Common;
+@{ var address = Model.SelectedAddressModel;}
+@*@section JavaScript
+{
+    <script src="@Url.Content("~/Scripts/Checkout.js")" type="text/javascript"></script>
+}*@
+@section JavaScriptVariables
+{
+    <script type="text/javascript">
+    var _saveCheckoutShippingAddress ="@Url.Action("AddressEdit", "Customer")";
+    var _saveCheckoutBillingAddress = "@Url.Action("AddressEdit", "Customer")";
+    var _getAddressBilling ="@Url.Action("GetAddressBilling", "Customer")";
+    var _getAddressShipping ="@Url.Action("GetAddressShipping", "Customer")";
+    var _getStatesByCountryId ="@Url.Action("GetStatesByCountryId", "Country")";
+    </script>
+}
+<div id="container">
+    <div id="content" class="clearfix">
+        @Html.Partial("~/Views/Customer/MyAccountNavigation.cshtml", Model.NavigationModel, new ViewDataDictionary())
+        @if (ViewContext.ViewData.ModelState != null)
+        {
+            var errors = this.ViewContext.ViewData.ModelState.Keys.SelectMany(key => this.ViewContext.ViewData.ModelState[key].Errors);
+            var msg = new MessageModel();
+            msg.Successful = false;
+            if (errors.Count() > 0)
+            {
+                foreach (var erros in errors)
+                {
+                    msg.MessageList.Add(erros.ErrorMessage);
+                }
+                @Html.Partial("MessageInline", msg);
+            }
+
+        }
+        @{
+            var addressesSelectList = Model.Addresses.Select(x => new SelectListItem()
+            {
+                Text = x.Name,
+                Value = x.Id.ToString(),
+                Selected = (Model.SelectedAddressModel.Id == x.Id)
+            }).ToList();
+            
+        }
+        @{
+            MessageModel messageModel = ViewBag.Msg;
+        }
+        @if (messageModel != null && messageModel.MessageList.Count > 0)
+        {
+            @Html.Partial("MessageInline", messageModel);
+        }
+        <div id="accountInformation" class="clearfix">
+            <!-- myDetails -->
+            <div id="myDetails" style="display: inline-block; border-right-style: none; width: 470px;">
+                <h6 class="title">@T("Address.Shipping.Address")</h6>
+                <dl class="formfield">
+                    <dt>@T("Address.SelectAddress")</dt>
+                    <dd>
+                        @Html.AFDropDown("addressIdShipping", addressesSelectList)
+                    </dd>
+                </dl>
+                @Html.Partial("AddressEdit", address)
+            </div>
+            <div id="myDetails1" style="display: inline-block; width: 350px; padding-left: 90px;
+                border-left-style: solid; border-left-width: 1px; border-left-color: #C0C0C0;">
+                <h6 class="title">@T("Address.Billing.Address")</h6>
+                <dl class="formfield">
+                    <dt>@T("Address.SelectAddress")</dt>
+                    <dd>
+                        @Html.AFDropDown("addressIdBilling", addressesSelectList)
+                    </dd>
+                </dl>
+                @Html.Partial("AddressEditBilling", address)
+            </div>
+        </div>
+    </div>
+    <!-- content ends -->
+</div>

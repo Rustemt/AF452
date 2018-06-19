@@ -1,0 +1,53 @@
+﻿@model Nop.Web.Models.Newsletter.NewsletterDynastyModel
+@using Nop.Web.Framework;
+@using Nop.Web.Framework.Security.Captcha;
+@using Nop.Web.Models.Common
+@{
+    Layout = "~/Views/Shared/_Root.cshtml";
+
+    //title
+    Html.AddTitleParts(T("Titles.NewsLetterPromoted").Text);
+    Html.AddMetaKeywordParts(T("Keywords.NewsLetterPromoted").Text);
+}
+
+<div id="container"> 
+ 
+  <div id="content" class="clearfix"> 
+    <!-- login  -->
+    <div id="login" class="clearfix"> 
+       @using (Html.BeginForm("NewsletterPromotedDynasty", "Newsletter", FormMethod.Post, new { id = "NewsletterPromotedDynasty" }))
+       {
+       @Html.HiddenFor(model=>model.RootEmail)
+      <!-- loginLeft  -->
+      <div id="loginLeft">
+        <h5 class="title">@T("NewsLetterSubscription.NewsletterPromotedDynastyTitle")</h5>
+        <dl class="formfield">
+          <dt> @Html.LabelFor(model => model.Email1) : </dt>
+          <dd> @Html.EditorFor(model => model.Email1) @Html.ValidationMessageFor(model => model.Email1)</dd>
+           <dt> @Html.LabelFor(model => model.Email2) : </dt>
+          <dd> @Html.EditorFor(model => model.Email2) @Html.ValidationMessageFor(model => model.Email2)</dd>
+           <dt> @Html.LabelFor(model => model.Email3) : </dt>
+          <dd> @Html.EditorFor(model => model.Email3) @Html.ValidationMessageFor(model => model.Email3)</dd>
+           <dt> @Html.LabelFor(model => model.Email4) : </dt>
+          <dd> @Html.EditorFor(model => model.Email4) @Html.ValidationMessageFor(model => model.Email4)</dd>
+           <dt> @Html.LabelFor(model => model.Email5) : </dt>
+          <dd> @Html.EditorFor(model => model.Email5) @Html.ValidationMessageFor(model => model.Email5)</dd>
+        </dl>
+        
+        <input type="submit" value="@T("Account.NewsLetter.Submit")" class="continue" id="Register"/>
+        </div>
+      <!-- loginLeft ends --> 
+       }
+      <!-- loginRight  -->
+      <div id="loginRight">
+       @Html.Action("TopicBlock", "Topic", new { systemName = "NewsletterPromotedDynasty" })
+      <!-- loginRight ends --> 
+   
+    </div>
+    <!-- login ends --> 
+  </div>
+  <!-- content ends --> 
+  
+</div>
+  
+</div>

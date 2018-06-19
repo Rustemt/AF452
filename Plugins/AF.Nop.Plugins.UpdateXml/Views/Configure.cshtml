@@ -1,0 +1,87 @@
+﻿@{
+    Layout = "";
+}
+@model AF.Nop.Plugins.XmlUpdate.Models.ConfigurationModel
+@using Nop.Web.Framework;
+@using Telerik.Web.Mvc.UI
+@using AF.Nop.Plugins.XmlUpdate.Models
+
+<div class="section-header">
+    <div class="title">
+        <img src="@Url.Content("~/Administration/Content/images/ico-catalog.png")" alt="" />
+        @T("AF.XmlUpdate.Providers.Manage")
+    </div>
+    <div class="options">
+        <a href="@Url.Action("AddProvider", "AFXmlUpdate")" class="t-button">@T("AF.XmlUpdate.Provider.Add")</a>
+    </div>
+</div>
+
+<style>
+    .t-grid-pager .t-status .t-icon {
+        display: none;
+    }
+</style>
+
+
+
+<table class="adminContent">
+    <tr>
+        <td></td>
+        <td>
+            @(Html.Telerik().Grid<ProviderModel>(Model.Providers.Data).Name("providers-grid")
+                .Columns(columns =>
+                {
+                    columns.Bound(x => x.Name);
+                    columns.Bound(x => x.Url);
+                    columns.Bound(x => x.Enabled).Width(100).Template(x => x.Enabled.ToString().ToLower()).Centered();
+                    columns.Bound(x => x.Id).Title(T("AF.XmlUpdate.Import").Text)
+                        .Template(x => Html.ActionLink(T("AF.XmlUpdate.Import").Text, "ImportXml", "AFXmlUpdate", new { id = x.Id }, null));
+                    columns.Bound(x => x.Id).Title(T("Admin.Common.Edit").Text)
+                        .Template(x => Html.ActionLink(T("Admin.Common.Edit").Text, "EditProvider", "AFXmlUpdate", new { id = x.Id }, null));
+                })
+            )
+
+        <td>
+    </tr>
+</table>
+
+<br /><br />
+
+<div class="section-header">
+    <div class="title" style="color: #555;"> Reports / Excel Files </div>
+</div>
+<div class="k-grid k-widget">
+    <table class="adminContent">
+        <thead class="k-grid-header">
+            <tr>
+                <th class="k-header">File Name</th>
+                <th class="k-header">Size / KB</th>
+                <th class="k-header">Last Modification</th>
+                <th class="k-header" colspan="2"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var file in Model.ReportFiles)
+            {
+                var size = Math.Round((double)file.Length / 1024, 2);
+                var link = string.Format("{0} ( {1} KB )", file.Name, size);
+                <tr style="padding:5px">
+                    <td>@file.Name</td>
+                    <td>@size</td>
+                    <td>@file.LastWriteTime</td>
+                    <td>@Html.ActionLink("Download", "Download", "AFXmlUpdate", new { fileName = file.Name }, null)</td>
+                    <td>
+                        @using (Html.BeginForm("DeleteReport", "AFXmlUpdate", FormMethod.Post))
+                        {
+                            <div>
+                                @Html.AntiForgeryToken()
+                                @Html.Hidden("FileName", file.Name)
+                            </div>
+                            <button type="submit" name="delete" value="Delete" class="t-button">@T("Admin.Common.Delete")</button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

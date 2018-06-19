@@ -1,0 +1,17 @@
+﻿@model Nop.Web.Models.Customer.RegisterResultModel
+@{
+    Layout = "~/Views/Shared/_Root.cshtml";
+
+    //title
+    Html.AddTitleParts(T("PageTitle.Register").Text);
+}
+
+
+<div id="container" style="padding-bottom: 0;">
+<!-- customerThanks  -->
+  <div id="customerThanks">
+    <h1>@T("Register.Result.ThankYou")</h1>
+    <a href="@Url.Action("Index0310","Home")">@T("Register.Result.GoToHomePage")</a>
+  </div>
+  <!-- customerThanks ends -->
+</div>

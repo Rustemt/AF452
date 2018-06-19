@@ -1,0 +1,39 @@
+﻿@model Nop.Web.Models.Common.HeaderLinksModel   
+
+@Html.Action("NewsAnnouncement","News", new{ view = "NewsAnnouncementNew"})
+    <header class="header_outer">
+        <div class="wrapper">
+            <div>
+                <div class="select_drop_box">
+                    <div class="select_lang" id="lang">
+                        @Html.Action("LanguageSelectorNew", "Common")
+                    </div>
+                    <div class="select_lang currency_">
+                        @Html.Action("CurrencySelectorNew", "Common")
+                    </div>
+                </div>
+                <ul id="userMenu">                    
+                    @*@Html.Action("MiniShoppingCartNew", "ShoppingCart")*@
+                    <li id="umShopBag" class="umShopBag_next">
+                        @Html.Action("MiniShoppingCartNew", "ShoppingCart")
+                    </li> 
+                    @if (Model.IsAuthenticated)
+                    {
+                        <li id="umBlog"><a href="@Url.RouteUrl("Wishlist")" title="@T("HeaderTop.WishList")">@T("HeaderTop.WishList")</a></li>
+                        <li id="umMyAcc"><a href="@Url.Action("overview", "customer")" title="@T("HeaderTop.MyAccount")">@T("HeaderTop.MyAccount")</a></li>
+                        <li id="exit"><a href="@Url.RouteUrl("Logout")" title="@T("HeaderTop.LogOut")">@T("HeaderTop.LogOut")</a></li>
+                    }
+                    else
+                    {
+                        <li id="umLogin"><a href="@Url.RouteUrl("Login")" title="@T("HeaderTop.Login")">@T("HeaderTop.Login")</a></li>
+                    }
+                    @*<li id="umBlog"><a href="http://blog.alwaysfashion.com/" title="Blog" target="_blank">BLOG</a></li>*@
+                </ul>
+                <div class="clear"></div>
+            </div>
+            <div class="logo">
+                <a href="/">
+                    <img src="/_img/v2/logo.png" alt="" height="50" width="212"></a>
+            </div>
+        </div>
+    </header>

@@ -1,0 +1,39 @@
+﻿@model ShoppingCartModel
+@using Nop.Web.Models.ShoppingCart;
+
+@*<li id="umShopBag" class="umShopBag_next">*@
+    <a class="subtrigger" href="@Url.Action("Cart", "ShoppingCart")" title="@T("MiniShoppingCart.ShoppingCart")">@T("MiniShoppingCart.ShoppingCart")<span>&nbsp;(@Model.Items.Count) @Model.SubTotal</span></a>
+    <div class="umShopBag_next_pop">
+        <div class="list_info_out scroll-pane">
+            @foreach (var item in Model.Items)
+            {
+                <div class="popupShopBag list_info clearfix">
+                    <a class="list_info_pic" href="@Url.RouteUrl("Product", new { productId = item.ProductId, variantId = item.VariantId, SeName = item.ProductSeName })">
+                        <img src="@item.Picture.ImageUrl" alt="@item.Picture.AlternateText" height="80" width="61"></a>
+                    <div class="list_info_cont">
+                        <span class="uppfont">@item.Manufacturer</span>
+                        <span class="margin"><a href="@Url.RouteUrl("Product", new { productId = item.ProductId, variantId = item.VariantId, SeName = item.ProductSeName })">
+                            @item.ProductName</a></span>
+                        @if (!String.IsNullOrEmpty(item.AttributeInfo))
+                        {
+                            @Html.Raw(item.AttributeInfo)
+                        }
+                        <span><em>@T("MiniShoppingCart.Quantity")</em> @item.Quantity</span>
+                        <span class="twelvepx fl-rt">@item.SubTotal</span>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="list_info list_info_next clearfix">
+            <span class="fl-lt">@T("MiniShoppingCart.Subtotal"):</span>
+            <em class="fl-rt">@Model.SubTotal</em>
+        </div>
+        <div class="list_info list_info_next second clearfix">
+            <a class="fl-lt ff" href="@Url.Action("Cart", "ShoppingCart")" title="@T("ShoppingCart.ViewBag")">@T("ShoppingCart.ViewBag")</a>
+            <a class="fl-rt active ss" href="@Url.RouteUrl("Checkout")"" title="@T("ShoppingCart.Checkout")">@T("ShoppingCart.Checkout")</a>
+        </div>
+        <!--div class="close_pop clearfix">
+            <a href="#">Close</a>
+        </!--div-->
+    </div>
+@*</li>*@

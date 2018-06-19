@@ -1,0 +1,363 @@
+﻿@model Nop.Services.Payments.PreProcessPaymentResult
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+    <title>3D Model</title>      
+</head>
+<body>
+  @{  
+
+      //  AŞAĞIDA 3D SECURE İŞLEMİ İÇİN GEREKLİ ALANLAR VE KULLANIMLARI İLE ASP.NET KOD ÖRNEĞİ VERİLMİŞTİR. GİRİLEN DEĞERLER TEST AMAÇLI GİRİLMİŞTİR.
+      //  3D MODEL ÜZERİNE DÜZENLENMİŞ KOD ÖRNEĞİDİR. İŞ YERLERİ KENDİ DEĞERLERİYLE DEĞİŞKENLERİ TANIMLAMALIDIR. 
+      //  İŞ YERLERİNE REFERANS AMAÇLI OLUŞTURULMUŞTUR.
+
+
+      /********************         GEREKLİ PARAMETRELER            ******************/
+
+      //String clientId = "110000905";    //"110000905";  //Banka tarafından mağazaya verilen iş yeri numarası
+      //  String amount = "1";         //İşlem tutarı
+      //  String oid = "444444";                //Sipariş numarası         
+      //  String okUrl = Nop.Core.WebHelper.GetFullPath(Url.Action("Payment3DResponse", "Checkout"));  //İşlem başarılıysa dönülecek işyeri sayfası  (3D işleminin sonucu ödeme işleminin değil)
+      //  String failUrl = Nop.Core.WebHelper.GetFullPath(Url.Action("Payment3DResponse", "Checkout")); //İşlem başarısızsa dönülecek işyeri sayfası  (3D işleminin sonucu ödeme işleminin değil)
+      //  String rnd = DateTime.Now.ToString();        //Güvenlik ve kontrol amaçlı tarih yada sürekli değişen bir değer
+
+
+      //  String taksit = "";      //Taksit sayısı
+      //  String islemtipi = "Auth"; //İşlem tipi
+      //  String storekey = "AF3005AF";                    //işyeri anahtarı
+      //  String storetype = "3d_pay";
+      //  String hashstr = clientId + oid + amount + okUrl + failUrl + islemtipi + taksit + rnd + storekey;
+      //  System.Security.Cryptography.SHA1 sha = new System.Security.Cryptography.SHA1CryptoServiceProvider();
+      //  byte[] hashbytes = System.Text.Encoding.GetEncoding("ISO-8859-9").GetBytes(hashstr);
+      //  byte[] inputbytes = sha.ComputeHash(hashbytes);
+
+      //  String hash = Convert.ToBase64String(inputbytes);   //Günvelik amaçlı oluşturulan hash
+
+      //  /******************          GEREKLİ PARAMETRELER             *********************/
+
+      //  /***************       ISTEĞE BAĞLI ALANLAR    *********************************/
+      //  String description = ""; //Açıklama
+      //  String xid = "";    //İşlem takip numarası 3D için XID i mağaza üretirse o kullanir, yoksa sistem üretiyor. (3D secure işlemleri için işlem takip numarası 20 bytelik bilgi 28 karaktere base64 olarak kodlanmalı, geçersiz yada boş ise sistem tarafından üretilir.)
+      //  String lang = "";     //gösterim dili boş ise Türkçe (tr), İngilizce için (en)
+      //  String email = "";    //email adresi
+      //  String userid = "";   //Kullanıcı takibi için id
+      //  /***************       ISTEĞE BAĞLI ALANLAR     ********************************/  
+
+      switch (Model.PaymentRequest.PaymentMethodSystemName)
+      {
+          case "Payments.CC.IsBank":
+              {
+                  String clientId = Model.ClientId;    //"110000905";  //Banka tarafından mağazaya verilen iş yeri numarası
+                  string pan = Model.CreditCardNumber;
+                  string cv2 = Model.CreditCardCvv2;
+                  string Ecom_Payment_Card_ExpDate_Month = Model.CreditCardExpireMonth;
+                  string Ecom_Payment_Card_ExpDate_Year = Model.CreditCardExpireYear;
+                  String amount = Model.Amount;         //İşlem tutarı
+                  String oid = Model.OrderId;                //Sipariş numarası         
+                  String okUrl = Nop.Core.WebHelper.GetFullPath(Url.Action("Payment3DResponse", "Checkout"));  //İşlem başarılıysa dönülecek işyeri sayfası  (3D işleminin sonucu ödeme işleminin değil)
+                  String failUrl = Nop.Core.WebHelper.GetFullPath(Url.Action("Payment3DResponse", "Checkout")); //İşlem başarısızsa dönülecek işyeri sayfası  (3D işleminin sonucu ödeme işleminin değil)
+                  String rnd = Model.RandomToken;        //Güvenlik ve kontrol amaçlı tarih yada sürekli değişen bir değer
+
+                  string cardType = Model.CardType;
+                  String taksit = Model.Installment;      //Taksit sayısı
+                  String islemtipi = Model.ChargeType; //İşlem tipi
+                  String storekey = Model.StoreKey;                    //işyeri anahtarı
+                  String storetype = Model.StoreType;
+                  String hashstr = clientId + oid + amount + okUrl + failUrl + islemtipi + taksit + rnd + storekey;
+                  System.Security.Cryptography.SHA1 sha = new System.Security.Cryptography.SHA1CryptoServiceProvider();
+                  byte[] hashbytes = System.Text.Encoding.GetEncoding("ISO-8859-9").GetBytes(hashstr);
+                  byte[] inputbytes = sha.ComputeHash(hashbytes);
+
+                  String hash = Convert.ToBase64String(inputbytes);   //Günvelik amaçlı oluşturulan hash
+
+                  /******************          GEREKLİ PARAMETRELER             *********************/
+
+                  /***************       ISTEĞE BAĞLI ALANLAR    *********************************/
+                  String description = ""; //Açıklama
+                  String xid = "";    //İşlem takip numarası 3D için XID i mağaza üretirse o kullanir, yoksa sistem üretiyor. (3D secure işlemleri için işlem takip numarası 20 bytelik bilgi 28 karaktere base64 olarak kodlanmalı, geçersiz yada boş ise sistem tarafından üretilir.)
+                  String lang = "";     //gösterim dili boş ise Türkçe (tr), İngilizce için (en)
+                  String email = "";    //email adresi
+                  String userid = "";   //Kullanıcı takibi için id
+                                        /***************       ISTEĞE BAĞLI ALANLAR     ********************************/
+
+                  Response.Write("<form id='form1' method='post' action='" + Model.RedirectURL + "'>" +
+                      "<input type='hidden' name='pan' value='" + pan + "'/>" +
+                      "<input type='hidden' name='cv2' value='" + cv2 + "' />" +
+                      "<input type='hidden' name='Ecom_Payment_Card_ExpDate_Year' value='" + Ecom_Payment_Card_ExpDate_Year + "' />" +
+                      "<input type='hidden' name='Ecom_Payment_Card_ExpDate_Month' value='" + Ecom_Payment_Card_ExpDate_Month + "' />" +
+                      "<input type='hidden' name='cardType' value='" + cardType + "' />" +
+                      "<input type='hidden' name='clientid' value='" + clientId + "' />" +
+                      "<input type='hidden' name='amount' value='" + amount + "' />" +
+                      "<input type='hidden' name='oid' value='" + oid + "' />" +
+                      "<input type='hidden' name='okUrl' value='" + okUrl + "' />" +
+                      "<input type='hidden' name='failUrl' value='" + failUrl + "' />" +
+                      "<input type='hidden' name='rnd' value='" + rnd + "' />" +
+                      "<input type='hidden' name='hash' value='" + hash + "' />" +
+                      "<input type='hidden' name='islemtipi' value='" + islemtipi + "' />" +
+                      "<input type='hidden' name='taksit' value='" + taksit + "' />" +
+                      "<input type='hidden' name='storetype' value='" + storetype + "' />" +
+                      "<input type='hidden' name='lang' value='" + Model.Lang + "' />" +
+                      "<input type='hidden' name='currency' value='" + Model.Currency + "' />" +
+                      "<input type='hidden' name='firmaadi' value='" + Model.StoreName + "' />" +
+                      "<input type='hidden' name='userid' value='" + Model.CustomerId + "' />" +
+                      "<input type='hidden' name='BOLUM' value='1' />" +
+                  "</form>");
+
+                  break;
+              }
+          case "Payments.CC.FinansBank":
+              {
+                  String clientId = Model.ClientId;    //"110000905";  //Banka tarafından mağazaya verilen iş yeri numarası
+                  string pan = Model.CreditCardNumber;
+                  string cv2 = Model.CreditCardCvv2;
+                  string Ecom_Payment_Card_ExpDate_Month = Model.CreditCardExpireMonth;
+                  string Ecom_Payment_Card_ExpDate_Year = Model.CreditCardExpireYear;
+                  String amount = Model.Amount;         //İşlem tutarı
+                  String oid = Model.OrderId;                //Sipariş numarası         
+                  String okUrl = Nop.Core.WebHelper.GetFullPath(Url.Action("Payment3DResponse", "Checkout"));  //İşlem başarılıysa dönülecek işyeri sayfası  (3D işleminin sonucu ödeme işleminin değil)
+                  String failUrl = Nop.Core.WebHelper.GetFullPath(Url.Action("Payment3DResponse", "Checkout")); //İşlem başarısızsa dönülecek işyeri sayfası  (3D işleminin sonucu ödeme işleminin değil)
+                  String rnd = Model.RandomToken;        //Güvenlik ve kontrol amaçlı tarih yada sürekli değişen bir değer
+
+                  string cardType = Model.CardType;
+                  String taksit = Model.Installment;      //Taksit sayısı
+                  String islemtipi = Model.ChargeType; //İşlem tipi
+                  String storekey = Model.StoreKey;                    //işyeri anahtarı
+                  String storetype = Model.StoreType;
+                  String hashstr = clientId + oid + amount + okUrl + failUrl + islemtipi + taksit + rnd + storekey;
+                  System.Security.Cryptography.SHA1 sha = new System.Security.Cryptography.SHA1CryptoServiceProvider();
+                  byte[] hashbytes = System.Text.Encoding.GetEncoding("ISO-8859-9").GetBytes(hashstr);
+                  byte[] inputbytes = sha.ComputeHash(hashbytes);
+
+                  String hash = Convert.ToBase64String(inputbytes);   //Günvelik amaçlı oluşturulan hash
+
+                  /******************          GEREKLİ PARAMETRELER             *********************/
+
+                  /***************       ISTEĞE BAĞLI ALANLAR    *********************************/
+                  String description = ""; //Açıklama
+                  String xid = "";    //İşlem takip numarası 3D için XID i mağaza üretirse o kullanir, yoksa sistem üretiyor. (3D secure işlemleri için işlem takip numarası 20 bytelik bilgi 28 karaktere base64 olarak kodlanmalı, geçersiz yada boş ise sistem tarafından üretilir.)
+                  String lang = "";     //gösterim dili boş ise Türkçe (tr), İngilizce için (en)
+                  String email = "";    //email adresi
+                  String userid = "";   //Kullanıcı takibi için id
+                  /***************       ISTEĞE BAĞLI ALANLAR     ********************************/
+
+                  Response.Write("<form id='form1' method='post' action='" + Model.RedirectURL + "'>" +
+                      "<input type='hidden' name='pan' value='" + pan + "'/>" +
+                      "<input type='hidden' name='cv2' value='" + cv2 + "' />" +
+                      "<input type='hidden' name='Ecom_Payment_Card_ExpDate_Year' value='" + Ecom_Payment_Card_ExpDate_Year + "' />" +
+                      "<input type='hidden' name='Ecom_Payment_Card_ExpDate_Month' value='" + Ecom_Payment_Card_ExpDate_Month + "' />" +
+                      "<input type='hidden' name='cardType' value='" + cardType + "' />" +
+                      "<input type='hidden' name='clientid' value='" + clientId + "' />" +
+                      "<input type='hidden' name='amount' value='" + amount + "' />" +
+                      "<input type='hidden' name='oid' value='" + oid + "' />" +
+                      "<input type='hidden' name='okUrl' value='" + okUrl + "' />" +
+                      "<input type='hidden' name='failUrl' value='" + failUrl + "' />" +
+                      "<input type='hidden' name='rnd' value='" + rnd + "' />" +
+                      "<input type='hidden' name='hash' value='" + hash + "' />" +
+                      "<input type='hidden' name='islemtipi' value='" + islemtipi + "' />" +
+                      "<input type='hidden' name='taksit' value='" + taksit + "' />" +
+                      "<input type='hidden' name='storetype' value='" + storetype + "' />" +
+                      "<input type='hidden' name='lang' value='" + Model.Lang + "' />" +
+                      "<input type='hidden' name='currency' value='" + Model.Currency + "' />" +
+                      "<input type='hidden' name='firmaadi' value='" + Model.StoreName + "' />" +
+                      "<input type='hidden' name='userid' value='" + Model.CustomerId + "' />" +
+                  "</form>");
+
+                  break;
+              }
+          case "Payments.CC.KuveytTurk":
+              {
+                  String clientId = Model.ClientId;    //"110000905";  //Banka tarafından mağazaya verilen iş yeri numarası
+                  string pan = Model.CreditCardNumber;
+                  string cv2 = Model.CreditCardCvv2;
+                  string Ecom_Payment_Card_ExpDate_Month = Model.CreditCardExpireMonth;
+                  string Ecom_Payment_Card_ExpDate_Year = Model.CreditCardExpireYear;
+                  String amount = Model.Amount;         //İşlem tutarı
+                  String oid = Model.OrderId;                //Sipariş numarası         
+                  String okUrl = Nop.Core.WebHelper.GetFullPath(Url.Action("Payment3DResponse", "Checkout"));  //İşlem başarılıysa dönülecek işyeri sayfası  (3D işleminin sonucu ödeme işleminin değil)
+                  String failUrl = Nop.Core.WebHelper.GetFullPath(Url.Action("Payment3DResponse", "Checkout")); //İşlem başarısızsa dönülecek işyeri sayfası  (3D işleminin sonucu ödeme işleminin değil)
+                  String rnd = Model.RandomToken;        //Güvenlik ve kontrol amaçlı tarih yada sürekli değişen bir değer
+
+                  string cardType = Model.CardType;
+                  String taksit = Model.Installment;      //Taksit sayısı
+                  String islemtipi = Model.ChargeType; //İşlem tipi
+                  String storekey = Model.StoreKey;                    //işyeri anahtarı
+                  String storetype = Model.StoreType;
+                  String hashstr = clientId + oid + amount + okUrl + failUrl + islemtipi + taksit + rnd + storekey;
+                  System.Security.Cryptography.SHA1 sha = new System.Security.Cryptography.SHA1CryptoServiceProvider();
+                  byte[] hashbytes = System.Text.Encoding.GetEncoding("ISO-8859-9").GetBytes(hashstr);
+                  byte[] inputbytes = sha.ComputeHash(hashbytes);
+
+                  String hash = Convert.ToBase64String(inputbytes);   //Günvelik amaçlı oluşturulan hash
+
+                  /******************          GEREKLİ PARAMETRELER             *********************/
+
+                  /***************       ISTEĞE BAĞLI ALANLAR    *********************************/
+                  String description = ""; //Açıklama
+                  String xid = "";    //İşlem takip numarası 3D için XID i mağaza üretirse o kullanir, yoksa sistem üretiyor. (3D secure işlemleri için işlem takip numarası 20 bytelik bilgi 28 karaktere base64 olarak kodlanmalı, geçersiz yada boş ise sistem tarafından üretilir.)
+                  String lang = "";     //gösterim dili boş ise Türkçe (tr), İngilizce için (en)
+                  String email = "";    //email adresi
+                  String userid = "";   //Kullanıcı takibi için id
+                                        /***************       ISTEĞE BAĞLI ALANLAR     ********************************/
+
+                  Response.Write("<form id='form1' method='post' action='" + Model.RedirectURL + "'>" +
+                      "<input type='hidden' name='pan' value='" + pan + "'/>" +
+                      "<input type='hidden' name='cv2' value='" + cv2 + "' />" +
+                      "<input type='hidden' name='Ecom_Payment_Card_ExpDate_Year' value='" + Ecom_Payment_Card_ExpDate_Year + "' />" +
+                      "<input type='hidden' name='Ecom_Payment_Card_ExpDate_Month' value='" + Ecom_Payment_Card_ExpDate_Month + "' />" +
+                      "<input type='hidden' name='cardType' value='" + cardType + "' />" +
+                      "<input type='hidden' name='clientid' value='" + clientId + "' />" +
+                      "<input type='hidden' name='amount' value='" + amount + "' />" +
+                      "<input type='hidden' name='oid' value='" + oid + "' />" +
+                      "<input type='hidden' name='okUrl' value='" + okUrl + "' />" +
+                      "<input type='hidden' name='failUrl' value='" + failUrl + "' />" +
+                      "<input type='hidden' name='rnd' value='" + rnd + "' />" +
+                      "<input type='hidden' name='hash' value='" + hash + "' />" +
+                      "<input type='hidden' name='islemtipi' value='" + islemtipi + "' />" +
+                      "<input type='hidden' name='taksit' value='" + taksit + "' />" +
+                      "<input type='hidden' name='storetype' value='" + storetype + "' />" +
+                      "<input type='hidden' name='lang' value='" + Model.Lang + "' />" +
+                      "<input type='hidden' name='currency' value='" + Model.Currency + "' />" +
+                      "<input type='hidden' name='firmaadi' value='" + Model.StoreName + "' />" +
+                      "<input type='hidden' name='userid' value='" + Model.CustomerId + "' />" +
+                  "</form>");
+
+                  break;
+              }
+          case "Payments.CC.Akbank":
+              {
+                  String clientId = Model.ClientId;    //"110000905";  //Banka tarafından mağazaya verilen iş yeri numarası
+                  string pan = Model.CreditCardNumber;
+                  string cv2 = Model.CreditCardCvv2;
+                  string Ecom_Payment_Card_ExpDate_Month = Model.CreditCardExpireMonth;
+                  string Ecom_Payment_Card_ExpDate_Year = Model.CreditCardExpireYear;
+                  String amount = Model.Amount;         //İşlem tutarı
+                  String oid = Model.OrderId;                //Sipariş numarası         
+                  String okUrl = Nop.Core.WebHelper.GetFullPath(Url.Action("Payment3DResponse", "Checkout"));  //İşlem başarılıysa dönülecek işyeri sayfası  (3D işleminin sonucu ödeme işleminin değil)
+                  String failUrl = Nop.Core.WebHelper.GetFullPath(Url.Action("Payment3DResponse", "Checkout")); //İşlem başarısızsa dönülecek işyeri sayfası  (3D işleminin sonucu ödeme işleminin değil)
+                  String rnd = Model.RandomToken;        //Güvenlik ve kontrol amaçlı tarih yada sürekli değişen bir değer
+
+                  string cardType = Model.CardType;
+                  String taksit = Model.Installment;      //Taksit sayısı
+                  String islemtipi = Model.ChargeType; //İşlem tipi
+                  String storekey = Model.StoreKey;                    //işyeri anahtarı
+                  String storetype = Model.StoreType;
+                  String hashstr = clientId + oid + amount + okUrl + failUrl + islemtipi + taksit + rnd + storekey;
+                  System.Security.Cryptography.SHA1 sha = new System.Security.Cryptography.SHA1CryptoServiceProvider();
+                  byte[] hashbytes = System.Text.Encoding.GetEncoding("ISO-8859-9").GetBytes(hashstr);
+                  byte[] inputbytes = sha.ComputeHash(hashbytes);
+
+                  String hash = Convert.ToBase64String(inputbytes);   //Günvelik amaçlı oluşturulan hash
+
+                  /******************          GEREKLİ PARAMETRELER             *********************/
+
+                  /***************       ISTEĞE BAĞLI ALANLAR    *********************************/
+                  String description = ""; //Açıklama
+                  String xid = "";    //İşlem takip numarası 3D için XID i mağaza üretirse o kullanir, yoksa sistem üretiyor. (3D secure işlemleri için işlem takip numarası 20 bytelik bilgi 28 karaktere base64 olarak kodlanmalı, geçersiz yada boş ise sistem tarafından üretilir.)
+                  String lang = "";     //gösterim dili boş ise Türkçe (tr), İngilizce için (en)
+                  String email = "";    //email adresi
+                  String userid = "";   //Kullanıcı takibi için id
+                                        /***************       ISTEĞE BAĞLI ALANLAR     ********************************/
+
+                  string tmp;
+                  tmp = "<form id='form1' method='post' action='" + Model.RedirectURL + "'>" +
+                      "<input type='hidden' name='pan' value='" + pan + "'/>" +
+                      "<input type='hidden' name='cv2' value='" + cv2 + "' />" +
+                      "<input type='hidden' name='Ecom_Payment_Card_ExpDate_Year' value='" + Ecom_Payment_Card_ExpDate_Year + "' />" +
+                      "<input type='hidden' name='Ecom_Payment_Card_ExpDate_Month' value='" + Ecom_Payment_Card_ExpDate_Month + "' />" +
+                      "<input type='hidden' name='cardType' value='" + cardType + "' />" +
+                      "<input type='hidden' name='clientid' value='" + clientId + "' />" +
+                      "<input type='hidden' name='amount' value='" + amount + "' />" +
+                      "<input type='hidden' name='oid' value='" + oid + "' />" +
+                      "<input type='hidden' name='okUrl' value='" + Model.OkUrl + "' />" +
+                      "<input type='hidden' name='failUrl' value='" + Model.FailUrl + "' />" +
+                      "<input type='hidden' name='rnd' value='" + rnd + "' />" +
+                      "<input type='hidden' name='hash' value='" + Model.Hash + "' />" +
+                      "<input type='hidden' name='islemtipi' value='" + islemtipi + "' />" +
+                      "<input type='hidden' name='taksit' value='" + taksit + "' />" +
+                      "<input type='hidden' name='storetype' value='" + storetype + "' />" +
+                      "<input type='hidden' name='lang' value='" + Model.Lang + "' />" +
+                      "<input type='hidden' name='currency' value='" + Model.Currency + "' />" +
+                      "<input type='hidden' name='firmaadi' value='Daima Moda A.S.' />" +
+                      "<input type='hidden' name='userid' value='" + Model.CustomerId + "' />" +
+                      "<input type='hidden' name='storekey' value='" + storekey + "' />" +
+                  "</form>";
+
+
+                  Response.Write(tmp);
+
+                  break;
+              }
+          case "Payments.CC.Garanti":
+              {
+                  string tmp;
+                  tmp = "<form id='form1' method='post' action='" + Model.RedirectURL + "'>" +
+                    "<input type='hidden' name='secure3dsecuritylevel' value='3D_PAY'/>" +
+                    "<input type='hidden' name='mode' value='PROD'/>" +
+                    "<input type='hidden' name='apiversion' value='" + Model.ApiVersion + "'/>" +
+                    "<input type='hidden' name='terminalprovuserid' value='" + Model.TerminalProvUserId + "'/>" +
+                    "<input type='hidden' name='terminaluserid' value='" + Model.TerminalUserId + "'/>" +
+                    "<input type='hidden' name='terminalid' value='" + Model.TerminalId + "'/>" +
+                    "<input type='hidden' name='terminalmerchantid' value='" + Model.MerchantId + "'/>" +
+                    "<input type='hidden' name='orderid' value='" + Model.OrderId + "'/>" +
+                    "<input type='hidden' name='customeremailaddress' value='" + Model.CustomerEmailAddress + "'/>" +
+                    "<input type='hidden' name='customeripaddress' value='" + Model.CustomerIpAddress + "'/>" +
+                    "<input type='hidden' name='txntype' value='sales'/>" +
+                    "<input type='hidden' name='txnamount' value='" + Model.Amount + "'/>" +
+                    "<input type='hidden' name='txncurrencycode' value='" + Model.Currency + "'/>" +
+                    "<input type='hidden' name='companyname' value='Daima Moda A.Ş.'/>" +
+                    "<input type='hidden' name='txninstallmentcount' value='" + Model.Installment + "'/>" +
+                    "<input type='hidden' name='successurl' value='" + Model.OkUrl + "'/>" +
+                    "<input type='hidden' name='errorurl' value='" + Model.FailUrl + "'/>" +
+                    "<input type='hidden' name='secure3dhash' value='" + Model.Hash + "'/>" +
+                    "<input type='hidden' name='lang' value='tr'/>" +
+                    "<input type='hidden' name='motoind' value='N'/>" +
+                    "<input type='hidden' name='strRefreshTime' value='10'/>" +
+                    "<input type='hidden' name='txntimestamp' value='" + Model.RandomToken + "'/>" +
+                    "<input type='hidden' name='cardnumber' value='" + Model.CreditCardNumber + "'/>" +
+                    "<input type='hidden' name='cardexpiredatemonth' value='" + Model.CreditCardExpireMonth + "'/>" +
+                    "<input type='hidden' name='cardexpiredateyear' value='" + Model.CreditCardExpireYear + "'/>" +
+                    "<input type='hidden' name='cardcvv2' value='" + Model.CreditCardCvv2 + "'/>" +
+                "</form>";
+
+                  Response.Write(tmp);
+
+                  break;
+              }
+          case "Payments.CC.YapiKredi":
+              {
+                  string tmp;
+                  tmp = "<form id='form1' method='post' action='" + Model.RedirectURL + "'>" +
+                  "<input type='hidden' name='mid' value='" + Model.MerchantId + "'/>" +
+                  "<input type='hidden' name='posnetID' value='" + Model.PosnetID + "'/>" +
+                  "<input type='hidden' name='posnetData' value='" + Model.PosnetData + "'/>" +
+                  "<input type='hidden' name='posnetData2' value='" + Model.PosnetData2 + "'/>" +
+                  "<input type='hidden' name='digest' value='" + Model.Digest + "'/>" +
+                  "<input type='hidden' name='vftCode' value='" + Model.VftCode + "'/>" +
+                  "<input type='hidden' name='merchantReturnURL' value='" + Model.OkUrl + "'/>" +
+                  "<input type='hidden' name='lang' value='" + Model.Lang + "'/>" +
+                  "<input type='hidden' name='url' value='" + Model.RedirectURL + "'/>" +
+                  "</form>";
+
+                  Response.Write(tmp);
+
+                  break;
+              }
+      }
+
+
+
+
+
+        }
+   @*
+   https://testsanalpos.est.com.tr/servlet/est3Dgate
+   https://netpos.kuveytturk.com.tr/servlet/est3Dgate
+   *@
+
+ <script type="text/javascript" language="javascript">
+     document.getElementById("form1").submit();
+</script>
+</body>
+</html>
+

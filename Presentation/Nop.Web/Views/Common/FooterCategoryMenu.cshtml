@@ -1,0 +1,14 @@
+﻿@*AF*@
+@model Nop.Web.Models.Common.MenuModel
+@{int i=0;}
+    @foreach (var header in Model)
+    {  
+        i++;
+        <a href="@header.Url" title="@header.Title">@header.Name</a> 
+        if (i < Model.Count)
+        {
+        <span>|</span>
+        }
+    }
+
+    

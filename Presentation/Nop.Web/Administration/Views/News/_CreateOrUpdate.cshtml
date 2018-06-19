@@ -1,0 +1,494 @@
+﻿@model NewsItemModel
+@using Telerik.Web.Mvc.UI;
+@Html.ValidationSummary(false)
+@Html.HiddenFor(model => model.Id)
+@Html.Telerik().TabStrip().Name("newsItem-edit").Items(x =>
+{
+    x.Add().Text(T("Admin.Catalog.NewsItem.Info").Text).Content(TabInfo().ToHtmlString()).Selected(true);
+    x.Add().Text(T("Admin.Catalog.Products.Pictures").Text).Content(TabPictures().ToHtmlString());
+    x.Add().Text(T("Admin.Catalog.NewsItem.Products").Text).Content(TabProducts().ToHtmlString());
+    x.Add().Text(T("Admin.Catalog.NewsItem.ExtraContents").Text).Content(TabExtraContents().ToHtmlString());
+    x.Add().Text(T("Admin.Catalog.NewsItem.TabCategories").Text).Content(TabCategories().ToHtmlString());
+    x.Add().Text(T("Admin.Catalog.NewsItem.TabManufacturers").Text).Content(TabManufacturers().ToHtmlString());
+
+})
+@helper TabInfo()
+    { 
+    <table class="adminContent">
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.LanguageId):
+            </td>
+            <td class="adminData">
+                @Html.DropDownListFor(model => model.LanguageId, new SelectList(ViewBag.AllLanguages, "Id", "Name"))
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.Title):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.Title)
+                @Html.ValidationMessageFor(model => model.Title)
+            </td>
+        </tr>
+         <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.Url):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.Url)
+                @Html.ValidationMessageFor(model => model.Url)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.Short):
+            </td>
+            <td class="adminData">
+                @Html.TextAreaFor(model => model.Short, new { style = "Width: 500px; Height: 150px;" })
+                @Html.ValidationMessageFor(model => model.Short)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.Full):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(x => x.Full, "RichEditor")
+                @Html.ValidationMessageFor(model => model.Full)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.DisplayOrder):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.DisplayOrder)
+                @Html.ValidationMessageFor(model => model.DisplayOrder)
+            </td>
+        </tr>
+         <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.CreatedOn):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.CreatedOn)
+                @Html.ValidationMessageFor(model => model.CreatedOn)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.AllowComments):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.AllowComments)
+                @Html.ValidationMessageFor(model => model.AllowComments)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.Published):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.Published)
+                @Html.ValidationMessageFor(model => model.Published)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.SystemType):
+            </td>
+            <td class="adminData">
+                @Html.DropDownList("SystemTypeId", Model.SystemTypes)
+                @Html.ValidationMessageFor(model => model.SystemType)
+            </td>
+        </tr>
+          <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.IsFeatured):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.IsFeatured)
+                @Html.ValidationMessageFor(model => model.IsFeatured)
+            </td>
+        </tr>
+        <tr>
+                    <td class="adminTitle">
+                        @Html.NopLabelFor(model => model.MetaKeywords):
+                    </td>
+                    <td class="adminData">
+                        @Html.EditorFor(model => model.MetaKeywords)
+                        @Html.ValidationMessageFor(model => model.MetaKeywords)
+                    </td>
+                </tr>
+        <tr>
+        <td class="adminTitle">
+            @Html.NopLabelFor(model => model.MetaDescription):
+        </td>
+        <td class="adminData">
+            @Html.TextAreaFor(model => model.MetaDescription)
+            @Html.ValidationMessageFor(model => model.MetaDescription)
+        </td>
+        </tr>
+        <tr>
+        <td class="adminTitle">
+            @Html.NopLabelFor(model => model.MetaTitle):
+        </td>
+        <td class="adminData">
+            @Html.TextAreaFor(model => model.MetaTitle)
+            @Html.ValidationMessageFor(model => model.MetaTitle)
+        </td>
+        </tr>
+        <tr>
+                       <td class="adminTitle">
+                           @Html.NopLabelFor(model => model.SeName):
+                       </td>
+                       <td class="adminData">
+                           @Html.TextAreaFor(model => model.SeName)
+                           @Html.ValidationMessageFor(model => model.SeName)
+                       </td>
+                   </tr>
+    </table>
+   
+}
+
+@helper TabPictures()
+    {
+        if (Model.Id > 0)
+        {
+    <div>
+        @(Html.Telerik().Grid<NewsItemModel.NewsItemPictureModel>()
+                    .Name("newsitempictures-grid")
+                    .DataKeys(x =>
+                    {
+                        x.Add(y => y.Id).RouteKey("Id");
+                    })
+                    .Columns(columns =>
+                    {
+                        columns.Bound(x => x.PictureUrl)
+                            .Width(400)
+                            .ClientTemplate("<img alt='<#= Id #>' src='<#= PictureUrl #>' />")
+                            .ReadOnly();
+                        columns.Bound(x => x.DisplayOrder).Width(100);
+                        columns.Bound(x => x.PictureTypeId).Width(50);
+                        columns.Command(commands =>
+                        {
+                            commands.Edit();
+                            commands.Delete();
+                        }).Width(180);
+
+                    })
+                    .Editable(x =>
+                    {
+                        x.Mode(GridEditMode.InLine);
+                    })
+                    .DataBinding(dataBinding =>
+                    {
+                        dataBinding.Ajax().Select("NewsItemPictureList", "News", new { newsItemId = Model.Id })
+                            .Update("NewsItemPictureUpdate", "News")
+                            .Delete("NewsItemPictureDelete", "News");
+                    })
+                    .EnableCustomBinding(true))
+    </div>
+    <p>
+        <strong>@T("Admin.Catalog.NewsItems.Pictures.AddNew")</strong>
+    </p>
+    <script type="text/javascript">
+     
+        $(document).ready(function () {
+            $('#addNewsItemPicture').click(function () {
+                var pictureId = $("#@Html.FieldIdFor(model => model.AddPictureModel.PictureId)").val();
+                var displayOrder = $("#@Html.FieldIdFor(model => model.AddPictureModel.DisplayOrder)").val();
+                 var pictureType = $("#PictureTypeId").val();
+                
+                if (pictureId == 0) {
+                    alert('Upload picture first');
+                    return;
+                }
+
+                $('#addNewsItemPicture').attr('disabled', true);
+                $.ajax({
+                    cache:false,
+                    type: "POST",
+                    url: "@(Url.Action("NewsItemPictureAdd", "News"))",
+                    data: "pictureId=" + pictureId + "&displayOrder=" + displayOrder + "&newsItemId=" + @Model.Id+ "&pictureType=" + pictureType,
+                    success: function (data) {
+                         var newsItempicturesGrid = $("#newsitempictures-grid");
+                         newsItempicturesGrid.data('tGrid').ajaxRequest();
+                         $('#addNewsItemPicture').attr('disabled', false);
+                    },
+                    error:function (xhr, ajaxOptions, thrownError){
+                        alert('Failed to add newsItem picture.')
+                        $('#addNewsItemPicture').attr('disabled', false);
+                    }  
+                });
+            });
+        });
+    </script>        
+    <table class="adminContent">
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.AddPictureModel.PictureId):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.AddPictureModel.PictureId)
+                @Html.ValidationMessageFor(model => model.AddPictureModel.PictureId)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.AddPictureModel.DisplayOrder):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.AddPictureModel.DisplayOrder)
+                @Html.ValidationMessageFor(model => model.AddPictureModel.DisplayOrder)
+            </td>
+        </tr>
+          
+            <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.AddPictureModel.PictureType):
+            </td>
+            <td class="adminData">
+                @Html.DropDownList("PictureTypeId", Model.AddPictureModel.NewsItemPictureTypes)
+                @Html.ValidationMessageFor(model => model.AddPictureModel.PictureType)
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2" align="left">
+                <button type="button" name="addNewsItemPicture" id="addNewsItemPicture" class="t-button">
+                    @T("Admin.Catalog.NewsItem.Pictures.AddButton")</button>
+            </td>
+        </tr>
+    </table> 
+        }
+        else
+        {
+    @T("Admin.Catalog.NewsItem.SaveBeforeEdit")
+        }
+}
+@helper TabProducts()
+    {
+        if (Model.Id > 0)
+        {
+            
+    <table class="adminContent">
+        <tr>
+            <td>
+                @(Html.Telerik().Grid<ManufacturerModel.ManufacturerProductModel>()
+                .Name("products-grid")
+                    .DataKeys(keys =>
+                    {
+                        keys.Add(x => x.Id);
+                    })
+                    .DataBinding(dataBinding =>
+                    {
+                        dataBinding.Ajax()
+                            .Select("ProductList", "News", new { newsItemId = Model.Id })
+                            .Update("ProductUpdate", "News")
+                            .Delete("ProductDelete", "News");
+                    })
+                    .Columns(columns =>
+                    {
+                        columns.Bound(x => x.ProductName)
+                            .Width(500)
+                            .ReadOnly();
+                        columns.Bound(x => x.IsFeaturedProduct)
+                            .Width(100)
+                            .Centered();
+                        columns.Bound(x => x.DisplayOrder1)
+                            .Width(100)
+                            .Centered();
+                        columns.Command(commands =>
+                        {
+                            commands.Edit();
+                            commands.Delete();
+                        })
+                        .Width(180);
+                    })
+                    .EnableCustomBinding(true))
+            </td>
+        </tr>
+        <tr>
+            <td width="100%">
+                <input type="submit" id="btnAddNewProduct" name="btnAddNewProduct" value="@T("Admin.Catalog.NewsItem.Products.AddNew")" onclick="javascript:OpenWindow('@(Url.Action("ProductAddPopup", "News", new { newsItemId = Model.Id, btnId = "btnRefreshProducts", formId = "newsItem-form" }))', 800, 700, true); return false;" class="t-button" />
+                <input type="submit" id="btnRefreshProducts" name="btnRefreshProducts" style="display: none" />
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $('#btnRefreshProducts').click(function () {
+                            //refresh grid
+                            var optionsGrid = $("#products-grid");
+                            optionsGrid.data('tGrid').ajaxRequest();
+
+                            //return false to don't reload a page
+                            return false;
+                        });
+                    });
+                </script>
+            </td>
+        </tr>
+    </table>
+        }
+        else
+        {
+    @T("Admin.Catalog.NewsItem.SaveBeforeEdit")
+        }
+}
+ 
+      @helper TabExtraContents()
+    {
+        if (Model.Id > 0)
+        {
+    @(Html.Telerik().Grid<ExtraContentModel>().Name("customer-extracontents-grid")
+    .DataKeys(keys =>
+    {
+        keys.Add(x => x.Id).RouteKey("extraContentId");
+    })
+    .DataBinding(binding =>
+                     {
+                         binding.Ajax()
+                             .Select("ExtraContentsSelect", "News", new {newsItemId = Model.Id})
+                             .Delete("ExtraContentDelete", "News", new {newsItemId = Model.Id});
+                     })
+    .Columns(columns =>
+    {
+        columns.Bound(x => x.Id);
+        columns.Bound(x => x.DisplayOrder);
+        columns.Bound(x => x.Title);
+        columns.Bound(x => x.Id)
+            .ClientTemplate("<a href=\"" + @Url.Content("~/afcockpit/News/ExtraContentEdit?newsItemId=") + @Model.Id + "&extraContentId=<#= Id #>\">" + T("Admin.Common.Edit").Text + "</a>")
+            .Title(T("Admin.Common.Edit").Text);
+        columns.Command(commands =>
+        {
+            commands.Delete();
+        })
+            .Title(T("Admin.Common.Delete").Text);
+    }))
+    <div class="clear">
+    </div>
+    <p>
+        <strong>
+            <input type="button" class="t-button" onclick="location.href='@Url.Action("ExtraContentCreate", new { newsItemId = Model.Id })'" value='@T("Admin.News.ExtraContents.AddButton")' />
+        </strong>
+    </p>  }
+        else
+        {
+    @T("Admin.Catalog.NewsItem.SaveBeforeEdit")
+        }
+}
+      
+   
+   @helper TabCategories()
+    {
+              if (Model.Id > 0)
+              {
+                  if (Model.NumberOfAvailableCategories > 0)
+                  {
+                  @(Html.Telerik().Grid<NewsItemModel.NewsItemCategoryModel>()
+                        .Name("newsitemcategories-grid")
+                        .DataKeys(keys =>
+                                      {
+                                          keys.Add(x => x.Id);
+                                      })
+                        .DataBinding(dataBinding =>
+                                         {
+                                             dataBinding.Ajax()
+                                                 .Select("NewsItemCategoryList", "News", new {newsItemId = Model.Id})
+                                                 .Insert("NewsItemCategoryInsert", "News", new {newsItemId = Model.Id})
+                                                 .Update("NewsItemCategoryUpdate", "News")
+                                                 .Delete("NewsItemCategoryDelete", "News");
+                                         })
+                        .Columns(columns =>
+                                     {
+                                         columns.Bound(x => x.Category)
+                                             .Width(500)
+                                             .Centered();
+                                         //columns.Bound(x => x.DisplayOrder)
+                                         //    .Width(100);
+                                         columns.Command(commands =>
+                                                             {
+                                                                 commands.Edit();
+                                                                 commands.Delete();
+                                                             })
+                                             .Width(180);
+                                     })
+                        .ToolBar(commands => commands.Insert())
+                        .ClientEvents(events => events.OnEdit("onNewsItemCategoryEdit"))
+                        .EnableCustomBinding(true))
+
+                  <script type="text/javascript">
+                      function onNewsItemCategoryEdit(e) {
+                          $(e.form).find('#Category').data('tDropDownList').select(function(dataItem) {
+                              return dataItem.Value == e.dataItem['CategoryId'];
+                          });
+                      }
+                  </script>
+        }
+        else
+        {
+                    @T("Admin.Catalog.Products.Categories.NoCategoriesAvailable")
+        }
+              }
+              else
+              {
+                  @T("Admin.Catalog.News.Categories.SaveBeforeEdit")
+              }
+   }
+@helper TabManufacturers()
+    {
+             if (Model.Id > 0)
+             {
+                 if (Model.NumberOfAvailableManufacturers > 0)
+                 {
+                 @(Html.Telerik().Grid<NewsItemModel.NewsItemManufacturerModel>()
+                       .Name("newsitemmanufacturers-grid")
+                       .DataKeys(keys =>
+                                     {
+                                         keys.Add(x => x.Id);
+                                     })
+                       .DataBinding(dataBinding =>
+                                        {
+                                            dataBinding.Ajax()
+                                                .Select("NewsItemManufacturerList", "News", new {newsItemId = Model.Id})
+                                                .Insert("NewsItemManufacturerInsert", "News", new { newsItemId = Model.Id })
+                                                .Update("NewsItemManufacturerUpdate", "News")
+                                                .Delete("NewsItemManufacturerDelete", "News");
+                                        })
+                       .Columns(columns =>
+                                    {
+                                        columns.Bound(x => x.Manufacturer)
+                                            .Width(500)
+                                            .Centered();
+                                        //columns.Bound(x => x.DisplayOrder)
+                                        //    .Width(100);
+                                        columns.Command(commands =>
+                                                            {
+                                                                commands.Edit();
+                                                                commands.Delete();
+                                                            })
+                                            .Width(180);
+                                    })
+                       .ToolBar(commands => commands.Insert())
+                               .ClientEvents(events => events.OnEdit("onNewsItemManufacturerEdit"))
+                       .EnableCustomBinding(true))
+
+                     <script type="text/javascript">
+                         function onNewsItemManufacturerEdit(e) {
+                             $(e.form).find('#Manufacturer').data('tDropDownList').select(function (dataItem) {
+                                 return dataItem.Value == e.dataItem['ManufacturerId'];
+                             });
+                         }
+                     </script>
+                 }
+                 else
+                 {
+                @T("Admin.Catalog.NewsItem.Manufacturers.NoManufacturersAvailable")
+                 }
+             }
+             else
+             {
+                 @T("Admin.Catalog.News.Manufacturers.SaveBeforeEdit")
+             }
+}

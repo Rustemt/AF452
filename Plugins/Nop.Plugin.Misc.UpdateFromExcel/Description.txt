@@ -1,0 +1,8 @@
+﻿Group: Misc
+FriendlyName: UpdateFromExcel xml products exporter
+SystemName: Misc.UpdateFromExcel
+Version: 1.02
+SupportedVersions: 2.40
+Author: AF team
+DisplayOrder: 1
+FileName: Nop.Plugin.Misc.UpdateFromExcel.dll
