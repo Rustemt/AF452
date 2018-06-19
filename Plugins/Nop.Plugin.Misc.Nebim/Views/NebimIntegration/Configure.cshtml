@@ -1,0 +1,120 @@
+﻿@{
+    Layout = "";
+}
+@model Nop.Plugin.Misc.NebimIntegration.ConfigurationModel
+@using Nop.Web.Framework;
+@using (Html.BeginForm())
+{
+    <table class="adminContent">
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.UserGroup):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.UserGroup)
+                @Html.ValidationMessageFor(model => model.UserGroup)
+            </td>
+        </tr>
+          <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.UserName):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.UserName)
+                @Html.ValidationMessageFor(model => model.UserName)
+            </td>
+        </tr>
+          <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.Password):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.Password)
+                @Html.ValidationMessageFor(model => model.Password)
+            </td>
+        </tr>
+          <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.ServerNameIP):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.ServerNameIP)
+                @Html.ValidationMessageFor(model => model.ServerNameIP)
+            </td>
+        </tr>
+          <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.Database):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.Database)
+                @Html.ValidationMessageFor(model => model.Database)
+            </td>
+        </tr>
+         <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.ProductsSyncEnabled):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.ProductsSyncEnabled)
+                @Html.ValidationMessageFor(model => model.ProductsSyncEnabled)
+            </td>
+        </tr>
+          <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.ProductsSyncStartTimeMinutes):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.ProductsSyncStartTimeMinutes)
+                @Html.ValidationMessageFor(model => model.ProductsSyncStartTimeMinutes)
+            </td>
+        </tr>
+
+          <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.API_OfficeCode):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.API_OfficeCode)
+                @Html.ValidationMessageFor(model => model.API_OfficeCode)
+            </td>
+        </tr>
+          <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.API_WarehouseCode):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.API_WarehouseCode)
+                @Html.ValidationMessageFor(model => model.API_WarehouseCode)
+            </td>
+        </tr>
+          <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.API_CommunicationTypeEmail):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.API_CommunicationTypeEmail)
+                @Html.ValidationMessageFor(model => model.API_CommunicationTypeEmail)
+            </td>
+        </tr>
+          <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.API_CommunicationTypePhone):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.API_CommunicationTypePhone)
+                @Html.ValidationMessageFor(model => model.API_CommunicationTypePhone)
+            </td>
+        </tr>
+ 
+        <tr>
+            <td colspan="2" width="100%">
+                <button type="submit" name="save" value="save" class="t-button">
+                    Save</button>
+            </td>
+        </tr>
+       
+
+    </table>
+    
+}

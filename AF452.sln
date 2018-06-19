@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27705.2000
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{E4ACA93B-D3DE-4557-B069-F1DB42925A4B}"
 EndProject
@@ -138,6 +138,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlternativeDataAccess", "AlternativeDataAccess\AlternativeDataAccess.csproj", "{98ADBD50-A76E-4A9E-B384-1FBD15D0137D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nop.Plugin.Payments.IsBank", "Plugins\Nop.Plugin.Payments.IsBank\Nop.Plugin.Payments.IsBank.csproj", "{BC113071-C6DE-4721-B9CB-418C6777DEBB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nop.Plugin.Misc.Nebim", "Plugins\Nop.Plugin.Misc.Nebim\Nop.Plugin.Misc.Nebim.csproj", "{5A13AECF-A1E3-406C-B1FE-7EB00124C43B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -699,16 +701,6 @@ Global
 		{152C761A-DD2E-4C1F-AF89-DFB2547A3BCA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{152C761A-DD2E-4C1F-AF89-DFB2547A3BCA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{152C761A-DD2E-4C1F-AF89-DFB2547A3BCA}.Release|x86.ActiveCfg = Release|Any CPU
-		{5A13AECF-A1E3-406C-B1FE-7EB00124C43B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5A13AECF-A1E3-406C-B1FE-7EB00124C43B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5A13AECF-A1E3-406C-B1FE-7EB00124C43B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{5A13AECF-A1E3-406C-B1FE-7EB00124C43B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{5A13AECF-A1E3-406C-B1FE-7EB00124C43B}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{5A13AECF-A1E3-406C-B1FE-7EB00124C43B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5A13AECF-A1E3-406C-B1FE-7EB00124C43B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5A13AECF-A1E3-406C-B1FE-7EB00124C43B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{5A13AECF-A1E3-406C-B1FE-7EB00124C43B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{5A13AECF-A1E3-406C-B1FE-7EB00124C43B}.Release|x86.ActiveCfg = Release|Any CPU
 		{72970106-70A7-432D-A356-D834C7B23665}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{72970106-70A7-432D-A356-D834C7B23665}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72970106-70A7-432D-A356-D834C7B23665}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -805,6 +797,18 @@ Global
 		{BC113071-C6DE-4721-B9CB-418C6777DEBB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{BC113071-C6DE-4721-B9CB-418C6777DEBB}.Release|x86.ActiveCfg = Release|Any CPU
 		{BC113071-C6DE-4721-B9CB-418C6777DEBB}.Release|x86.Build.0 = Release|Any CPU
+		{5A13AECF-A1E3-406C-B1FE-7EB00124C43B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A13AECF-A1E3-406C-B1FE-7EB00124C43B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A13AECF-A1E3-406C-B1FE-7EB00124C43B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{5A13AECF-A1E3-406C-B1FE-7EB00124C43B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{5A13AECF-A1E3-406C-B1FE-7EB00124C43B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5A13AECF-A1E3-406C-B1FE-7EB00124C43B}.Debug|x86.Build.0 = Debug|Any CPU
+		{5A13AECF-A1E3-406C-B1FE-7EB00124C43B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A13AECF-A1E3-406C-B1FE-7EB00124C43B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A13AECF-A1E3-406C-B1FE-7EB00124C43B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{5A13AECF-A1E3-406C-B1FE-7EB00124C43B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{5A13AECF-A1E3-406C-B1FE-7EB00124C43B}.Release|x86.ActiveCfg = Release|Any CPU
+		{5A13AECF-A1E3-406C-B1FE-7EB00124C43B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -865,7 +869,6 @@ Global
 		{0721181F-CE0D-43D1-8060-84189FDF5935} = {7881B112-7843-4542-B1F7-F99553FB9BB7}
 		{FA46F160-C0EC-46E3-B66D-F4C358ED5B74} = {B09156FB-8291-46A2-AF37-67CE97CFB5A6}
 		{152C761A-DD2E-4C1F-AF89-DFB2547A3BCA} = {B09156FB-8291-46A2-AF37-67CE97CFB5A6}
-		{5A13AECF-A1E3-406C-B1FE-7EB00124C43B} = {7881B112-7843-4542-B1F7-F99553FB9BB7}
 		{72970106-70A7-432D-A356-D834C7B23665} = {7881B112-7843-4542-B1F7-F99553FB9BB7}
 		{5B8F5477-82D0-4ACC-B77B-CF63DF8C7D93} = {7881B112-7843-4542-B1F7-F99553FB9BB7}
 		{15D83F4B-DBAC-4455-9118-413F50DA6DC8} = {7881B112-7843-4542-B1F7-F99553FB9BB7}
@@ -875,9 +878,11 @@ Global
 		{067E0025-0C32-4404-A677-CD2C6277D676} = {7881B112-7843-4542-B1F7-F99553FB9BB7}
 		{98ADBD50-A76E-4A9E-B384-1FBD15D0137D} = {E4ACA93B-D3DE-4557-B069-F1DB42925A4B}
 		{BC113071-C6DE-4721-B9CB-418C6777DEBB} = {7881B112-7843-4542-B1F7-F99553FB9BB7}
+		{5A13AECF-A1E3-406C-B1FE-7EB00124C43B} = {7881B112-7843-4542-B1F7-F99553FB9BB7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		VisualSVNWorkingCopyRoot = .
+		SolutionGuid = {1DE1E7A0-37FD-4DD8-A936-1DA924DC774C}
 	EndGlobalSection
 	GlobalSection(NDepend) = preSolution
 		Project = ".\NopCommerce.ndproj"

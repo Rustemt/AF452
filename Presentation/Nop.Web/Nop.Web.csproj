@@ -333,6 +333,7 @@
     <Content Include="App_Data\defaultResources.public.nopres.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="App_Data\InstalledPlugins.txt" />
     <Content Include="App_Data\Settings.txt" />
     <Content Include="App_Data\web_browsers_patch.xml" />
     <Content Include="Aspy.txt" />

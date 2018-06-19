@@ -1,0 +1,8 @@
+﻿Group: Misc
+FriendlyName: Nebim Integration
+SystemName: Misc.Nebim
+Version: 1.0
+SupportedVersions: 2.40,3.10
+Author: AF team
+DisplayOrder: 1
+FileName: Nop.Plugin.Misc.Nebim.dll
