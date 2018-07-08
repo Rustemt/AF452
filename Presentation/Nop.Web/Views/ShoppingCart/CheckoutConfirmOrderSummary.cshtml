@@ -44,8 +44,30 @@
         </li>
     </ul>
 }
-<ul class="subTotal clearfix" id="ulOrderTotals">
-    @Html.Action("OrderTotals", "ShoppingCart", new { isEditable = false })
-</ul>
+    <ul class="subTotal clearfix" id="ulOrderTotals">
+        @Html.Action("OrderTotals", "ShoppingCart", new { isEditable = false })
+    </ul>
 
 </div>
+    <!-- Google Code for Remarketing Tag -->
+    <script type="text/javascript">
+    @{
+        double total = 0;
+        string price;
+        List<string> IDs = new List<string>();
+
+        foreach (var item in Model.Items)
+        {
+            price = item.UnitPrice.Replace("$","");
+            total += Double.Parse(price);
+            IDs.Add(item.ProductId.ToString());
+        }
+        string ProductIDs = "[" + string.Join(",", IDs)+"]";
+    }
+
+        var google_tag_params = {
+            ecomm_prodid : @ProductIDs,
+            ecomm_pagetype: 'purchase',
+            ecomm_totalvalue: @total.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)
+            };
+    </script>
