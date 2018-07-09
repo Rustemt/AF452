@@ -321,7 +321,7 @@ namespace Nop.Plugin.Misc.UpdateFromExcel.Controllers
 
                     manProds.ForEach(x =>
                     {
-                        var _tmp = x.ProductVariants.Where(y => y.Gtin == pSku);
+                        var _tmp = x.ProductVariants.Where(y => y.Sku == pSku);
                         if(_tmp != null && _tmp.Count() > 0)
                         {
                             productBySku.AddRange(_tmp);
