@@ -316,11 +316,11 @@
                         </dl>
 
                         @{if (defaultVariant.GiftCard.IsGiftCard)
-                        {
-                            var dataDictGiftCard = new ViewDataDictionary();
-                            dataDictGiftCard.TemplateInfo.HtmlFieldPrefix = string.Format("giftcard_{0}", Model.Id);
-                            @Html.Partial("_GiftCardInfo", defaultVariant.GiftCard, dataDictGiftCard)
-                        }
+                            {
+                                var dataDictGiftCard = new ViewDataDictionary();
+                                dataDictGiftCard.TemplateInfo.HtmlFieldPrefix = string.Format("giftcard_{0}", Model.Id);
+                                @Html.Partial("_GiftCardInfo", defaultVariant.GiftCard, dataDictGiftCard)
+                            }
                         }
                     </div>
 

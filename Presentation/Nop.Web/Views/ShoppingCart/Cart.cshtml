@@ -25,14 +25,14 @@
         string prodPrices = "";
         List<string> googleRemarketingProds = new List<string>();
         List<string> googleRemarketingPrices = new List<string>();
-        
+
         var messages = new List<string>();
         bool outOfStock = false;
         foreach (var sci in Model.Items)
         {
             if (sci.Warnings.Count > 0)
-            { 
-                outOfStock = true; 
+            {
+                outOfStock = true;
                 messages.Add(T("Cart.RemoveItemMessage").Text);
                 break;
             }
@@ -41,8 +41,8 @@
         {
             messages.Add(Model.DiscountWarning);
         }
-    
-    
+
+
     }
     @if (Model.Items.Count > 0)
     {
@@ -238,8 +238,13 @@
 @section PostDocument
 {
 }
-
-
+@{  
+    decimal total = 0;
+    foreach (var item in Model.Items)
+    {
+        total += item.UnitPriceValue;
+    }
+}
 @section BodyEnd
 {
     <!-- Google Code for Remarketing Tag -->
@@ -247,7 +252,7 @@
         var google_tag_params = {
             ecomm_prodid: @prodIds.ToString(),
             ecomm_pagetype: 'cart',
-            ecomm_totalvalue: @prodPrices.ToString()
+            ecomm_totalvalue: @total.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)
             };
     </script>
 }
