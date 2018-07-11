@@ -1,0 +1,29 @@
+﻿@{
+    Layout = "";
+}
+@model AF.Nop.Plugins.Criteo.Models.ConfigurationModel
+@using Nop.Web.Framework;
+@using (Html.BeginForm())
+{
+    <table class="adminContent">
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.AccountId):
+            </td>
+            <td class="adminData">
+                @Html.TextBoxFor(model => model.AccountId)
+                @Html.ValidationMessageFor(model => model.AccountId)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.HashEmail):
+            </td>
+            <td class="adminData">
+                @Html.CheckBoxFor(model => model.HashEmail)
+                @Html.ValidationMessageFor(model => model.HashEmail)
+            </td>
+        </tr>
+    </table>
+
+}

@@ -1,0 +1,8 @@
+﻿Group: AF
+FriendlyName: Products Rss Feed | Google Merchant Center
+SystemName: AF.Nop.Plugins.RssFeed
+Version: 1.0
+SupportedVersions: 2.40
+Author: AF Team
+DisplayOrder: 1
+FileName: AF.Nop.Plugins.RssFeed.dll

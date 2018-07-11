@@ -1,0 +1,297 @@
+﻿@{
+    Layout = "";
+}
+@model AF.Nop.Plugins.RssFeed.Models.ConfigurationModel
+
+@using AF.Nop.Plugins.RssFeed.Models
+@using AF.Nop.Plugins.RssFeed.Extensions
+@using AF.Nop.Plugins.RssFeed
+@using Nop.Web.Framework
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(false)
+
+    <table class="adminContent">
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.EnabledSchedule):
+            </td>
+            <td class="adminData">
+                @Html.CheckBoxFor(model => model.EnabledSchedule)
+                @Html.ValidationMessageFor(model => model.EnabledSchedule)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.TaskId):
+            </td>
+            <td class="adminData">
+                @Model.TaskId
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.TaskName):
+            </td>
+            <td class="adminData">
+                @Model.TaskName
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.TaskRunTime):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.TaskRunTime)
+                @Html.ValidationMessageFor(model => model.TaskRunTime)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.TaskCheckTime):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.TaskCheckTime)
+                @Html.ValidationMessageFor(model => model.TaskCheckTime)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.LastRunTime):
+            </td>
+            <td class="adminData">
+                @Model.LastRunTime  <input type="button" id="rssfeed-reset" value="Reset" style="margin-left:50px"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle" colspan="2">
+                <div style="margin:10px 0;padding:10px 10px;background-color:#ffeccc;border:2px solid #ffd987">
+                    Changing the data of the schedule might not take place until the application is restarted.
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    @(Html.CustomLocalizedEditor<ConfigurationModel, RssFeedLocalizedModel>("rssfeed-localized",
+    @<table class="adminContent">
+        <tr>
+            <td class="adminTitle">
+                Rss Folder
+            </td>
+            <td class="adminData">
+                @RssFeedHelper.GetRssFolder
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.Locales[item].Title):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.Locales[item].Title)
+                @Html.ValidationMessageFor(model => model.Locales[item].Title)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.Locales[item].Link):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.Locales[item].Link)
+                @Html.ValidationMessageFor(model => model.Locales[item].Link)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.Locales[item].FileName):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.Locales[item].FileName)
+                @Html.ValidationMessageFor(model => model.Locales[item].FileName)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.Locales[item].Description):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.Locales[item].Description)
+                @Html.ValidationMessageFor(model => model.Locales[item].Description)
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                @Html.HiddenFor(model => model.Locales[item].LanguageId)
+            </td>
+        </tr>
+    </table>
+    ))
+
+    <table class="adminContent">
+
+        <tr>
+            <td class="adminTitle">
+                <button type="submit" name="save" value="save" class="t-button">
+                    @T("Admin.Common.Save")
+                </button>
+            </td>
+            <td class="adminData">
+                <button type="button" name="generate" value="generate" class="t-button" id="generate-rss">
+                    @T("AF.RssFeed.GenerateNow")
+                </button>
+            </td>
+        </tr>
+    </table>
+
+}
+<div>
+    <br />
+    <br />
+</div>
+
+<div class="section-header">
+    <div class="title">
+        Test
+    </div>
+</div>
+<div class="k-grid k-widget">
+@using (Html.BeginForm("Test", "RssFeed", FormMethod.Post))
+{
+    <table class="adminContent">
+        <tr>
+            <td class="adminTitle">
+                Language
+            </td>
+            <td class="adminData">
+                <input type="text" name="Language" value="tr" />
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                Product's Count
+            </td>
+            <td class="adminData">
+                <input type="text" name="MaxCount" value="10" />
+            </td>
+        </tr>
+        <td class="adminTitle" colspan="2">
+            <button type="submit" name="save" value="save" class="t-button">
+                Generate Test File
+            </button>
+        </td>
+    </table>
+}
+</div>
+<div>
+    <br />
+    <br />
+</div>
+
+
+<div class="section-header">
+    <div class="title">
+        Files
+    </div>
+</div>
+<div class="k-grid k-widget">
+    <table class="adminContent">
+        <thead class="k-grid-header">
+            <tr>
+                <th class="k-header">File Name</th>
+                <th>Url</th>
+                <th class="k-header">Size / MB</th>
+                <th class="k-header">Last Modification</th>
+                <th class="k-header" colspan="2"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var file in Model.Files)
+            {
+                var size = Math.Round((double)file.Length / (1024 * 1024), 4);
+                var link = string.Format("{0} ( {1} KB )", file.Name, size);
+                <tr style="padding:5px">
+                    <td>@file.Name</td>
+                    <td>
+                        @{ var url = RssFeedHelper.GetFileUrl(file.Name); }
+                        <a href="@url" target="_blank">@url</a>
+                    </td>
+                    <td>@size</td>
+                    <td>@file.LastWriteTime</td>
+                    <td>@Html.ActionLink("Download", "DownloadXml", "RssFeed", new { fileName = file.Name }, null)</td>
+                    <td>
+                        @using (Html.BeginForm("DeleteXml", "RssFeed", FormMethod.Post))
+                        {
+                            <div>
+                                @Html.AntiForgeryToken()
+                                @Html.Hidden("FileName", file.Name)
+                            </div>
+                            <button type="submit" name="delete" value="Delete" class="t-button">@T("Admin.Common.Delete")</button>
+                        }
+                    </td>
+                </tr>
+                                }
+        </tbody>
+    </table>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+
+        $('#rssfeed-reset').click(function () {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("ResetLastTime", "RssFeed")',
+                dataType: 'text',
+                success: function (data) {
+                    location.reload();
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        })
+
+        $('#generate-rss').click(function () {
+            var $btn = $(this).hide();
+
+            $('#ajaxBusy').show();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("Generate", "RssFeed")',
+                dataType: 'text',
+                success: function (data) {
+                    location.reload();
+                },
+                complete: function (data) {
+                    $('#ajaxBusy').hide();
+                    alert(data.responseText);
+                    $btn.show();
+                }
+            });
+            return false;
+        });
+
+        $('#test-rss').click(function () {
+            var maxCount = prompt("Enter the number of products", "10");
+            if (maxCount != null) {
+                var $btn = $(this).hide();
+
+                $('#ajaxBusy').show();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("Test", "RssFeed")/' + maxCount,
+                    dataType: 'text',
+                    success: function (data) {
+                        location.reload();
+                    },
+                    complete: function (data) {
+                        $('#ajaxBusy').hide();
+                        alert(data.responseText);
+                        $btn.show();
+                    }
+                });
+                return false;
+            }
+        });
+    });
+</script>

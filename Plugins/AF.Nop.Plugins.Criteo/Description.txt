@@ -1,0 +1,8 @@
+﻿Group: AF
+FriendlyName: Criteo Tag Integration
+SystemName: AF.Nop.Plugins.Criteo
+Version: 1.0
+SupportedVersions: 2.40
+Author: AF Team
+DisplayOrder: 1
+FileName: AF.Nop.Plugins.Criteo.dll
