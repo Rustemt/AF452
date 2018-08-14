@@ -118,16 +118,19 @@ color: black;">
                 </div>*@
 
              <ul class="continueShopping clearfix" style="clear: both;">
-                <li class="checkOut" >
-                    <a style="float:right;" id="ConfirmOrderSubmit" @*href="@Url.Action("ConfirmOrder", "Checkout")"*@>@T("Checkout.ConfirmButton")</a>
+                <li class="checkOut" >                    
                 @if (Model.IsPayment3DEnabled)
                 {
-                <br /><br /><br />
+					<br /><br /><br />
                     <a style="float:right;" id="ConfirmOrderSubmit3D" href="@Url.Action("Confirm3D", "Checkout")" >@T("Checkout.ConfirmButton3D")</a>
                       <br /> <br />       
                     <div style="text-align:right; float:right; position:relative; top:20px; width:350px;">@T("Checkout.3DPaymentDescription")</div>
               
                 }
+				else
+				{
+					<a style="float:right;" id="ConfirmOrderSubmit" @*href="@Url.Action("ConfirmOrder", "Checkout")"*@>@T("Checkout.ConfirmButton")</a>
+				}
                 </li>
                 @*<li class="continueShop"><a href="@Url.Action("Index", "Home")">@T("Checkout.ContinueShopping")</a></li>*@
             </ul>

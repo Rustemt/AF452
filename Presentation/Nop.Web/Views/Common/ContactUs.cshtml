@@ -1,4 +1,4 @@
-﻿@model Nop.Web.Models.Common.ContactUsModel
+@model Nop.Web.Models.Common.ContactUsModel
 @{
     Layout = "~/Views/Shared/_Root.cshtml";
 
@@ -72,15 +72,6 @@
                     <dd>@Html.TextBoxFor(model => model.Subject) @Html.ValidationMessageFor(model => model.Subject)</dd>
                     <dt>@Html.LabelFor(model => model.Enquiry):</dt>
                     <dd class="textClass">@Html.TextAreaFor(model => model.Enquiry)@Html.ValidationMessageFor(model => model.Enquiry)</dd>
-                    @if (Model.DisplayCaptcha)
-                    {
-                        <table>
-                            <tr class="row">
-                                <td colspan="2">
-                                    @Html.Raw(Html.GenerateCaptcha())
-                                </td>
-                            </tr></table>
-                    }
                 </dl>
                 <div class="saveinfo clearfix" style="padding-left:200px;">
                 <a href="javascript:;" id="contactUsLink" class="button1">@T("ContactUs.Button")</a>

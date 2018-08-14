@@ -61,16 +61,6 @@
             @Html.EditorFor(model => model.ConfirmPassword)
               @Html.ValidationMessageFor(model => model.ConfirmPassword)
           </dd>
-            @if (Model.DisplayCaptcha)
-          {
-            <table>
-                <tr class="row">
-                    <td colspan="2">
-                        @Html.Raw(Html.GenerateCaptcha())
-                    </td>
-                </tr>
-            </table>
-          }
         </dl>
         
         <input type="submit" value="@T("Account.RegisterContinueButton")" class="continue" id="Register"/> </div>
