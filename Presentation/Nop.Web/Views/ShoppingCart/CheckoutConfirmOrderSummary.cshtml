@@ -52,14 +52,12 @@
     <!-- Google Code for Remarketing Tag -->
     <script type="text/javascript">
     @{
-        double total = 0;
-        string price;
+        decimal total = 0;
         List<string> IDs = new List<string>();
 
         foreach (var item in Model.Items)
         {
-            price = item.UnitPrice.Replace("$","");
-            total += Double.Parse(price);
+            total += item.UnitPriceValue;
             IDs.Add(item.ProductId.ToString());
         }
         string ProductIDs = "[" + string.Join(",", IDs)+"]";
